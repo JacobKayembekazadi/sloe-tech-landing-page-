@@ -1,20 +1,6 @@
-@import "tailwindcss";
-
-@theme {
-  --color-ink: #0B0B0B;
-  --color-paper: #F5F1E8;
-  --color-graphite: #1C1C1C;
-  --color-ash: #6A6A6A;
-  --color-mist: #D7D7D7;
-  --color-signal-green: #7AFF6B;
-  --color-electric-blue: #00A3FF;
-  
-  --font-display: "Space Grotesk", system-ui, sans-serif;
-  --font-body: "Inter", system-ui, sans-serif;
-  --font-code: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-  
-  --max-width-content: 1200px;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   body {
