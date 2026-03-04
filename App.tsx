@@ -1,113 +1,96 @@
 import React from 'react';
 
-const projects = [
+const services = [
   {
-    title: "Sebenza",
-    summary: "Legal practice management SaaS for South African law firms. Billing, cases, client portal, and AI-assisted workflows.",
-    type: "SaaS / LegalTech",
-    github: "https://github.com/JacobKayembekazadi/SEBENZAMVP1",
-    demo: "https://app.sebenzas.com",
-    tags: ["React", "TypeScript", "Neon Postgres", "Vercel"],
+    icon: "⚡",
+    title: "AI Operations Systems",
+    desc: "Autonomous agent infrastructure that handles research, outreach, reporting, and pipeline ops — so your team focuses on decisions, not repetitive work.",
   },
   {
-    title: "ICON Command Center",
-    summary: "Live Shopify intelligence dashboard with AI-generated insights. Built for a $30M DTC menswear brand.",
-    type: "AI / E-commerce",
-    github: "https://github.com/JacobKayembekazadi/ICON-Command-Center",
-    demo: "https://icon-command-center.vercel.app",
-    tags: ["React", "Recharts", "Gemini AI", "Shopify API"],
+    icon: "📊",
+    title: "Intelligence Dashboards",
+    desc: "Live business intelligence connected to your real data — Shopify, Stripe, CRM — with AI-generated insights surfaced automatically.",
   },
   {
-    title: "Sloe Skills",
-    summary: "Open-source agent skill packs. Structured knowledge files that make AI agents dramatically better at specific tasks.",
-    type: "Open Source / AI",
-    github: "https://github.com/JacobKayembekazadi/sloe-skills",
-    demo: "https://github.com/JacobKayembekazadi/sloe-skills",
-    tags: ["AI Agents", "Shopify", "n8n", "System Design"],
+    icon: "🔗",
+    title: "Workflow Automation",
+    desc: "End-to-end automation across your tools. n8n, Zapier, custom APIs — we connect the stack and make it run without manual intervention.",
   },
   {
-    title: "Funnel Flow",
-    summary: "AI-powered marketing funnel analysis with Google Gemini AI.",
-    type: "AI / Marketing",
-    github: "https://github.com/JacobKayembekazadi/funnel-flow",
-    demo: "https://funnel-flow-nine.vercel.app/",
-    tags: ["Next.js", "TypeScript", "Gemini AI", "Firebase"],
-  },
-  {
-    title: "7S Analyzer",
-    summary: "McKinsey 7-S Framework analysis powered by AI for strategic alignment.",
-    type: "AI / Strategy",
-    github: "https://github.com/JacobKayembekazadi/7S-analyzer",
-    demo: "https://7-s-analyzer.vercel.app/",
-    tags: ["Next.js", "TypeScript", "Genkit", "Gemini 2.0"],
-  },
-  {
-    title: "Small Biz Finance Tracker",
-    summary: "Multi-product financial dashboard with Google Sheets sync and real-time analytics.",
-    type: "Finance / SaaS",
-    github: "https://github.com/JacobKayembekazadi/small-biz-finance-tracker",
-    demo: "https://small-biz-finance-tracker.vercel.app/",
-    tags: ["React", "TypeScript", "Google Sheets", "Vite"],
+    icon: "🛍️",
+    title: "Shopify & E-commerce AI",
+    desc: "Conversion audits, theme builds, and AI-assisted merchandising for DTC brands that want to scale without scaling headcount.",
   },
 ];
 
-const ecosystem = [
+const work = [
   {
-    name: "Sloe Labs",
-    url: "https://sloelabs.com",
-    role: "Deploys",
-    desc: "AI consulting & client delivery",
-    color: "text-signal-green",
+    name: "ICON Command Center",
+    desc: "Live Shopify intelligence dashboard with AI-generated insights for a $30M DTC menswear brand.",
+    tags: ["Shopify API", "Gemini AI", "React", "Recharts"],
+    link: "https://icon-command-center.vercel.app",
   },
   {
-    name: "Sloe Tech",
-    url: "#",
-    role: "Builds",
-    desc: "Open-source tools & infrastructure",
-    color: "text-paper",
-    active: true,
+    name: "Sebenza",
+    desc: "AI-native legal practice management SaaS — billing, cases, client portal, and AI-assisted workflows.",
+    tags: ["SaaS", "LegalTech", "Postgres", "Vercel"],
+    link: "https://app.sebenzas.com",
   },
   {
-    name: "Sloe Campus",
-    url: "#waitlist",
-    role: "Teaches",
-    desc: "Learn to build & maintain the stack",
-    color: "text-ash",
-    badge: "Coming soon",
+    name: "Houston Ion Demos",
+    desc: "Five live AI intelligence dashboards built for enterprise pitches across healthcare, agritech, and nonprofit sectors.",
+    tags: ["Multi-agent", "Supabase", "Gemini AI", "Vercel"],
+    link: "https://github.com/JacobKayembekazadi",
+  },
+];
+
+const faqs = [
+  {
+    q: "How long does a typical project take?",
+    a: "Most builds are 1–4 weeks depending on scope. We move fast — no sprints, no ceremony."
+  },
+  {
+    q: "Do you work with non-technical founders?",
+    a: "Yes. You describe the business problem. We build the system. You own the output."
+  },
+  {
+    q: "What's the minimum engagement?",
+    a: "Project minimum is $5K. Ongoing AI ops retainers start at $1.5K/month."
+  },
+  {
+    q: "Can you work with our existing stack?",
+    a: "Yes. We integrate with whatever you're running — Shopify, HubSpot, Notion, Airtable, custom APIs."
   },
 ];
 
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
-  const [waitlistEmail, setWaitlistEmail] = React.useState('');
-  const [waitlistSubmitted, setWaitlistSubmitted] = React.useState(false);
-
-  const handleWaitlist = (e: React.FormEvent) => {
-    e.preventDefault();
-    // TODO: wire to email service
-    setWaitlistSubmitted(true);
-  };
+  const [openFaq, setOpenFaq] = React.useState<number | null>(null);
 
   return (
-    <main className="min-h-screen flex flex-col">
+    <main className="min-h-screen flex flex-col bg-ink text-paper">
+
       {/* NAV */}
       <header className="w-full border-b border-graphite/70 bg-ink sticky top-0 z-50">
         <div className="mx-auto max-w-content px-4 py-4 flex items-center justify-between gap-4">
           <a href="/" className="flex items-center gap-2">
-            <span className="font-display text-lg text-paper tracking-tight">SLOE <span className="text-signal-green">TECH</span></span>
+            <span className="font-display text-lg tracking-tight">
+              SLOE <span className="text-signal-green">LABS</span>
+            </span>
           </a>
 
           <nav className="hidden md:flex items-center gap-6 text-sm text-mist">
-            <a href="#projects" className="hover:text-paper transition">Projects</a>
-            <a href="#ecosystem" className="hover:text-paper transition">Ecosystem</a>
-            <a href="https://github.com/JacobKayembekazadi" target="_blank" rel="noopener noreferrer" className="hover:text-paper transition">GitHub</a>
+            <a href="#services" className="hover:text-paper transition">Services</a>
+            <a href="#work" className="hover:text-paper transition">Work</a>
+            <a href="https://tech.sloelabs.com" target="_blank" rel="noopener noreferrer" className="hover:text-paper transition">Sloe Tech</a>
+            <a href="#faq" className="hover:text-paper transition">FAQ</a>
           </nav>
 
-          <a href="#waitlist" className="hidden md:block px-4 py-2 rounded-full border border-signal-green/60 text-sm text-paper hover:bg-signal-green hover:text-ink transition">
-            Campus waitlist
+          <a href="mailto:jacobkayembekazadi@gmail.com" className="hidden md:block px-4 py-2 rounded-full bg-signal-green text-ink text-sm font-medium hover:opacity-90 transition">
+            Work with us
           </a>
 
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-paper p-2" aria-label="Toggle menu">
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-paper p-2">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {mobileMenuOpen
                 ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -119,171 +102,178 @@ export default function App() {
         {mobileMenuOpen && (
           <div className="md:hidden border-t border-graphite/70 bg-ink">
             <nav className="px-4 py-4 flex flex-col gap-4">
-              <a href="#projects" className="text-mist hover:text-paper transition py-2" onClick={() => setMobileMenuOpen(false)}>Projects</a>
-              <a href="#ecosystem" className="text-mist hover:text-paper transition py-2" onClick={() => setMobileMenuOpen(false)}>Ecosystem</a>
-              <a href="https://github.com/JacobKayembekazadi" target="_blank" rel="noopener noreferrer" className="text-mist hover:text-paper transition py-2">GitHub</a>
-              <a href="#waitlist" className="bg-signal-green text-ink px-4 py-3 rounded-full text-sm text-center font-medium mt-2" onClick={() => setMobileMenuOpen(false)}>Campus waitlist</a>
+              <a href="#services" className="text-mist hover:text-paper py-2" onClick={() => setMobileMenuOpen(false)}>Services</a>
+              <a href="#work" className="text-mist hover:text-paper py-2" onClick={() => setMobileMenuOpen(false)}>Work</a>
+              <a href="https://tech.sloelabs.com" className="text-mist hover:text-paper py-2">Sloe Tech</a>
+              <a href="#faq" className="text-mist hover:text-paper py-2" onClick={() => setMobileMenuOpen(false)}>FAQ</a>
+              <a href="mailto:jacobkayembekazadi@gmail.com" className="bg-signal-green text-ink px-4 py-3 rounded-full text-sm text-center font-medium mt-2">Work with us</a>
             </nav>
           </div>
         )}
       </header>
 
       {/* HERO */}
-      <section className="w-full bg-ink pt-16 pb-16">
-        <div className="mx-auto max-w-content px-4 grid md:grid-cols-[1.1fr,0.9fr] gap-10 items-start">
+      <section className="w-full pt-20 pb-20 border-b border-graphite/70">
+        <div className="mx-auto max-w-content px-4 grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <p className="inline-flex items-center gap-2 rounded-full border border-graphite/80 px-3 py-1 text-xs uppercase tracking-[0.25em] text-mist">
-              R&D arm of the Sloe portfolio
+              AI Systems Consultancy · Toronto
             </p>
-            <h1 className="font-display text-3xl md:text-5xl leading-tight">
-              Open-source tools built<br className="hidden md:block" /> in production.
+            <h1 className="font-display text-4xl md:text-6xl leading-tight">
+              We build AI systems<br className="hidden md:block" /> that <span className="text-signal-green">run your ops.</span>
             </h1>
-            <p className="text-ash max-w-xl">
-              Sloe Tech is where we build and open-source the infrastructure behind Sloe Labs client work.
-              Real tools, built for real use cases — not tutorials.
+            <p className="text-ash text-lg max-w-lg">
+              Sloe Labs designs and deploys AI-powered operations infrastructure for founders and operators who want to move faster without growing headcount.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a href="#projects" className="bg-signal-green text-ink px-5 py-3 rounded-full text-sm font-medium hover:opacity-90 transition">
-                View projects
+              <a href="mailto:jacobkayembekazadi@gmail.com" className="bg-signal-green text-ink px-6 py-3 rounded-full text-sm font-medium hover:opacity-90 transition">
+                Start a project
               </a>
-              <a href="https://sloelabs.com" target="_blank" rel="noopener noreferrer" className="text-paper/80 hover:text-paper text-sm rounded-full px-5 py-3 border border-graphite/70 transition">
-                Work with us →
+              <a href="#work" className="text-paper/80 hover:text-paper text-sm rounded-full px-6 py-3 border border-graphite/70 transition">
+                See our work →
               </a>
             </div>
-            <p className="text-xs text-ash">
-              Part of the Sloe portfolio · <a href="https://sloelabs.com" className="text-signal-green hover:underline">Sloe Labs</a> · Sloe Campus (coming soon)
-            </p>
           </div>
 
-          {/* Latest Projects panel */}
-          <div className="bg-graphite/40 border border-graphite rounded-2xl p-5 space-y-4">
-            <h2 className="font-display text-lg flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-signal-green inline-block animate-pulse" />
-              Latest releases
-            </h2>
-            <div className="space-y-3">
-              {projects.slice(0, 3).map((project) => (
-                <div key={project.title} className="rounded-xl bg-ink/30 border border-graphite/60 p-4 space-y-2">
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="font-medium text-sm">{project.title}</p>
-                    <span className="text-[10px] px-2 py-[2px] bg-ink/40 border border-graphite rounded-full uppercase tracking-[0.18em] text-mist">live</span>
-                  </div>
-                  <p className="text-xs text-ash">{project.summary}</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {project.tags.map((tag) => (
-                      <span key={tag} className="text-[10px] px-2 py-0.5 bg-graphite/60 text-mist rounded">{tag}</span>
-                    ))}
-                  </div>
-                  <div className="flex items-center gap-3 flex-wrap">
-                    <a href={project.demo} target="_blank" rel="noopener noreferrer" className="text-xs text-signal-green hover:underline">View →</a>
-                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-xs text-mist hover:text-paper">GitHub</a>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ECOSYSTEM */}
-      <section id="ecosystem" className="w-full bg-ink py-14 border-t border-graphite/70">
-        <div className="mx-auto max-w-content px-4 space-y-8">
-          <div className="text-center space-y-2">
-            <h2 className="font-display text-2xl">The Sloe portfolio</h2>
-            <p className="text-ash text-sm max-w-xl mx-auto">Three companies. One flywheel. Sloe Tech builds it. Sloe Labs deploys it for clients. Sloe Campus teaches it.</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-4">
-            {ecosystem.map((e) => (
-              <a key={e.name} href={e.url} target={e.url.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer"
-                className={`bg-graphite/40 border rounded-2xl p-6 space-y-2 transition hover:border-signal-green/40 ${e.active ? 'border-signal-green/40' : 'border-graphite'}`}>
-                <div className="flex items-center justify-between">
-                  <span className={`font-display text-lg ${e.color}`}>{e.name}</span>
-                  {e.badge && <span className="text-[10px] px-2 py-0.5 bg-ink/40 border border-graphite rounded-full text-ash uppercase tracking-widest">{e.badge}</span>}
-                  {e.active && <span className="text-[10px] px-2 py-0.5 bg-signal-green/10 border border-signal-green/30 rounded-full text-signal-green uppercase tracking-widest">you are here</span>}
-                </div>
-                <p className="text-xs uppercase tracking-[0.2em] text-ash">{e.role}</p>
-                <p className="text-sm text-mist">{e.desc}</p>
-              </a>
-            ))}
-          </div>
-          <div className="text-center">
-            <p className="text-xs text-ash">All tools are MIT licensed. Use them, fork them, ship them.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* PROJECTS */}
-      <section id="projects" className="w-full bg-ink py-14 border-t border-graphite/70">
-        <div className="mx-auto max-w-content px-4 space-y-6">
-          <div className="flex items-end justify-between gap-4">
-            <div>
-              <h2 className="font-display text-2xl">Projects</h2>
-              <p className="text-ash text-sm">Open-source. Production-tested. MIT licensed.</p>
-            </div>
-            <a href="https://github.com/JacobKayembekazadi" target="_blank" rel="noopener noreferrer" className="text-sm text-mist hover:text-paper transition">
-              View all on GitHub →
-            </a>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {projects.map((project) => (
-              <div key={project.title} className="bg-graphite/40 border border-graphite rounded-2xl p-5 flex flex-col justify-between shadow-card">
-                <div className="space-y-3">
-                  <p className="text-xs inline-flex px-3 py-1 rounded-full bg-ink/30 border border-graphite text-mist">{project.type}</p>
-                  <h3 className="font-display text-lg leading-tight">{project.title}</h3>
-                  <p className="text-sm text-ash">{project.summary}</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {project.tags.map((tag) => (
-                      <span key={tag} className="text-[10px] px-2 py-0.5 bg-graphite/60 text-mist rounded">{tag}</span>
-                    ))}
-                  </div>
-                </div>
-                <div className="mt-6 flex flex-col gap-2">
-                  <a href={project.demo} target="_blank" rel="noopener noreferrer" className="text-sm text-signal-green hover:underline">View Demo →</a>
-                  <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-sm text-mist hover:text-paper">View on GitHub →</a>
-                </div>
+          {/* Stats panel */}
+          <div className="grid grid-cols-2 gap-4">
+            {[
+              { stat: "$30M+", label: "Client revenue managed" },
+              { stat: "5", label: "Live AI dashboards shipped" },
+              { stat: "1–4 wk", label: "Typical build time" },
+              { stat: "$5K+", label: "Project minimum" },
+            ].map((item) => (
+              <div key={item.label} className="bg-graphite/40 border border-graphite rounded-2xl p-6 space-y-2">
+                <p className="font-display text-3xl text-signal-green">{item.stat}</p>
+                <p className="text-sm text-ash">{item.label}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CAMPUS WAITLIST */}
-      <section id="waitlist" className="w-full bg-graphite/20 py-14 border-t border-graphite/70">
-        <div className="mx-auto max-w-content px-4 text-center space-y-4">
-          <p className="text-xs uppercase tracking-[0.25em] text-ash">Coming soon</p>
-          <h2 className="font-display text-2xl">Sloe Campus</h2>
-          <p className="text-ash text-sm max-w-xl mx-auto">
-            Learn to build and maintain the exact stack behind these tools. AI-native curriculum, real projects, no fluff. Join the waitlist to get early access.
-          </p>
-          {waitlistSubmitted ? (
-            <p className="text-signal-green text-sm font-medium">You're on the list. We'll reach out when Campus opens.</p>
-          ) : (
-            <form onSubmit={handleWaitlist} className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="your@email.com"
-                value={waitlistEmail}
-                onChange={(e) => setWaitlistEmail(e.target.value)}
-                className="flex-1 px-4 py-3 rounded-full bg-ink border border-graphite text-paper text-sm focus:outline-none focus:border-signal-green"
-                required
-              />
-              <button type="submit" className="bg-signal-green text-ink px-6 py-3 rounded-full text-sm font-medium hover:opacity-90 transition whitespace-nowrap">
-                Join waitlist
-              </button>
-            </form>
-          )}
-          <p className="text-xs text-ash/70">No spam. You'll hear from us when it's ready.</p>
+      {/* SERVICES */}
+      <section id="services" className="w-full py-16 border-b border-graphite/70">
+        <div className="mx-auto max-w-content px-4 space-y-10">
+          <div>
+            <h2 className="font-display text-2xl">What we build</h2>
+            <p className="text-ash text-sm mt-1">Production systems, not prototypes.</p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {services.map((s) => (
+              <div key={s.title} className="bg-graphite/40 border border-graphite rounded-2xl p-6 space-y-3 hover:border-signal-green/40 transition">
+                <span className="text-2xl">{s.icon}</span>
+                <h3 className="font-display text-lg">{s.title}</h3>
+                <p className="text-ash text-sm leading-relaxed">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* WORK */}
+      <section id="work" className="w-full py-16 border-b border-graphite/70">
+        <div className="mx-auto max-w-content px-4 space-y-10">
+          <div className="flex items-end justify-between">
+            <div>
+              <h2 className="font-display text-2xl">Selected work</h2>
+              <p className="text-ash text-sm mt-1">Built in production, not in theory.</p>
+            </div>
+            <a href="https://github.com/JacobKayembekazadi" target="_blank" rel="noopener noreferrer" className="text-sm text-mist hover:text-paper transition">
+              View all →
+            </a>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {work.map((w) => (
+              <a key={w.name} href={w.link} target="_blank" rel="noopener noreferrer"
+                className="bg-graphite/40 border border-graphite rounded-2xl p-6 flex flex-col gap-4 hover:border-signal-green/40 transition group">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-display text-base">{w.name}</h3>
+                    <span className="text-mist group-hover:text-signal-green transition text-lg">↗</span>
+                  </div>
+                  <p className="text-ash text-sm leading-relaxed">{w.desc}</p>
+                </div>
+                <div className="flex flex-wrap gap-1.5 mt-auto">
+                  {w.tags.map((tag) => (
+                    <span key={tag} className="text-[10px] px-2 py-0.5 bg-graphite/60 text-mist rounded">{tag}</span>
+                  ))}
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PORTFOLIO ECOSYSTEM */}
+      <section className="w-full py-16 border-b border-graphite/70">
+        <div className="mx-auto max-w-content px-4 space-y-8">
+          <h2 className="font-display text-2xl text-center">The Sloe portfolio</h2>
+          <div className="grid md:grid-cols-3 gap-4">
+            {[
+              { name: "Sloe Labs", tag: "Deploys", desc: "AI consulting & client delivery", url: "#", active: true },
+              { name: "Sloe Tech", tag: "Builds", desc: "Open-source tools & infrastructure", url: "https://tech.sloelabs.com" },
+              { name: "Sloe Campus", tag: "Teaches", desc: "AI-native education — coming soon", url: "#", soon: true },
+            ].map((e) => (
+              <a key={e.name} href={e.url}
+                className={`bg-graphite/40 border rounded-2xl p-6 space-y-2 hover:border-signal-green/40 transition ${e.active ? 'border-signal-green/40' : 'border-graphite'}`}>
+                <div className="flex items-center justify-between">
+                  <span className={`font-display text-lg ${e.active ? 'text-signal-green' : 'text-paper'}`}>{e.name}</span>
+                  {e.soon && <span className="text-[10px] px-2 py-0.5 border border-graphite rounded-full text-ash uppercase tracking-widest">Soon</span>}
+                  {e.active && <span className="text-[10px] px-2 py-0.5 bg-signal-green/10 border border-signal-green/30 rounded-full text-signal-green uppercase tracking-widest">you are here</span>}
+                </div>
+                <p className="text-xs uppercase tracking-[0.2em] text-ash">{e.tag}</p>
+                <p className="text-sm text-mist">{e.desc}</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="w-full py-16 border-b border-graphite/70">
+        <div className="mx-auto max-w-content px-4 space-y-8">
+          <h2 className="font-display text-2xl">FAQ</h2>
+          <div className="space-y-3 max-w-2xl">
+            {faqs.map((faq, i) => (
+              <div key={i} className="border border-graphite rounded-2xl overflow-hidden">
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-graphite/30 transition"
+                >
+                  <span className="text-sm font-medium">{faq.q}</span>
+                  <span className={`text-signal-green transition-transform ${openFaq === i ? 'rotate-45' : ''}`}>+</span>
+                </button>
+                {openFaq === i && (
+                  <div className="px-6 pb-4 text-sm text-ash leading-relaxed">{faq.a}</div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="w-full py-20">
+        <div className="mx-auto max-w-content px-4 text-center space-y-6">
+          <h2 className="font-display text-3xl md:text-5xl">Ready to build?</h2>
+          <p className="text-ash max-w-xl mx-auto">Tell us what you're trying to automate or build. We'll tell you if we can help — usually within 24 hours.</p>
+          <a href="mailto:jacobkayembekazadi@gmail.com"
+            className="inline-block bg-signal-green text-ink px-8 py-4 rounded-full text-sm font-medium hover:opacity-90 transition">
+            Start a conversation →
+          </a>
+          <p className="text-xs text-ash">No retainer required to start. Project minimums from $5K.</p>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="w-full bg-ink border-t border-graphite/80 py-8 mt-auto">
+      <footer className="w-full bg-ink border-t border-graphite/80 py-8">
         <div className="mx-auto max-w-content px-4 flex flex-col md:flex-row gap-4 items-center justify-between text-xs text-ash/80">
-          <p>© {new Date().getFullYear()} Sloe Tech · Part of the <a href="https://sloelabs.com" className="text-signal-green hover:underline">Sloe portfolio</a></p>
+          <p>© {new Date().getFullYear()} Sloe Labs · Toronto, Canada</p>
           <div className="flex gap-4">
+            <a href="https://tech.sloelabs.com" className="hover:text-paper">Sloe Tech</a>
             <a href="https://github.com/JacobKayembekazadi" target="_blank" rel="noopener noreferrer" className="hover:text-paper">GitHub</a>
-            <a href="https://sloelabs.com" target="_blank" rel="noopener noreferrer" className="hover:text-paper">Sloe Labs</a>
-            <a href="#waitlist" className="hover:text-paper">Campus waitlist</a>
+            <a href="mailto:jacobkayembekazadi@gmail.com" className="hover:text-paper">Contact</a>
           </div>
         </div>
       </footer>
