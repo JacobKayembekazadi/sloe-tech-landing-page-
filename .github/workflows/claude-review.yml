@@ -1,0 +1,36 @@
+name: Claude PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  issue_comment:
+    types: [created]
+
+jobs:
+  claude-review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            Review this PR concisely. Cover:
+            1. Bugs or breaking changes
+            2. Security issues (exposed credentials, injections, XSS)
+            3. Architecture violations (check AGENTS.md/CLAUDE.md if present)
+            4. Missing error handling or edge cases
+            5. What's done well
+
+            Lead with the most important finding.
+            End with one of:
+            **VERDICT: ✅ LGTM** — safe to merge
+            **VERDICT: ⚠️ NEEDS CHANGES** — fixable issues
+            **VERDICT: ❌ BLOCK** — serious problem, do not merge
