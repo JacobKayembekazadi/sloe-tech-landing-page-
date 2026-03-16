@@ -31,16 +31,34 @@ const work = [
     link: "https://icon-command-center.vercel.app",
   },
   {
-    name: "Sebenza",
-    desc: "AI-native legal practice management SaaS — billing, cases, client portal, and AI-assisted workflows.",
-    tags: ["SaaS", "LegalTech", "Postgres", "Vercel"],
-    link: "https://app.sebenzas.com",
+    name: "EARTI Intelligence System",
+    desc: "Real-time ROI dashboard for a $15K agricultural IoT system — harvest predictions, energy optimization, and 14-month payback calculator.",
+    tags: ["AgriTech", "IoT", "Supabase", "Gemini AI"],
+    link: "https://earti-intelligence-system.vercel.app",
   },
   {
-    name: "Houston Ion Demos",
-    desc: "Five live AI intelligence dashboards built for enterprise pitches across healthcare, agritech, and nonprofit sectors.",
-    tags: ["Multi-agent", "Supabase", "Gemini AI", "Vercel"],
-    link: "https://github.com/JacobKayembekazadi",
+    name: "SloeFit",
+    desc: "Nervous system tracking app — log signals, get AI-driven protocols, and see your recovery patterns over time.",
+    tags: ["React", "Firebase", "PWA", "Claude AI"],
+    link: "https://sloe-fit-26.vercel.app",
+  },
+  {
+    name: "TATI Prospecting Analyst",
+    desc: "AI agent that researches prospects, scores fit, and briefs sales reps before every call — in seconds.",
+    tags: ["Multi-agent", "AI Research", "Sales Ops"],
+    link: "https://tati-prospecting-intelligence-analy.vercel.app",
+  },
+  {
+    name: "LBJ Orchestrator AI OS",
+    desc: "Multi-agent AI operating system coordinating specialized agents across growth, content, ops, and analytics.",
+    tags: ["Agent Orchestration", "Google ADK", "Vercel"],
+    link: "https://lbj-orchestrator-ai-os.vercel.app",
+  },
+  {
+    name: "PTX Metals",
+    desc: "Full brand and web presence for a precious metals trading company — clean, conversion-optimized, professional.",
+    tags: ["Web Design", "Branding", "Finance"],
+    link: "https://ptxmetals.com",
   },
 ];
 
@@ -117,7 +135,7 @@ export default function App() {
         <div className="mx-auto max-w-content px-4 grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <p className="inline-flex items-center gap-2 rounded-full border border-graphite/80 px-3 py-1 text-xs uppercase tracking-[0.25em] text-mist">
-              AI Systems Consultancy · Toronto
+              AI Systems Consultancy
             </p>
             <h1 className="font-display text-4xl md:text-6xl leading-tight">
               We build AI systems<br className="hidden md:block" /> that <span className="text-signal-green">run your ops.</span>
@@ -269,7 +287,7 @@ export default function App() {
       {/* FOOTER */}
       <footer className="w-full bg-ink border-t border-graphite/80 py-8">
         <div className="mx-auto max-w-content px-4 flex flex-col md:flex-row gap-4 items-center justify-between text-xs text-ash/80">
-          <p>© {new Date().getFullYear()} Sloe Labs · Toronto, Canada</p>
+          <p>© {new Date().getFullYear()} Sloe Labs</p>
           <div className="flex gap-4">
             <a href="https://tech.sloelabs.com" className="hover:text-paper">Sloe Tech</a>
             <a href="https://github.com/JacobKayembekazadi" target="_blank" rel="noopener noreferrer" className="hover:text-paper">GitHub</a>
