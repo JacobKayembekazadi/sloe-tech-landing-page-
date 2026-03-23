@@ -440,14 +440,14 @@ export default function App() {
                 Tell us what you need. We'll show you exactly what your business is missing — and build it.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-                <a href="mailto:isaac@sloelabs.com"
+                <a href="mailto:ops@sloelabs.com"
                   className="px-8 py-4 rounded-full font-bold text-base transition-opacity hover:opacity-85"
                   style={{ background: '#4ADE80', color: '#0A0A0A' }}>
                   Start a Project →
                 </a>
-                <a href="mailto:isaac@sloelabs.com"
+                <a href="mailto:ops@sloelabs.com"
                   className="text-gray-400 hover:text-white text-base transition-colors">
-                  isaac@sloelabs.com
+                  ops@sloelabs.com
                 </a>
               </div>
             </div>
@@ -487,9 +487,9 @@ export default function App() {
                   className="text-gray-500 hover:text-white text-sm transition-colors">
                   LinkedIn ↗
                 </a>
-                <a href="mailto:isaac@sloelabs.com"
+                <a href="mailto:ops@sloelabs.com"
                   className="text-gray-500 hover:text-white text-sm transition-colors">
-                  isaac@sloelabs.com
+                  ops@sloelabs.com
                 </a>
               </div>
             </div>
