@@ -12,7 +12,7 @@ export default {
         graphite: "#1C1C1C",
         ash: "#6A6A6A",
         mist: "#D7D7D7",
-        "signal-green": "#7AFF6B",
+        "signal-green": "#4ADE80",
         "electric-blue": "#00A3FF",
       },
       fontFamily: {

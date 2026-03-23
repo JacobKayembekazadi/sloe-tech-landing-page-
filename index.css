@@ -6,9 +6,20 @@
   body {
     @apply bg-ink text-paper font-body antialiased;
   }
-  
+
   ::selection {
-    background: rgba(122, 255, 107, 0.3);
+    background: rgba(74, 222, 128, 0.25);
   }
 }
 
+/* Scroll fade-up animation */
+.fade-up {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}

@@ -1,448 +1,519 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+
+// ─── Scroll Animation Hook ────────────────────────────────────────────────────
+
+function useFadeUp() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add('visible');
+          obs.unobserve(el);
+        }
+      },
+      { threshold: 0.12 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return ref;
+}
+
+// ─── SVG Icons ────────────────────────────────────────────────────────────────
+
+const IconAgent = () => (
+  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+    <rect x="4" y="4" width="8" height="8" rx="1" stroke="#4ADE80" strokeWidth="1.5"/>
+    <rect x="16" y="4" width="8" height="8" rx="1" stroke="#4ADE80" strokeWidth="1.5"/>
+    <rect x="4" y="16" width="8" height="8" rx="1" stroke="#4ADE80" strokeWidth="1.5"/>
+    <rect x="16" y="16" width="8" height="8" rx="1" stroke="#4ADE80" strokeWidth="1.5"/>
+    <line x1="8" y1="12" x2="8" y2="16" stroke="#4ADE80" strokeWidth="1.5"/>
+    <line x1="20" y1="12" x2="20" y2="16" stroke="#4ADE80" strokeWidth="1.5"/>
+    <line x1="12" y1="8" x2="16" y2="8" stroke="#4ADE80" strokeWidth="1.5"/>
+    <line x1="12" y1="20" x2="16" y2="20" stroke="#4ADE80" strokeWidth="1.5"/>
+  </svg>
+);
+
+const IconPlatform = () => (
+  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+    <rect x="3" y="6" width="22" height="16" rx="2" stroke="#4ADE80" strokeWidth="1.5"/>
+    <line x1="3" y1="11" x2="25" y2="11" stroke="#4ADE80" strokeWidth="1.5"/>
+    <line x1="10" y1="11" x2="10" y2="22" stroke="#4ADE80" strokeWidth="1.5"/>
+  </svg>
+);
+
+const IconDashboard = () => (
+  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+    <polyline points="4,20 9,13 14,16 19,9 24,12" stroke="#4ADE80" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round"/>
+    <circle cx="4" cy="20" r="1.5" fill="#4ADE80"/>
+    <circle cx="24" cy="12" r="1.5" fill="#4ADE80"/>
+  </svg>
+);
+
+const IconAutomation = () => (
+  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+    <circle cx="6" cy="14" r="3" stroke="#4ADE80" strokeWidth="1.5"/>
+    <circle cx="22" cy="8" r="3" stroke="#4ADE80" strokeWidth="1.5"/>
+    <circle cx="22" cy="20" r="3" stroke="#4ADE80" strokeWidth="1.5"/>
+    <line x1="9" y1="13" x2="19" y2="9" stroke="#4ADE80" strokeWidth="1.5"/>
+    <line x1="9" y1="15" x2="19" y2="19" stroke="#4ADE80" strokeWidth="1.5"/>
+  </svg>
+);
+
+// ─── Data ─────────────────────────────────────────────────────────────────────
 
 const services = [
   {
-    icon: "⚡",
+    Icon: IconAgent,
     title: "AI Operations Systems",
-    desc: "Autonomous agent infrastructure that handles research, outreach, reporting, and pipeline ops — so your team focuses on decisions, not repetitive work.",
+    desc: "Autonomous agents that handle research, outreach, reporting, and pipeline ops.",
   },
   {
-    icon: "📊",
+    Icon: IconPlatform,
+    title: "Business Management Platforms",
+    desc: "Full-scale management systems — invoicing, HR, accounting, client management — built for your industry.",
+  },
+  {
+    Icon: IconDashboard,
     title: "Intelligence Dashboards",
-    desc: "Live business intelligence connected to your real data — Shopify, Stripe, CRM — with AI-generated insights surfaced automatically.",
+    desc: "Live business intelligence connected to your real data with AI-generated insights.",
   },
   {
-    icon: "🔗",
+    Icon: IconAutomation,
     title: "Workflow Automation",
-    desc: "End-to-end automation across your tools. n8n, Zapier, custom APIs — we connect the stack and make it run without manual intervention.",
-  },
-  {
-    icon: "🛍️",
-    title: "Shopify & E-commerce AI",
-    desc: "Conversion audits, theme builds, and AI-assisted merchandising for DTC brands that want to scale without scaling headcount.",
+    desc: "End-to-end automation across your tools. Custom APIs, integrations, and AI pipelines.",
   },
 ];
 
 const work = [
   {
-    id: "icon-command-center",
     name: "ICON Command Center",
     tagline: "Shopify intelligence for a $30M DTC brand.",
-    desc: "Live Shopify intelligence dashboard with AI-generated insights for a $30M DTC menswear brand.",
-    detail: "ICON needed real-time visibility into what was selling, what wasn't, and why. We built a command center that pulls Shopify data, runs it through Gemini AI, and surfaces ranked insights automatically — no analyst required. The team went from weekly reports to real-time decisions.",
-    tags: ["Shopify API", "Gemini AI", "React", "Recharts"],
+    tags: ["Shopify API", "Gemini AI", "React"],
     link: "https://icon-command-center.vercel.app",
-    category: "Intelligence Dashboard",
   },
   {
-    id: "earti-intelligence",
     name: "EARTI Intelligence System",
     tagline: "Real-time ROI proof for a $15K AgriTech system.",
-    desc: "Real-time ROI dashboard for a $15K agricultural IoT system — harvest predictions, energy optimization, and 14-month payback calculator.",
-    detail: "EARTI's biggest sales challenge: proving ROI on a $15K system before prospects buy. We built an intelligence layer on top of their sensor data — harvest predictions (±3% accuracy), energy savings projections, yield forecasting, and a payback calculator that answers 'when do I break even?' The dashboard turns a theoretical pitch into visual proof and generates $99-149/month recurring revenue per unit.",
-    tags: ["AgriTech", "IoT", "Supabase", "Gemini AI"],
+    tags: ["AgriTech", "IoT", "Supabase"],
     link: "https://earti-intelligence-system.vercel.app",
-    category: "Intelligence Dashboard",
   },
   {
-    id: "sloefit",
-    name: "SloeFit",
-    tagline: "Nervous system tracking app with AI-driven recovery protocols.",
-    desc: "Nervous system tracking app — log signals, get AI-driven protocols, and see your recovery patterns over time.",
-    detail: "SloeFit tracks how your nervous system responds to daily life — stress, energy, focus, tension, sleep — and uses AI to surface patterns and recommend specific regulation protocols. Built as a PWA with Firebase, real-time Auracle AI insights, and a signal-to-outcome feedback loop that gets smarter the more you use it.",
-    tags: ["React", "Firebase", "PWA", "Claude AI"],
-    link: "https://sloe-fit-26.vercel.app",
-    category: "Consumer App",
+    name: "Sebenza Business OS",
+    tagline: "Multi-industry business management platform for African service businesses.",
+    tags: ["Next.js", "Neon Postgres", "26 Industries", "3 Languages"],
+    link: null,
   },
   {
-    id: "tati-analyst",
-    name: "TATI Prospecting Analyst",
-    tagline: "AI agent that briefs your sales team before every call.",
-    desc: "AI agent that researches prospects, scores fit, and briefs sales reps before every call — in seconds.",
-    detail: "Sales reps were spending 30+ minutes per prospect doing manual research. TATI does it in seconds — pulls company data, scores prospect fit against your ICP, and delivers a ready-to-use brief. Plugs into your CRM and runs automatically when a new lead enters the pipeline.",
-    tags: ["Multi-agent", "AI Research", "Sales Ops", "Vercel"],
-    link: "https://tati-prospecting-intelligence-analy.vercel.app",
-    category: "AI Agent",
-  },
-  {
-    id: "lbj-orchestrator",
-    name: "LBJ Orchestrator AI OS",
-    tagline: "Multi-agent AI OS coordinating growth, content, and ops.",
-    desc: "Multi-agent AI operating system coordinating specialized agents across growth, content, ops, and analytics.",
-    detail: "A full AI operating system where specialized agents handle specific domains — one for content ideation, one for growth analysis, one for ops reporting — all coordinated by an orchestrator. Built on Google ADK with persistent memory and cross-agent communication. Demonstrates what AI-native operations infrastructure actually looks like at scale.",
-    tags: ["Agent Orchestration", "Google ADK", "Multi-agent", "Vercel"],
-    link: "https://lbj-orchestrator-ai-os.vercel.app",
-    category: "AI Infrastructure",
-  },
-  {
-    id: "ptx-metals",
     name: "PTX Metals",
-    tagline: "Brand and web presence for a precious metals trading company.",
-    desc: "Full brand and web presence for a precious metals trading company — clean, conversion-optimized, professional.",
-    detail: "PTX needed a web presence that matched the weight of their product — precious metals trading. We delivered a conversion-optimized site with clear trust signals, clean information architecture, and a design language that communicates stability and expertise to high-net-worth buyers.",
-    tags: ["Web Design", "Branding", "Finance", "Conversion"],
+    tagline: "Corporate website for a critical minerals exploration company.",
+    tags: ["React", "Vite", "Corporate"],
     link: "https://ptxmetals.com",
-    category: "Web & Brand",
   },
 ];
 
-const faqs = [
-  { q: "How long does a typical project take?", a: "Most builds are 1–4 weeks depending on scope. We move fast — no sprints, no ceremony." },
-  { q: "Do you work with non-technical founders?", a: "Yes. You describe the business problem. We build the system. You own the output." },
-  { q: "What's your pricing?", a: "Project minimum is $5K. Ongoing AI ops retainers start at $1.5K/month." },
-  { q: "Can you work with our existing stack?", a: "Yes — we integrate with whatever you're running. Shopify, Supabase, HubSpot, n8n, custom APIs." },
+const capabilities = [
+  "Document Analysis & OCR",
+  "Autonomous Agent Workflows",
+  "Multi-Language (EN/FR/PT/AR)",
+  "Real-Time Business Intelligence",
+  "Custom API Integrations",
+  "24-Hour Deployment",
 ];
 
-// ─── Work Detail Page ──────────────────────────────────────────────────────────
+const stats = [
+  { value: "50+", label: "Systems Deployed" },
+  { value: "<24h", label: "Deployment Time" },
+  { value: "$5K–$50K+", label: "Per System" },
+  { value: "5+", label: "Industries Served" },
+];
 
-function WorkDetail({ project, onBack }: { project: typeof work[0]; onBack: () => void }) {
+// ─── Animated Section Wrapper ─────────────────────────────────────────────────
+
+function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useFadeUp();
   return (
-    <div className="min-h-screen bg-ink text-paper font-sans">
-      {/* Nav */}
-      <nav className="sticky top-0 z-50 bg-ink/90 backdrop-blur border-b border-graphite/50">
-        <div className="mx-auto max-w-content px-4 h-14 flex items-center gap-4">
-          <button onClick={onBack} className="text-sm text-mist hover:text-paper transition flex items-center gap-1.5">
-            ← Back
-          </button>
-          <span className="text-graphite">/</span>
-          <span className="text-sm text-mist">{project.name}</span>
-        </div>
-      </nav>
-
-      <main className="mx-auto max-w-content px-4 py-16 space-y-12">
-        {/* Header */}
-        <div className="space-y-4 max-w-2xl">
-          <span className="text-xs uppercase tracking-widest text-signal-green font-medium">{project.category}</span>
-          <h1 className="font-display text-4xl md:text-5xl leading-tight">{project.name}</h1>
-          <p className="text-ash text-xl leading-relaxed">{project.tagline}</p>
-        </div>
-
-        {/* Tags */}
-        <div className="flex flex-wrap gap-2">
-          {project.tags.map(t => (
-            <span key={t} className="text-xs bg-graphite/60 text-mist px-3 py-1.5 rounded-full border border-graphite">{t}</span>
-          ))}
-        </div>
-
-        {/* Detail */}
-        <div className="max-w-2xl">
-          <p className="text-paper/80 text-lg leading-relaxed">{project.detail}</p>
-        </div>
-
-        {/* CTA */}
-        <div className="flex flex-wrap gap-4 pt-4">
-          <a
-            href={project.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-signal-green text-ink px-6 py-3 rounded-full text-sm font-medium hover:opacity-90 transition inline-flex items-center gap-2"
-          >
-            View live demo ↗
-          </a>
-          <a
-            href="mailto:jacobkayembekazadi@gmail.com"
-            className="text-paper/80 hover:text-paper text-sm rounded-full px-6 py-3 border border-graphite/70 transition"
-          >
-            Build something like this →
-          </a>
-        </div>
-
-        {/* Divider */}
-        <div className="border-t border-graphite/50 pt-12">
-          <p className="text-mist text-sm mb-6">More work</p>
-          <div className="grid md:grid-cols-3 gap-4">
-            {work.filter(w => w.id !== project.id).slice(0, 3).map(w => (
-              <button
-                key={w.id}
-                onClick={() => { window.scrollTo(0,0); onBack(); setTimeout(() => {}, 0); }}
-                className="text-left bg-graphite/30 border border-graphite rounded-xl p-4 hover:border-signal-green/40 transition"
-              >
-                <p className="font-display text-sm">{w.name}</p>
-                <p className="text-ash text-xs mt-1 leading-relaxed line-clamp-2">{w.desc}</p>
-              </button>
-            ))}
-          </div>
-        </div>
-      </main>
+    <div ref={ref} className="fade-up" style={{ transitionDelay: `${delay}ms` }}>
+      {children}
     </div>
   );
 }
 
-// ─── Work Page ────────────────────────────────────────────────────────────────
-
-function WorkPage({ onBack, onSelect }: { onBack: () => void; onSelect: (p: typeof work[0]) => void }) {
-  return (
-    <div className="min-h-screen bg-ink text-paper font-sans">
-      <nav className="sticky top-0 z-50 bg-ink/90 backdrop-blur border-b border-graphite/50">
-        <div className="mx-auto max-w-content px-4 h-14 flex items-center gap-4">
-          <button onClick={onBack} className="text-sm text-mist hover:text-paper transition flex items-center gap-1.5">
-            ← Sloe Labs
-          </button>
-          <span className="text-graphite">/</span>
-          <span className="text-sm text-mist">Work</span>
-        </div>
-      </nav>
-
-      <main className="mx-auto max-w-content px-4 py-16 space-y-12">
-        <div className="space-y-3 max-w-xl">
-          <h1 className="font-display text-4xl md:text-5xl">All work</h1>
-          <p className="text-ash text-lg">Built in production, not in theory. Every project ships with a live demo.</p>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {work.map(w => (
-            <button
-              key={w.id}
-              onClick={() => { window.scrollTo(0,0); onSelect(w); }}
-              className="text-left bg-graphite/40 border border-graphite rounded-2xl p-6 flex flex-col gap-4 hover:border-signal-green/40 transition group"
-            >
-              <div className="space-y-2 flex-1">
-                <div className="flex items-start justify-between gap-2">
-                  <h3 className="font-display text-base leading-snug">{w.name}</h3>
-                  <span className="text-mist group-hover:text-signal-green transition text-lg flex-shrink-0">↗</span>
-                </div>
-                <p className="text-ash text-sm leading-relaxed">{w.desc}</p>
-              </div>
-              <div className="flex flex-wrap gap-1.5">
-                {w.tags.map(t => (
-                  <span key={t} className="text-[10px] bg-graphite/60 text-mist/80 px-2 py-0.5 rounded-full border border-graphite/50">{t}</span>
-                ))}
-              </div>
-              <span className="text-xs text-signal-green/70 font-medium">{w.category}</span>
-            </button>
-          ))}
-        </div>
-      </main>
-    </div>
-  );
-}
-
-// ─── Main App ─────────────────────────────────────────────────────────────────
+// ─── App ──────────────────────────────────────────────────────────────────────
 
 export default function App() {
-  const [page, setPage] = useState<'home' | 'work' | 'project'>('home');
-  const [selectedProject, setSelectedProject] = useState<typeof work[0] | null>(null);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-  if (page === 'project' && selectedProject) {
-    return <WorkDetail project={selectedProject} onBack={() => setPage('work')} />;
-  }
-
-  if (page === 'work') {
-    return <WorkPage onBack={() => setPage('home')} onSelect={(p) => { setSelectedProject(p); setPage('project'); }} />;
-  }
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-ink text-paper font-sans">
-      {/* NAV */}
-      <nav className="sticky top-0 z-50 bg-ink/90 backdrop-blur border-b border-graphite/50">
-        <div className="mx-auto max-w-content px-4">
-          <div className="flex items-center justify-between h-14">
-            <button onClick={() => setPage('home')} className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded bg-signal-green flex items-center justify-center">
-                <span className="text-ink font-black text-xs italic">S</span>
-              </div>
-              <span className="font-display font-bold tracking-tight">Sloe Labs</span>
-            </button>
+    <div className="min-h-screen font-body" style={{ background: '#0A0A0A', color: '#fff' }}>
 
-            <div className="hidden md:flex items-center gap-6">
-              <a href="#services" className="hover:text-paper transition text-sm text-mist">Services</a>
-              <button onClick={() => setPage('work')} className="hover:text-paper transition text-sm text-mist">Work</button>
-              <a href="https://tech.sloelabs.com" target="_blank" rel="noopener noreferrer" className="hover:text-paper transition text-sm text-mist">Sloe Tech</a>
-              <a href="#faq" className="hover:text-paper transition text-sm text-mist">FAQ</a>
+      {/* ── NAV ─────────────────────────────────────────────────────────────── */}
+      <nav style={{ background: 'rgba(10,10,10,0.85)', backdropFilter: 'blur(16px)', borderBottom: '1px solid #1a1a1a' }}
+        className="sticky top-0 z-50">
+        <div className="mx-auto max-w-content px-6">
+          <div className="flex items-center justify-between h-16">
+            <a href="#" className="font-display font-extrabold tracking-tight text-white text-lg">
+              SLOE LABS
+            </a>
+
+            <div className="hidden md:flex items-center gap-8">
+              {['Services', 'Work', 'About', 'Contact'].map(link => (
+                <a key={link} href={`#${link.toLowerCase()}`}
+                  className="text-sm text-gray-400 hover:text-white transition-colors duration-200">
+                  {link}
+                </a>
+              ))}
             </div>
 
             <div className="flex items-center gap-3">
-              <a href="mailto:jacobkayembekazadi@gmail.com" className="hidden md:block px-4 py-2 rounded-full bg-signal-green text-ink text-sm font-medium hover:opacity-90 transition">
-                Work with us
+              <a href="#contact"
+                className="hidden md:block px-5 py-2 rounded-full text-sm font-semibold transition-opacity duration-200 hover:opacity-85"
+                style={{ background: '#4ADE80', color: '#0A0A0A' }}>
+                Get Started
               </a>
-              <button className="md:hidden p-2 text-mist" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-                {mobileMenuOpen ? '✕' : '☰'}
+              <button className="md:hidden p-2 text-gray-400" onClick={() => setMobileOpen(!mobileOpen)}>
+                {mobileOpen
+                  ? <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><line x1="3" y1="3" x2="17" y2="17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/><line x1="17" y1="3" x2="3" y2="17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+                  : <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><line x1="3" y1="6" x2="17" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/><line x1="3" y1="10" x2="17" y2="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/><line x1="3" y1="14" x2="17" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+                }
               </button>
             </div>
           </div>
 
-          {mobileMenuOpen && (
-            <div className="md:hidden flex flex-col py-4 gap-3 border-t border-graphite/50">
-              <a href="#services" className="text-mist hover:text-paper py-2 text-sm" onClick={() => setMobileMenuOpen(false)}>Services</a>
-              <button onClick={() => { setPage('work'); setMobileMenuOpen(false); }} className="text-mist hover:text-paper py-2 text-sm text-left">Work</button>
-              <a href="https://tech.sloelabs.com" className="text-mist hover:text-paper py-2 text-sm">Sloe Tech</a>
-              <a href="#faq" className="text-mist hover:text-paper py-2 text-sm" onClick={() => setMobileMenuOpen(false)}>FAQ</a>
-              <a href="mailto:jacobkayembekazadi@gmail.com" className="bg-signal-green text-ink px-4 py-3 rounded-full text-sm text-center font-medium mt-2">Work with us</a>
+          {mobileOpen && (
+            <div className="md:hidden flex flex-col py-5 gap-4 border-t border-gray-800">
+              {['Services', 'Work', 'About', 'Contact'].map(link => (
+                <a key={link} href={`#${link.toLowerCase()}`}
+                  className="text-gray-400 hover:text-white text-sm transition-colors"
+                  onClick={() => setMobileOpen(false)}>
+                  {link}
+                </a>
+              ))}
+              <a href="#contact"
+                className="px-5 py-3 rounded-full text-sm font-semibold text-center mt-2"
+                style={{ background: '#4ADE80', color: '#0A0A0A' }}>
+                Get Started
+              </a>
             </div>
           )}
         </div>
       </nav>
 
-      {/* HERO */}
-      <section className="w-full pt-20 pb-20 border-b border-graphite/70">
-        <div className="mx-auto max-w-content px-4 grid md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <p className="inline-flex items-center gap-2 rounded-full border border-graphite/80 px-3 py-1 text-xs uppercase tracking-[0.25em] text-mist">
-              AI Systems Consultancy
-            </p>
-            <h1 className="font-display text-4xl md:text-6xl leading-tight">
-              We build AI systems<br className="hidden md:block" /> that <span className="text-signal-green">run your ops.</span>
+      {/* ── HERO ─────────────────────────────────────────────────────────────── */}
+      <section className="relative flex items-center justify-center text-center overflow-hidden"
+        style={{ minHeight: '100vh' }}>
+        {/* radial glow */}
+        <div className="absolute inset-0 pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 40%, rgba(74,222,128,0.07) 0%, transparent 70%)' }} />
+
+        <div className="relative mx-auto max-w-content px-6 py-32 space-y-8">
+          <FadeUp>
+            <h1 className="font-display font-extrabold tracking-tight leading-none"
+              style={{ fontSize: 'clamp(2.8rem, 8vw, 5.5rem)', lineHeight: 1.05 }}>
+              <span style={{ color: '#4ADE80' }}>AI Systems</span> for the<br />
+              World's Most Ambitious<br />
+              Businesses
             </h1>
-            <p className="text-ash text-lg max-w-lg">
-              Sloe Labs designs and deploys AI-powered operations infrastructure for founders and operators who want to move faster without growing headcount.
+          </FadeUp>
+
+          <FadeUp delay={100}>
+            <p className="text-gray-400 mx-auto max-w-xl text-lg md:text-xl leading-relaxed">
+              We deploy autonomous AI infrastructure that runs your operations — in under 24 hours.
+              From diagnosis to deployment.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <a href="mailto:jacobkayembekazadi@gmail.com" className="bg-signal-green text-ink px-6 py-3 rounded-full text-sm font-medium hover:opacity-90 transition">
-                Start a project
+          </FadeUp>
+
+          <FadeUp delay={200}>
+            <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+              <a href="#contact"
+                className="px-7 py-3.5 rounded-full font-semibold text-sm transition-opacity hover:opacity-85"
+                style={{ background: '#4ADE80', color: '#0A0A0A' }}>
+                Start a Project →
               </a>
-              <button onClick={() => setPage('work')} className="text-paper/80 hover:text-paper text-sm rounded-full px-6 py-3 border border-graphite/70 transition">
-                See our work →
-              </button>
+              <a href="#work"
+                className="px-7 py-3.5 rounded-full font-semibold text-sm border transition-colors hover:border-gray-500"
+                style={{ borderColor: '#333', color: '#e5e5e5' }}>
+                See Our Work
+              </a>
             </div>
-          </div>
-          <div className="hidden md:grid grid-cols-2 gap-3">
-            {services.map((s) => (
-              <div key={s.title} className="bg-graphite/30 border border-graphite/60 rounded-2xl p-4 space-y-2">
-                <span className="text-2xl">{s.icon}</span>
-                <p className="font-display text-sm">{s.title}</p>
-                <p className="text-ash text-xs leading-relaxed">{s.desc}</p>
+          </FadeUp>
+        </div>
+      </section>
+
+      {/* ── STATS BAR ───────────────────────────────────────────────────────── */}
+      <div style={{ borderTop: '1px solid #1a1a1a', borderBottom: '1px solid #1a1a1a', background: '#0e0e0e' }}>
+        <div className="mx-auto max-w-content px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4">
+            {stats.map((s, i) => (
+              <div key={i}
+                className="py-8 px-4 text-center"
+                style={{ borderRight: i < stats.length - 1 ? '1px solid #1a1a1a' : undefined }}>
+                <div className="font-display font-extrabold tracking-tight text-3xl md:text-4xl"
+                  style={{ color: '#4ADE80' }}>
+                  {s.value}
+                </div>
+                <div className="text-gray-500 text-sm mt-1">{s.label}</div>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* SERVICES */}
-      <section id="services" className="w-full py-16 border-b border-graphite/70">
-        <div className="mx-auto max-w-content px-4 space-y-10">
-          <div>
-            <h2 className="font-display text-2xl">What we build</h2>
-            <p className="text-ash text-sm mt-1">Systems that run. Not slides.</p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-6">
-            {services.map((s) => (
-              <div key={s.title} className="bg-graphite/20 border border-graphite/50 rounded-2xl p-6 space-y-3">
-                <span className="text-3xl">{s.icon}</span>
-                <h3 className="font-display text-lg">{s.title}</h3>
-                <p className="text-ash text-sm leading-relaxed">{s.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* WORK */}
-      <section id="work" className="w-full py-16 border-b border-graphite/70">
-        <div className="mx-auto max-w-content px-4 space-y-10">
-          <div className="flex items-end justify-between">
+      {/* ── SERVICES ─────────────────────────────────────────────────────────── */}
+      <section id="services" style={{ paddingTop: '120px', paddingBottom: '120px' }}>
+        <div className="mx-auto max-w-content px-6 space-y-14">
+          <FadeUp>
             <div>
-              <h2 className="font-display text-2xl">Selected work</h2>
-              <p className="text-ash text-sm mt-1">Built in production, not in theory.</p>
+              <h2 className="font-display font-extrabold tracking-tight text-white"
+                style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
+                What We Deploy
+              </h2>
+              <p className="text-gray-500 mt-3 text-lg">Systems that run. Not slides.</p>
             </div>
-            <button onClick={() => setPage('work')} className="text-sm text-mist hover:text-paper transition">
-              View all →
-            </button>
+          </FadeUp>
+
+          <div className="grid md:grid-cols-2 gap-5">
+            {services.map((s, i) => (
+              <FadeUp key={s.title} delay={i * 80}>
+                <div className="group h-full rounded-2xl p-8 transition-all duration-300"
+                  style={{ background: '#111', border: '1px solid #1e1e1e' }}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(74,222,128,0.35)')}
+                  onMouseLeave={e => (e.currentTarget.style.borderColor = '#1e1e1e')}>
+                  <s.Icon />
+                  <h3 className="font-display font-bold text-white text-xl mt-5 mb-3">{s.title}</h3>
+                  <p className="text-gray-400 leading-relaxed">{s.desc}</p>
+                </div>
+              </FadeUp>
+            ))}
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {work.slice(0, 3).map((w) => (
-              <button
-                key={w.id}
-                onClick={() => { window.scrollTo(0,0); setSelectedProject(w); setPage('project'); }}
-                className="text-left bg-graphite/40 border border-graphite rounded-2xl p-6 flex flex-col gap-4 hover:border-signal-green/40 transition group"
-              >
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-display text-base">{w.name}</h3>
-                    <span className="text-mist group-hover:text-signal-green transition text-lg">↗</span>
+        </div>
+      </section>
+
+      {/* ── WORK ─────────────────────────────────────────────────────────────── */}
+      <section id="work" style={{ paddingTop: '120px', paddingBottom: '120px', borderTop: '1px solid #1a1a1a' }}>
+        <div className="mx-auto max-w-content px-6 space-y-14">
+          <FadeUp>
+            <h2 className="font-display font-extrabold tracking-tight text-white"
+              style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
+              Selected Work
+            </h2>
+          </FadeUp>
+
+          <div className="grid md:grid-cols-2 gap-5">
+            {work.map((w, i) => (
+              <FadeUp key={w.name} delay={i * 80}>
+                {w.link ? (
+                  <a href={w.link} target="_blank" rel="noopener noreferrer"
+                    className="block group rounded-2xl p-8 transition-all duration-300"
+                    style={{ background: '#111', border: '1px solid #1e1e1e' }}
+                    onMouseEnter={e => {
+                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(74,222,128,0.35)';
+                      (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+                    }}
+                    onMouseLeave={e => {
+                      (e.currentTarget as HTMLElement).style.borderColor = '#1e1e1e';
+                      (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                    }}>
+                    <WorkCard w={w} />
+                  </a>
+                ) : (
+                  <div className="rounded-2xl p-8 transition-all duration-300"
+                    style={{ background: '#111', border: '1px solid #1e1e1e' }}
+                    onMouseEnter={e => {
+                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(74,222,128,0.35)';
+                      (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+                    }}
+                    onMouseLeave={e => {
+                      (e.currentTarget as HTMLElement).style.borderColor = '#1e1e1e';
+                      (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                    }}>
+                    <WorkCard w={w} />
                   </div>
-                  <p className="text-ash text-sm leading-relaxed">{w.desc}</p>
-                </div>
-                <div className="flex flex-wrap gap-1.5 mt-auto">
-                  {w.tags.map(t => (
-                    <span key={t} className="text-[10px] bg-graphite/60 text-mist/80 px-2 py-0.5 rounded-full border border-graphite/50">{t}</span>
-                  ))}
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* WHO WE ARE */}
-      <section className="w-full py-16 border-b border-graphite/70">
-        <div className="mx-auto max-w-content px-4 grid md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-4">
-            <h2 className="font-display text-2xl">Who we are</h2>
-            <p className="text-ash text-base leading-relaxed">
-              Sloe Labs is a small, fast-moving AI systems consultancy. We don't do discovery sprints or 12-week roadmaps. We scope fast, build fast, and ship things that actually run in production.
-            </p>
-            <p className="text-ash text-base leading-relaxed">
-              Our clients are founders, operators, and growth teams who've tried the generic AI tools and want something built for their specific problem.
-            </p>
-          </div>
-          <div className="space-y-3">
-            {[
-              { name: "Sloe Labs", tag: "Deploys", desc: "AI consulting & client delivery", url: "#", active: true },
-              { name: "Sloe Tech", tag: "Builds", desc: "Open-source tools & infrastructure", url: "https://tech.sloelabs.com" },
-            ].map(entity => (
-              <a key={entity.name} href={entity.url} target={entity.url === '#' ? undefined : '_blank'} rel="noopener noreferrer"
-                className={`flex items-center justify-between p-4 rounded-xl border transition ${entity.active ? 'bg-signal-green/5 border-signal-green/30 text-paper' : 'border-graphite/50 text-mist hover:text-paper hover:border-graphite'}`}>
-                <div>
-                  <p className="font-medium text-sm">{entity.name} <span className="text-xs text-mist ml-2">{entity.tag}</span></p>
-                  <p className="text-xs text-ash mt-0.5">{entity.desc}</p>
-                </div>
-                <span className="text-xs text-mist">↗</span>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section id="faq" className="w-full py-16 border-b border-graphite/70">
-        <div className="mx-auto max-w-content px-4 grid md:grid-cols-2 gap-12">
-          <div>
-            <h2 className="font-display text-2xl">Common questions</h2>
-            <p className="text-ash text-sm mt-2">The stuff people always ask.</p>
-          </div>
-          <div className="space-y-3">
-            {faqs.map((faq, i) => (
-              <div key={i} className="border border-graphite/60 rounded-xl overflow-hidden">
-                <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-graphite/20 transition"
-                >
-                  <span className="font-medium text-sm">{faq.q}</span>
-                  <span className="text-mist ml-4 flex-shrink-0">{openFaq === i ? '−' : '+'}</span>
-                </button>
-                {openFaq === i && (
-                  <div className="px-5 pb-4 text-ash text-sm leading-relaxed">{faq.a}</div>
                 )}
-              </div>
+              </FadeUp>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="w-full py-20">
-        <div className="mx-auto max-w-content px-4 text-center space-y-6">
-          <h2 className="font-display text-3xl md:text-4xl">Ready to build?</h2>
-          <p className="text-ash text-lg max-w-md mx-auto">Tell us what you're trying to automate or build. We'll tell you if we can help — no pitch deck required.</p>
-          <a href="mailto:jacobkayembekazadi@gmail.com" className="inline-block bg-signal-green text-ink px-8 py-4 rounded-full text-sm font-medium hover:opacity-90 transition">
-            Start a project →
-          </a>
+      {/* ── AI CAPABILITIES ──────────────────────────────────────────────────── */}
+      <section style={{ paddingTop: '120px', paddingBottom: '120px', borderTop: '1px solid #1a1a1a', background: '#0e0e0e' }}>
+        <div className="mx-auto max-w-content px-6 space-y-12">
+          <FadeUp>
+            <div className="text-center max-w-2xl mx-auto">
+              <h2 className="font-display font-extrabold tracking-tight text-white"
+                style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
+                AI Capabilities
+              </h2>
+              <p className="text-gray-400 mt-4 text-lg">
+                Every system we deploy is powered by our proprietary AI infrastructure.
+              </p>
+            </div>
+          </FadeUp>
+
+          <FadeUp delay={100}>
+            <div className="flex flex-wrap justify-center gap-3">
+              {capabilities.map((cap) => (
+                <div key={cap}
+                  className="px-5 py-2.5 rounded-full text-sm font-medium transition-colors duration-200"
+                  style={{ border: '1px solid rgba(74,222,128,0.3)', color: '#4ADE80', background: 'rgba(74,222,128,0.05)' }}>
+                  {cap}
+                </div>
+              ))}
+            </div>
+          </FadeUp>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="border-t border-graphite/50 py-8">
-        <div className="mx-auto max-w-content px-4 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-mist">
-          <p>© {new Date().getFullYear()} Sloe Labs</p>
-          <div className="flex items-center gap-6">
-            <a href="https://github.com/JacobKayembekazadi" target="_blank" rel="noopener noreferrer" className="hover:text-paper">GitHub</a>
-            <a href="https://tech.sloelabs.com" target="_blank" rel="noopener noreferrer" className="hover:text-paper">Sloe Tech</a>
-            <a href="mailto:jacobkayembekazadi@gmail.com" className="hover:text-paper">Contact</a>
+      {/* ── ABOUT ────────────────────────────────────────────────────────────── */}
+      <section id="about" style={{ paddingTop: '120px', paddingBottom: '120px', borderTop: '1px solid #1a1a1a' }}>
+        <div className="mx-auto max-w-content px-6">
+          <div className="grid md:grid-cols-2 gap-16 items-start">
+            <FadeUp>
+              <div className="space-y-6">
+                <h2 className="font-display font-extrabold tracking-tight text-white"
+                  style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
+                  Who We Are
+                </h2>
+                <p className="text-gray-400 text-lg leading-relaxed">
+                  Sloe Labs is an AI systems consultancy that deploys production-ready AI infrastructure
+                  for businesses worldwide. We don't do discovery sprints or 12-week roadmaps.
+                  We diagnose, build, and deploy — in under 24 hours.
+                </p>
+                <p className="text-gray-500 text-base">
+                  Operating across North America, Africa, and the Middle East.
+                </p>
+              </div>
+            </FadeUp>
+
+            <FadeUp delay={120}>
+              <div className="space-y-4">
+                {[
+                  { name: "Sloe Labs", badge: "Deploys", desc: "AI consulting & client delivery. We scope, build, and ship." },
+                  { name: "Sloe Tech", badge: "Builds", desc: "Open-source tools, AI infrastructure, and internal IP." },
+                ].map(entity => (
+                  <div key={entity.name}
+                    className="rounded-2xl p-6"
+                    style={{ background: '#111', border: '1px solid #1e1e1e' }}>
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="font-display font-bold text-white text-lg">{entity.name}</span>
+                      <span className="text-xs px-2.5 py-0.5 rounded-full font-medium"
+                        style={{ background: 'rgba(74,222,128,0.12)', color: '#4ADE80', border: '1px solid rgba(74,222,128,0.25)' }}>
+                        {entity.badge}
+                      </span>
+                    </div>
+                    <p className="text-gray-400 text-sm leading-relaxed">{entity.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </FadeUp>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ──────────────────────────────────────────────────────────────── */}
+      <section id="contact"
+        style={{ paddingTop: '120px', paddingBottom: '120px', borderTop: '1px solid #1a1a1a', background: '#0e0e0e' }}>
+        <div className="mx-auto max-w-content px-6 text-center">
+          <FadeUp>
+            <div className="space-y-7">
+              <h2 className="font-display font-extrabold tracking-tight text-white"
+                style={{ fontSize: 'clamp(2rem, 6vw, 4rem)' }}>
+                Ready to transform<br />your operations?
+              </h2>
+              <p className="text-gray-400 text-lg max-w-lg mx-auto leading-relaxed">
+                Tell us what you need. We'll show you exactly what your business is missing — and build it.
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+                <a href="mailto:isaac@sloelabs.com"
+                  className="px-8 py-4 rounded-full font-bold text-base transition-opacity hover:opacity-85"
+                  style={{ background: '#4ADE80', color: '#0A0A0A' }}>
+                  Start a Project →
+                </a>
+                <a href="mailto:isaac@sloelabs.com"
+                  className="text-gray-400 hover:text-white text-base transition-colors">
+                  isaac@sloelabs.com
+                </a>
+              </div>
+            </div>
+          </FadeUp>
+        </div>
+      </section>
+
+      {/* ── FOOTER ───────────────────────────────────────────────────────────── */}
+      <footer style={{ borderTop: '1px solid #1a1a1a', background: '#0A0A0A' }}>
+        <div className="mx-auto max-w-content px-6 py-12">
+          <div className="grid md:grid-cols-3 gap-10 mb-12">
+            <div className="space-y-3">
+              <div className="font-display font-extrabold tracking-tight text-white text-lg">SLOE LABS</div>
+              <p className="text-gray-500 text-sm leading-relaxed">
+                AI systems consultancy deploying production-ready infrastructure for ambitious businesses.
+              </p>
+            </div>
+            <div className="space-y-3">
+              <div className="text-white font-semibold text-sm">Navigation</div>
+              <div className="flex flex-col gap-2">
+                {['Services', 'Work', 'About', 'Contact'].map(link => (
+                  <a key={link} href={`#${link.toLowerCase()}`}
+                    className="text-gray-500 hover:text-white text-sm transition-colors">
+                    {link}
+                  </a>
+                ))}
+              </div>
+            </div>
+            <div className="space-y-3">
+              <div className="text-white font-semibold text-sm">Connect</div>
+              <div className="flex flex-col gap-2">
+                <a href="https://github.com/JacobKayembekazadi" target="_blank" rel="noopener noreferrer"
+                  className="text-gray-500 hover:text-white text-sm transition-colors">
+                  GitHub ↗
+                </a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+                  className="text-gray-500 hover:text-white text-sm transition-colors">
+                  LinkedIn ↗
+                </a>
+                <a href="mailto:isaac@sloelabs.com"
+                  className="text-gray-500 hover:text-white text-sm transition-colors">
+                  isaac@sloelabs.com
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ borderTop: '1px solid #1a1a1a' }} className="pt-8 flex flex-col md:flex-row items-center justify-between gap-3">
+            <p className="text-gray-600 text-sm">© 2026 Sloe Labs. Toronto, Canada.</p>
+            <p className="text-gray-600 text-sm">Dubai · Doha · Johannesburg</p>
           </div>
         </div>
       </footer>
     </div>
+  );
+}
+
+// ─── Work Card (shared between link/div) ──────────────────────────────────────
+
+function WorkCard({ w }: { w: typeof work[0] }) {
+  return (
+    <>
+      <div className="flex items-start justify-between gap-2 mb-3">
+        <h3 className="font-display font-bold text-white text-xl">{w.name}</h3>
+        {w.link && (
+          <span style={{ color: '#4ADE80' }} className="text-xl flex-shrink-0">↗</span>
+        )}
+      </div>
+      <p className="text-gray-400 leading-relaxed mb-5">{w.tagline}</p>
+      <div className="flex flex-wrap gap-2">
+        {w.tags.map(t => (
+          <span key={t}
+            className="text-xs px-3 py-1 rounded-full"
+            style={{ background: '#1a1a1a', color: '#9ca3af', border: '1px solid #2a2a2a' }}>
+            {t}
+          </span>
+        ))}
+      </div>
+    </>
   );
 }
