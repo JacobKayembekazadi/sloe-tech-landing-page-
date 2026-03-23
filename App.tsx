@@ -63,6 +63,24 @@ const IconAutomation = () => (
   </svg>
 );
 
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+interface CaseStudy {
+  challenge: string;
+  solution: string;
+  results: string[];
+  tech: string[];
+}
+
+interface WorkItem {
+  name: string;
+  slug: string;
+  tagline: string;
+  tags: string[];
+  link: string | null;
+  caseStudy: CaseStudy;
+}
+
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const services = [
@@ -88,42 +106,84 @@ const services = [
   },
 ];
 
-const work = [
+const work: WorkItem[] = [
   {
     name: "ICON Command Center",
+    slug: "icon-command-center",
     tagline: "Shopify intelligence dashboard for a $30M DTC brand. Real-time insights, AI-generated recommendations, zero analysts required.",
     tags: ["Shopify API", "Gemini AI", "React", "Recharts"],
     link: "https://icon-command-center.vercel.app",
+    caseStudy: {
+      challenge: "ICON, a $30M DTC menswear brand, was drowning in Shopify data but had zero real-time visibility into what was selling, what wasn't, and why. Weekly manual reports were always outdated by the time decisions were made.",
+      solution: "We built a live intelligence dashboard that pulls Shopify data in real-time, runs it through Gemini AI, and surfaces ranked insights automatically — no analyst required.",
+      results: ["Real-time visibility replacing weekly reports", "AI-generated product recommendations", "Zero manual reporting overhead"],
+      tech: ["Shopify Admin API", "Gemini AI", "React", "Recharts", "Vercel"],
+    },
   },
   {
     name: "Houston Methodist Intelligence",
+    slug: "houston-methodist",
     tagline: "AI adoption intelligence system for one of America's leading hospital networks. Mapping readiness, gaps, and transformation pathways.",
     tags: ["Healthcare", "AI Strategy", "Enterprise", "Data Intelligence"],
     link: null,
+    caseStudy: {
+      challenge: "Houston Methodist, one of America's top hospital networks, needed to understand where AI could be adopted across departments — and where it couldn't. No existing tool mapped AI readiness at the institutional level.",
+      solution: "We built an AI adoption intelligence system that maps readiness scores, identifies gaps, and generates transformation pathways per department — giving leadership a clear picture of where to invest.",
+      results: ["Department-level AI readiness mapping", "Gap analysis across clinical and operational workflows", "Executive-ready transformation roadmap"],
+      tech: ["AI Strategy", "Data Intelligence", "React", "Custom Analytics Engine"],
+    },
   },
   {
     name: "LBJ Orchestrator AI OS",
+    slug: "lbj-orchestrator",
     tagline: "Multi-agent AI operating system coordinating specialized agents across growth, operations, sales, and creative — in real time.",
     tags: ["Multi-Agent", "Google ADK", "Orchestration", "AI OS"],
     link: null,
+    caseStudy: {
+      challenge: "A growing organization needed specialized AI agents for growth, sales, operations, and creative — but couldn't afford separate teams. They needed one system that coordinates all four domains intelligently.",
+      solution: "We built a multi-agent AI operating system on Google ADK where specialized agents handle their domains autonomously while a central orchestrator coordinates priorities, resolves conflicts, and routes tasks.",
+      results: ["4 specialized AI agents operating in parallel", "Central orchestration with conflict resolution", "Real-time task routing across departments"],
+      tech: ["Google ADK", "Multi-Agent Architecture", "Python", "Orchestration Engine"],
+    },
   },
   {
     name: "EARTI Intelligence System",
+    slug: "earti-intelligence",
     tagline: "Real-time ROI dashboard for a $15K agricultural IoT system. Harvest predictions, energy optimization, 14-month payback proof.",
     tags: ["AgriTech", "IoT", "Supabase", "Gemini AI"],
     link: "https://earti-intelligence-system.vercel.app",
+    caseStudy: {
+      challenge: "EARTI sells a $15K agricultural IoT system. Their biggest sales challenge: proving ROI to skeptical farmers before they buy. Spreadsheets and promises weren't closing deals.",
+      solution: "We built an intelligence layer on top of sensor data — harvest predictions (±3% accuracy), energy savings projections, yield forecasting, and a payback calculator that answers 'when do I break even?' visually.",
+      results: ["Harvest predictions within ±3% accuracy", "14-month payback visualization", "$99-149/month recurring revenue per unit"],
+      tech: ["IoT Sensors", "Supabase", "Gemini AI", "React", "Vercel"],
+    },
   },
   {
     name: "PTX Metals",
+    slug: "ptx-metals",
     tagline: "Premium corporate website for a critical minerals exploration company advancing discovery across North America.",
     tags: ["React", "Vite", "Corporate", "Mining"],
     link: "https://ptxmetals.com",
+    caseStudy: {
+      challenge: "PTX Metals, a critical minerals exploration company, needed a corporate web presence that matched the scale of their operations and attracted institutional investors.",
+      solution: "We designed and built a premium dark-themed corporate site with real-time market data integration, investor-focused content architecture, and a design language that signals authority and precision.",
+      results: ["Premium corporate presence matching $100M+ peers", "Investor-ready content and navigation", "Real-time market data integration"],
+      tech: ["React", "Vite", "Tailwind CSS", "Corporate Design"],
+    },
   },
   {
     name: "MC Intelligence Platform",
+    slug: "mc-intelligence",
     tagline: "Enterprise operating platform for Millionaire Commerce. Centralized intelligence, automated operations, AI-driven decision support.",
     tags: ["Enterprise", "AI Operations", "Commerce", "Intelligence"],
     link: null,
+    caseStudy: {
+      challenge: "Millionaire Commerce needed a centralized operating platform to manage intelligence, automate operations, and support AI-driven decisions across their commerce portfolio.",
+      solution: "We built an enterprise intelligence platform that consolidates data streams, automates operational workflows, and surfaces AI-driven recommendations for portfolio-wide decision-making.",
+      results: ["Centralized intelligence across portfolio", "Automated operational workflows", "AI-driven decision support dashboard"],
+      tech: ["Enterprise Architecture", "AI Operations", "React", "Custom APIs"],
+    },
   },
 ];
 
@@ -158,6 +218,23 @@ function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [page, setPage] = useState(window.location.hash.replace('#', '') || 'home');
+
+  useEffect(() => {
+    const handler = () => {
+      const slug = window.location.hash.replace('#', '') || 'home';
+      setPage(slug);
+      window.scrollTo(0, 0);
+    };
+    window.addEventListener('hashchange', handler);
+    return () => window.removeEventListener('hashchange', handler);
+  }, []);
+
+  // If hash matches a project slug, render case study
+  const caseStudyProject = work.find(w => w.slug === page);
+  if (caseStudyProject) {
+    return <CaseStudyPage project={caseStudyProject} />;
+  }
 
   return (
     <div className="min-h-screen font-body" style={{ background: '#0A0A0A', color: '#fff' }}>
@@ -167,7 +244,8 @@ export default function App() {
         className="sticky top-0 z-50">
         <div className="mx-auto max-w-content px-6">
           <div className="flex items-center justify-between h-16">
-            <a href="#" className="font-display font-extrabold tracking-tight text-white text-lg">
+            <a href="#" className="font-display font-extrabold tracking-tight text-white text-lg"
+              onClick={() => { window.location.hash = ''; setPage('home'); }}>
               SLOE LABS
             </a>
 
@@ -317,34 +395,20 @@ export default function App() {
           <div className="grid md:grid-cols-2 gap-5">
             {work.map((w, i) => (
               <FadeUp key={w.name} delay={i * 80}>
-                {w.link ? (
-                  <a href={w.link} target="_blank" rel="noopener noreferrer"
-                    className="block group rounded-2xl p-8 transition-all duration-300"
-                    style={{ background: '#111', border: '1px solid #1e1e1e' }}
-                    onMouseEnter={e => {
-                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(74,222,128,0.35)';
-                      (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                    }}
-                    onMouseLeave={e => {
-                      (e.currentTarget as HTMLElement).style.borderColor = '#1e1e1e';
-                      (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                    }}>
-                    <WorkCard w={w} />
-                  </a>
-                ) : (
-                  <div className="rounded-2xl p-8 transition-all duration-300"
-                    style={{ background: '#111', border: '1px solid #1e1e1e' }}
-                    onMouseEnter={e => {
-                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(74,222,128,0.35)';
-                      (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                    }}
-                    onMouseLeave={e => {
-                      (e.currentTarget as HTMLElement).style.borderColor = '#1e1e1e';
-                      (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                    }}>
-                    <WorkCard w={w} />
-                  </div>
-                )}
+                <button
+                  className="w-full text-left block group rounded-2xl p-8 transition-all duration-300 cursor-pointer"
+                  style={{ background: '#111', border: '1px solid #1e1e1e' }}
+                  onClick={() => { window.location.hash = w.slug; }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLElement).style.borderColor = 'rgba(74,222,128,0.35)';
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLElement).style.borderColor = '#1e1e1e';
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                  }}>
+                  <WorkCard w={w} />
+                </button>
               </FadeUp>
             ))}
           </div>
@@ -507,14 +571,12 @@ export default function App() {
 
 // ─── Work Card (shared between link/div) ──────────────────────────────────────
 
-function WorkCard({ w }: { w: typeof work[0] }) {
+function WorkCard({ w }: { w: WorkItem }) {
   return (
     <>
       <div className="flex items-start justify-between gap-2 mb-3">
         <h3 className="font-display font-bold text-white text-xl">{w.name}</h3>
-        {w.link && (
-          <span style={{ color: '#4ADE80' }} className="text-xl flex-shrink-0">↗</span>
-        )}
+        <span style={{ color: '#4ADE80' }} className="text-xl flex-shrink-0">→</span>
       </div>
       <p className="text-gray-400 leading-relaxed mb-5">{w.tagline}</p>
       <div className="flex flex-wrap gap-2">
@@ -527,5 +589,154 @@ function WorkCard({ w }: { w: typeof work[0] }) {
         ))}
       </div>
     </>
+  );
+}
+
+// ─── Case Study Page ──────────────────────────────────────────────────────────
+
+function CaseStudyPage({ project }: { project: WorkItem }) {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    // Trigger fade-in after mount
+    const t = setTimeout(() => setVisible(true), 30);
+    return () => clearTimeout(t);
+  }, [project.slug]);
+
+  return (
+    <div className="min-h-screen font-body" style={{ background: '#0A0A0A', color: '#fff' }}>
+      {/* ── NAV ── */}
+      <nav style={{ background: 'rgba(10,10,10,0.85)', backdropFilter: 'blur(16px)', borderBottom: '1px solid #1a1a1a' }}
+        className="sticky top-0 z-50">
+        <div className="mx-auto max-w-content px-6">
+          <div className="flex items-center justify-between h-16">
+            <a href="#"
+              className="font-display font-extrabold tracking-tight text-white text-lg"
+              onClick={e => { e.preventDefault(); window.location.hash = ''; }}>
+              SLOE LABS
+            </a>
+            <a href="#"
+              className="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-2"
+              onClick={e => { e.preventDefault(); window.location.hash = ''; }}>
+              ← Back to Home
+            </a>
+          </div>
+        </div>
+      </nav>
+
+      {/* ── CONTENT ── */}
+      <div
+        className="mx-auto max-w-content px-6 py-20"
+        style={{
+          opacity: visible ? 1 : 0,
+          transform: visible ? 'translateY(0)' : 'translateY(16px)',
+          transition: 'opacity 0.45s ease, transform 0.45s ease',
+        }}
+      >
+        {/* Tags */}
+        <div className="flex flex-wrap gap-2 mb-8">
+          {project.tags.map(t => (
+            <span key={t}
+              className="text-xs px-3 py-1 rounded-full"
+              style={{ background: '#1a1a1a', color: '#9ca3af', border: '1px solid #2a2a2a' }}>
+              {t}
+            </span>
+          ))}
+        </div>
+
+        {/* Headline */}
+        <h1 className="font-display font-extrabold tracking-tight text-white mb-4"
+          style={{ fontSize: 'clamp(2rem, 6vw, 4rem)', lineHeight: 1.05 }}>
+          {project.name}
+        </h1>
+        <p className="text-gray-400 text-xl leading-relaxed mb-16 max-w-2xl">
+          {project.tagline}
+        </p>
+
+        {/* Body grid */}
+        <div className="grid md:grid-cols-2 gap-10 mb-12">
+          {/* Left column */}
+          <div className="space-y-10">
+            {/* Challenge */}
+            <div>
+              <div className="text-xs font-bold tracking-widest mb-3 uppercase"
+                style={{ color: '#4ADE80' }}>
+                The Challenge
+              </div>
+              <p className="text-gray-300 leading-relaxed text-base">
+                {project.caseStudy.challenge}
+              </p>
+            </div>
+
+            {/* Solution */}
+            <div>
+              <div className="text-xs font-bold tracking-widest mb-3 uppercase"
+                style={{ color: '#4ADE80' }}>
+                What We Built
+              </div>
+              <p className="text-gray-300 leading-relaxed text-base">
+                {project.caseStudy.solution}
+              </p>
+            </div>
+          </div>
+
+          {/* Right column */}
+          <div className="space-y-10">
+            {/* Results */}
+            <div>
+              <div className="text-xs font-bold tracking-widest mb-4 uppercase"
+                style={{ color: '#4ADE80' }}>
+                Results
+              </div>
+              <ul className="space-y-3">
+                {project.caseStudy.results.map((r, i) => (
+                  <li key={i} className="flex items-start gap-3 text-gray-300 text-base">
+                    <span style={{ color: '#4ADE80', flexShrink: 0, marginTop: '2px' }}>✓</span>
+                    {r}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Tech Stack */}
+            <div>
+              <div className="text-xs font-bold tracking-widest mb-4 uppercase"
+                style={{ color: '#4ADE80' }}>
+                Tech Stack
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {project.caseStudy.tech.map(t => (
+                  <span key={t}
+                    className="text-sm px-4 py-1.5 rounded-full font-medium"
+                    style={{ border: '1px solid rgba(74,222,128,0.3)', color: '#4ADE80', background: 'rgba(74,222,128,0.05)' }}>
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* CTA */}
+            {project.link && (
+              <div className="pt-2">
+                <a href={project.link} target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm transition-opacity hover:opacity-85"
+                  style={{ background: '#4ADE80', color: '#0A0A0A' }}>
+                  View Live →
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Back link bottom */}
+        <div style={{ borderTop: '1px solid #1a1a1a' }} className="pt-10">
+          <a href="#"
+            className="text-gray-500 hover:text-white text-sm transition-colors flex items-center gap-2 w-fit"
+            onClick={e => { e.preventDefault(); window.location.hash = ''; }}>
+            ← Back to all projects
+          </a>
+        </div>
+      </div>
+    </div>
   );
 }
