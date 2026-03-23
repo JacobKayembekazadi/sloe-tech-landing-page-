@@ -91,27 +91,39 @@ const services = [
 const work = [
   {
     name: "ICON Command Center",
-    tagline: "Shopify intelligence for a $30M DTC brand.",
-    tags: ["Shopify API", "Gemini AI", "React"],
+    tagline: "Shopify intelligence dashboard for a $30M DTC brand. Real-time insights, AI-generated recommendations, zero analysts required.",
+    tags: ["Shopify API", "Gemini AI", "React", "Recharts"],
     link: "https://icon-command-center.vercel.app",
   },
   {
-    name: "EARTI Intelligence System",
-    tagline: "Real-time ROI proof for a $15K AgriTech system.",
-    tags: ["AgriTech", "IoT", "Supabase"],
-    link: "https://earti-intelligence-system.vercel.app",
-  },
-  {
-    name: "Sebenza Business OS",
-    tagline: "Multi-industry business management platform for African service businesses.",
-    tags: ["Next.js", "Neon Postgres", "26 Industries", "3 Languages"],
+    name: "Houston Methodist Intelligence",
+    tagline: "AI adoption intelligence system for one of America's leading hospital networks. Mapping readiness, gaps, and transformation pathways.",
+    tags: ["Healthcare", "AI Strategy", "Enterprise", "Data Intelligence"],
     link: null,
   },
   {
+    name: "LBJ Orchestrator AI OS",
+    tagline: "Multi-agent AI operating system coordinating specialized agents across growth, operations, sales, and creative — in real time.",
+    tags: ["Multi-Agent", "Google ADK", "Orchestration", "AI OS"],
+    link: null,
+  },
+  {
+    name: "EARTI Intelligence System",
+    tagline: "Real-time ROI dashboard for a $15K agricultural IoT system. Harvest predictions, energy optimization, 14-month payback proof.",
+    tags: ["AgriTech", "IoT", "Supabase", "Gemini AI"],
+    link: "https://earti-intelligence-system.vercel.app",
+  },
+  {
     name: "PTX Metals",
-    tagline: "Corporate website for a critical minerals exploration company.",
-    tags: ["React", "Vite", "Corporate"],
+    tagline: "Premium corporate website for a critical minerals exploration company advancing discovery across North America.",
+    tags: ["React", "Vite", "Corporate", "Mining"],
     link: "https://ptxmetals.com",
+  },
+  {
+    name: "MC Intelligence Platform",
+    tagline: "Enterprise operating platform for Millionaire Commerce. Centralized intelligence, automated operations, AI-driven decision support.",
+    tags: ["Enterprise", "AI Operations", "Commerce", "Intelligence"],
+    link: null,
   },
 ];
 
@@ -127,7 +139,7 @@ const capabilities = [
 const stats = [
   { value: "50+", label: "Systems Deployed" },
   { value: "<24h", label: "Deployment Time" },
-  { value: "$5K–$50K+", label: "Per System" },
+  { value: "6+", label: "Industries Served" },
   { value: "5+", label: "Industries Served" },
 ];
 
