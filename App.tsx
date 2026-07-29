@@ -79,6 +79,7 @@ interface WorkItem {
   tags: string[];
   link: string | null;
   caseStudy: CaseStudy;
+  category?: 'sports';
 }
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -185,6 +186,55 @@ const work: WorkItem[] = [
       tech: ["Enterprise Architecture", "AI Operations", "React", "Custom APIs"],
     },
   },
+  {
+    name: "RZ Cantera Intelligence",
+    slug: "rz-cantera",
+    category: "sports",
+    tagline: "AI-powered academy operating system for Real Zaragoza — player development intelligence, squad oversight, and a voice-driven AI assistant for coaches.",
+    tags: ["Football", "Club OS", "Voice AI", "La Liga Academy"],
+    link: "https://rz-cantera-v2.vercel.app",
+    caseStudy: {
+      challenge: "Real Zaragoza's cantera — one of Spain's storied youth academies — needed centralized intelligence over player development: structured data, squad oversight, and instant answers for coaching staff, without adding administrative burden.",
+      solution: "We built a club operating system with player and squad intelligence, development tracking, and LEON — a voice-driven AI assistant coaches can simply talk to for instant answers about players, squads, and sessions.",
+      results: ["Deployed and live for a La Liga club's academy", "Voice-first AI assistant for coaching staff", "Centralized player development intelligence"],
+      tech: ["Next.js", "Supabase", "Gemini Live Voice", "LEON AI"],
+    },
+  },
+  {
+    name: "ScoutBase Africa",
+    slug: "scoutbase-africa",
+    category: "sports",
+    tagline: "Football scouting platform with computer-vision player analysis — built to surface African talent to clubs worldwide.",
+    tags: ["Football", "Computer Vision", "YOLO v11", "Scouting"],
+    link: null,
+    caseStudy: {
+      challenge: "African football talent is systematically under-scouted: no structured data, no video pipeline, no way for clubs abroad to discover and verify players beyond word of mouth.",
+      solution: "We built a scouting platform pairing a structured player database with computer-vision match analysis (YOLO v11) — automated player detection and performance signals from raw footage, exposed through a scouting interface clubs can actually use.",
+      results: ["Computer-vision analysis pipeline on match footage", "Structured, verifiable player profiles", "60,000+ lines of production code in service"],
+      tech: ["FastAPI", "Next.js", "YOLO v11", "Computer Vision"],
+    },
+  },
+  {
+    name: "Sportnaa OS",
+    slug: "sportnaa",
+    category: "sports",
+    tagline: "Sports agency management platform — athletes, contracts, and operations in one bilingual Arabic/English system built for the Gulf market.",
+    tags: ["Sports Agency", "Arabic/English", "Gulf", "React"],
+    link: null,
+    caseStudy: {
+      challenge: "Sports agencies in the Gulf run athlete rosters, contracts, and commercial deals across spreadsheets and chat threads — in two languages. Nothing on the market handles agency operations bilingually.",
+      solution: "We built a full agency operating system — athlete management, contracts, and operations — designed bilingual from the first line: full Arabic/English interface parity, not an afterthought translation.",
+      results: ["Full agency operations in one system", "True bilingual Arabic/English interface", "In production for the Gulf market"],
+      tech: ["React 19", "TypeScript", "i18n AR/EN", "Vercel"],
+    },
+  },
+];
+
+const products = [
+  { name: "Sebenza", badge: "Live", url: "https://app.sebenzas.com", desc: "Business operating system for SMEs — invoicing, HR, payroll, accounting, and client portals across 26 industries." },
+  { name: "InOrbit.Pro", badge: "Live", url: "https://www.inorbit.pro", desc: "Referral-driven job search platform — candidates broadcast JobCasts, their network taps back, and referrals build reputation." },
+  { name: "SLOE OS Substrate", badge: "Platform", url: null, desc: "The operational core behind every system we ship — 18 production abilities spanning CRM, messaging, documents, payments, files, and workflows." },
+  { name: "Sloelaboratory", badge: "Live", url: "https://sloelabs.com", desc: "Design your own business OS with an AI architect — industry playbooks, gap analysis, and a personalized deployment plan." },
 ];
 
 const capabilities = [
@@ -200,7 +250,7 @@ const stats = [
   { value: "50+", label: "Systems Deployed" },
   { value: "<24h", label: "Deployment Time" },
   { value: "6+", label: "Industries Served" },
-  { value: "5+", label: "Industries Served" },
+  { value: "4", label: "Continents" },
 ];
 
 // ─── Animated Section Wrapper ─────────────────────────────────────────────────
@@ -223,10 +273,20 @@ export default function App() {
   useEffect(() => {
     const handler = () => {
       const slug = window.location.hash.replace('#', '') || 'home';
-      setPage(slug);
-      window.scrollTo(0, 0);
+      if (work.find(w => w.slug === slug)) {
+        setPage(slug);
+        window.scrollTo(0, 0);
+      } else {
+        setPage('home');
+        setTimeout(() => {
+          const el = document.getElementById(slug);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+          else if (slug === 'home') window.scrollTo(0, 0);
+        }, 60);
+      }
     };
     window.addEventListener('hashchange', handler);
+    if (window.location.hash) setTimeout(handler, 80);
     return () => window.removeEventListener('hashchange', handler);
   }, []);
 
@@ -250,7 +310,7 @@ export default function App() {
             </a>
 
             <div className="hidden md:flex items-center gap-8">
-              {['Services', 'Work', 'About', 'Contact'].map(link => (
+              {['Services', 'Products', 'Work', 'Sports', 'About', 'Contact'].map(link => (
                 <a key={link} href={`#${link.toLowerCase()}`}
                   className="text-sm text-gray-400 hover:text-white transition-colors duration-200">
                   {link}
@@ -275,7 +335,7 @@ export default function App() {
 
           {mobileOpen && (
             <div className="md:hidden flex flex-col py-5 gap-4 border-t border-gray-800">
-              {['Services', 'Work', 'About', 'Contact'].map(link => (
+              {['Services', 'Products', 'Work', 'Sports', 'About', 'Contact'].map(link => (
                 <a key={link} href={`#${link.toLowerCase()}`}
                   className="text-gray-400 hover:text-white text-sm transition-colors"
                   onClick={() => setMobileOpen(false)}>
@@ -382,6 +442,48 @@ export default function App() {
         </div>
       </section>
 
+      {/* ── PRODUCTS ─────────────────────────────────────────────────────────── */}
+      <section id="products" style={{ paddingTop: '120px', paddingBottom: '120px', borderTop: '1px solid #1a1a1a', background: '#0e0e0e' }}>
+        <div className="mx-auto max-w-content px-6 space-y-14">
+          <FadeUp>
+            <div>
+              <h2 className="font-display font-extrabold tracking-tight text-white"
+                style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
+                Products We Operate
+              </h2>
+              <p className="text-gray-500 mt-3 text-lg">Not just client work — platforms we build, run, and own.</p>
+            </div>
+          </FadeUp>
+
+          <div className="grid md:grid-cols-2 gap-5">
+            {products.map((p, i) => (
+              <FadeUp key={p.name} delay={i * 80}>
+                <div className="h-full rounded-2xl p-8 transition-all duration-300 flex flex-col"
+                  style={{ background: '#111', border: '1px solid #1e1e1e' }}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(74,222,128,0.35)')}
+                  onMouseLeave={e => (e.currentTarget.style.borderColor = '#1e1e1e')}>
+                  <div className="flex items-center gap-3 mb-3">
+                    <h3 className="font-display font-bold text-white text-xl">{p.name}</h3>
+                    <span className="text-xs px-2.5 py-0.5 rounded-full font-medium"
+                      style={{ background: 'rgba(74,222,128,0.12)', color: '#4ADE80', border: '1px solid rgba(74,222,128,0.25)' }}>
+                      {p.badge}
+                    </span>
+                  </div>
+                  <p className="text-gray-400 leading-relaxed flex-1">{p.desc}</p>
+                  {p.url && (
+                    <a href={p.url} target="_blank" rel="noopener noreferrer"
+                      className="mt-5 text-sm font-semibold w-fit transition-opacity hover:opacity-75"
+                      style={{ color: '#4ADE80' }}>
+                      Visit →
+                    </a>
+                  )}
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── WORK ─────────────────────────────────────────────────────────────── */}
       <section id="work" style={{ paddingTop: '120px', paddingBottom: '120px', borderTop: '1px solid #1a1a1a' }}>
         <div className="mx-auto max-w-content px-6 space-y-14">
@@ -393,10 +495,49 @@ export default function App() {
           </FadeUp>
 
           <div className="grid md:grid-cols-2 gap-5">
-            {work.map((w, i) => (
+            {work.filter(w => !w.category).map((w, i) => (
               <FadeUp key={w.name} delay={i * 80}>
                 <button
                   className="w-full text-left block group rounded-2xl p-8 transition-all duration-300 cursor-pointer"
+                  style={{ background: '#111', border: '1px solid #1e1e1e' }}
+                  onClick={() => { window.location.hash = w.slug; }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLElement).style.borderColor = 'rgba(74,222,128,0.35)';
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLElement).style.borderColor = '#1e1e1e';
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                  }}>
+                  <WorkCard w={w} />
+                </button>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── SPORTS & FOOTBALL ────────────────────────────────────────────────── */}
+      <section id="sports" style={{ paddingTop: '120px', paddingBottom: '120px', borderTop: '1px solid #1a1a1a', background: '#0e0e0e' }}>
+        <div className="mx-auto max-w-content px-6 space-y-14">
+          <FadeUp>
+            <div>
+              <h2 className="font-display font-extrabold tracking-tight text-white"
+                style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
+                Sports &amp; Football Intelligence
+              </h2>
+              <p className="text-gray-500 mt-3 text-lg max-w-2xl">
+                From a La Liga academy to African scouting pipelines and Gulf sports agencies —
+                we build the operating systems behind football.
+              </p>
+            </div>
+          </FadeUp>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {work.filter(w => w.category === 'sports').map((w, i) => (
+              <FadeUp key={w.name} delay={i * 80}>
+                <button
+                  className="w-full h-full text-left block group rounded-2xl p-8 transition-all duration-300 cursor-pointer"
                   style={{ background: '#111', border: '1px solid #1e1e1e' }}
                   onClick={() => { window.location.hash = w.slug; }}
                   onMouseEnter={e => {
@@ -460,7 +601,7 @@ export default function App() {
                   We diagnose, build, and deploy — in under 24 hours.
                 </p>
                 <p className="text-gray-500 text-base">
-                  Operating across North America, Africa, and the Middle East.
+                  Operating across North America, Europe, Africa, and the Middle East.
                 </p>
               </div>
             </FadeUp>
@@ -503,16 +644,14 @@ export default function App() {
               <p className="text-gray-400 text-lg max-w-lg mx-auto leading-relaxed">
                 Tell us what you need. We'll show you exactly what your business is missing — and build it.
               </p>
-              <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-                <a href="mailto:reports@sloelabs.com"
-                  className="px-8 py-4 rounded-full font-bold text-base transition-opacity hover:opacity-85"
-                  style={{ background: '#4ADE80', color: '#0A0A0A' }}>
-                  Start a Project →
-                </a>
-                <a href="mailto:reports@sloelabs.com"
-                  className="text-gray-400 hover:text-white text-base transition-colors">
-                  reports@sloelabs.com
-                </a>
+              <div className="pt-4">
+                <InquiryForm />
+                <p className="text-gray-500 text-sm mt-6">
+                  Prefer email?{' '}
+                  <a href="mailto:reports@sloelabs.com" className="text-gray-400 hover:text-white transition-colors underline">
+                    reports@sloelabs.com
+                  </a>
+                </p>
               </div>
             </div>
           </FadeUp>
@@ -532,7 +671,7 @@ export default function App() {
             <div className="space-y-3">
               <div className="text-white font-semibold text-sm">Navigation</div>
               <div className="flex flex-col gap-2">
-                {['Services', 'Work', 'About', 'Contact'].map(link => (
+                {['Services', 'Products', 'Work', 'Sports', 'About', 'Contact'].map(link => (
                   <a key={link} href={`#${link.toLowerCase()}`}
                     className="text-gray-500 hover:text-white text-sm transition-colors">
                     {link}
@@ -589,6 +728,73 @@ function WorkCard({ w }: { w: WorkItem }) {
         ))}
       </div>
     </>
+  );
+}
+
+// ─── Inquiry Form ─────────────────────────────────────────────────────────────
+
+function InquiryForm() {
+  const [status, setStatus] = useState<'idle' | 'sending' | 'ok' | 'error'>('idle');
+  const [form, setForm] = useState({ name: '', email: '', company: '', message: '', website: '' });
+  const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setForm(f => ({ ...f, [k]: e.target.value }));
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (form.website) return; // honeypot
+    setStatus('sending');
+    try {
+      const r = await fetch('/api/inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      if (!r.ok) throw new Error(String(r.status));
+      (window as any).posthog?.capture('inquiry_submitted', { company: form.company || null });
+      setStatus('ok');
+    } catch {
+      setStatus('error');
+    }
+  };
+
+  if (status === 'ok') {
+    return (
+      <div className="rounded-2xl p-8 max-w-lg mx-auto text-center"
+        style={{ background: '#111', border: '1px solid rgba(74,222,128,0.35)' }}>
+        <div className="text-2xl mb-2" style={{ color: '#4ADE80' }}>✓</div>
+        <p className="text-white font-semibold mb-1">Got it — we'll be in touch within 24 hours.</p>
+        <p className="text-gray-400 text-sm">Your inquiry is already in our pipeline.</p>
+      </div>
+    );
+  }
+
+  const inputStyle: React.CSSProperties = { background: '#111', border: '1px solid #2a2a2a', color: '#fff' };
+  return (
+    <form onSubmit={submit} className="max-w-lg mx-auto space-y-3 text-left">
+      <div className="grid md:grid-cols-2 gap-3">
+        <input required placeholder="Name" value={form.name} onChange={set('name')}
+          className="w-full rounded-xl px-4 py-3 text-sm outline-none" style={inputStyle} />
+        <input required type="email" placeholder="Email" value={form.email} onChange={set('email')}
+          className="w-full rounded-xl px-4 py-3 text-sm outline-none" style={inputStyle} />
+      </div>
+      <input placeholder="Company (optional)" value={form.company} onChange={set('company')}
+        className="w-full rounded-xl px-4 py-3 text-sm outline-none" style={inputStyle} />
+      <textarea required placeholder="What do you need built?" rows={4} value={form.message} onChange={set('message')}
+        className="w-full rounded-xl px-4 py-3 text-sm outline-none resize-none" style={inputStyle} />
+      <input tabIndex={-1} autoComplete="off" value={form.website} onChange={set('website')}
+        className="hidden" aria-hidden="true" placeholder="Website" />
+      <button type="submit" disabled={status === 'sending'}
+        className="w-full px-8 py-4 rounded-full font-bold text-base transition-opacity hover:opacity-85 disabled:opacity-50"
+        style={{ background: '#4ADE80', color: '#0A0A0A' }}>
+        {status === 'sending' ? 'Sending…' : 'Start a Project →'}
+      </button>
+      {status === 'error' && (
+        <p className="text-sm text-center" style={{ color: '#f87171' }}>
+          Something broke — email us instead at{' '}
+          <a className="underline" href="mailto:reports@sloelabs.com">reports@sloelabs.com</a>
+        </p>
+      )}
+    </form>
   );
 }
 
