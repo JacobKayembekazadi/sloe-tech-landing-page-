@@ -243,12 +243,12 @@ const capabilities = [
   "Multi-Language (EN/FR/PT/AR)",
   "Real-Time Business Intelligence",
   "Custom API Integrations",
-  "24-Hour Deployment",
+  "24-Hour First Deploy",
 ];
 
 const stats = [
   { value: "50+", label: "Systems Deployed" },
-  { value: "<24h", label: "Deployment Time" },
+  { value: "<24h", label: "First System Live" },
   { value: "6+", label: "Industries Served" },
   { value: "4", label: "Continents" },
 ];
@@ -371,8 +371,8 @@ export default function App() {
 
           <FadeUp delay={100}>
             <p className="text-gray-400 mx-auto max-w-xl text-lg md:text-xl leading-relaxed">
-              We deploy autonomous AI infrastructure that runs your operations — in under 24 hours.
-              From diagnosis to deployment.
+              We build the operating systems behind ambitious businesses. Your first agent
+              live in 24 hours — full platforms in weeks, not quarters.
             </p>
           </FadeUp>
 
@@ -597,8 +597,8 @@ export default function App() {
                 </h2>
                 <p className="text-gray-400 text-lg leading-relaxed">
                   Sloe Labs is an AI systems consultancy that deploys production-ready AI infrastructure
-                  for businesses worldwide. We don't do discovery sprints or 12-week roadmaps.
-                  We diagnose, build, and deploy — in under 24 hours.
+                  for businesses worldwide. We don't sell decks and walk away. We diagnose, put your
+                  first system live in 24 hours, and compound from there — build, run, improve.
                 </p>
                 <p className="text-gray-500 text-base">
                   Operating across North America, Europe, Africa, and the Middle East.
