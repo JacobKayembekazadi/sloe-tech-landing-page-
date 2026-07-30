@@ -84,6 +84,7 @@ interface CaseStudy {
 interface WorkItem {
   name: string;
   slug: string;
+  imageAlt: string;
   tagline: string;
   tags: string[];
   link: string | null;
@@ -120,6 +121,7 @@ const work: WorkItem[] = [
   {
     name: "ICON Command Center",
     slug: "icon-command-center",
+    imageAlt: "Emerald data streams converging into a rising bar chart on black",
     tagline: "Shopify intelligence dashboard for a $30M DTC brand. Live insights, AI generated recommendations, zero analysts required.",
     tags: ["Shopify API", "Gemini AI", "React", "Recharts"],
     link: "https://icon-command-center.vercel.app",
@@ -133,6 +135,7 @@ const work: WorkItem[] = [
   {
     name: "Houston Methodist Intelligence",
     slug: "houston-methodist",
+    imageAlt: "Emerald neural network lattice with a heartbeat pulse line",
     tagline: "AI adoption intelligence system for one of America's leading hospital networks. Mapping readiness, gaps, and transformation pathways.",
     tags: ["Healthcare", "AI Strategy", "Enterprise", "Data Intelligence"],
     link: null,
@@ -146,6 +149,7 @@ const work: WorkItem[] = [
   {
     name: "LBJ Orchestrator AI OS",
     slug: "lbj-orchestrator",
+    imageAlt: "Four orbs orbiting an emerald core, linked by filaments of light",
     tagline: "Multi agent AI operating system coordinating specialized agents across growth, operations, sales, and creative — live.",
     tags: ["Multi-Agent", "Google ADK", "Orchestration", "AI OS"],
     link: null,
@@ -159,6 +163,7 @@ const work: WorkItem[] = [
   {
     name: "EARTI Intelligence System",
     slug: "earti-intelligence",
+    imageAlt: "Night farmland dotted with emerald sensor lights and data lines",
     tagline: "Live ROI dashboard for a $15K agricultural IoT system. Harvest predictions, energy optimization, 14 month payback proof.",
     tags: ["AgriTech", "IoT", "Supabase", "Gemini AI"],
     link: "https://earti-intelligence-system.vercel.app",
@@ -172,6 +177,7 @@ const work: WorkItem[] = [
   {
     name: "PTX Metals",
     slug: "ptx-metals",
+    imageAlt: "Dark rock cross section with veins of glowing emerald mineral",
     tagline: "Premium corporate website for a critical minerals exploration company advancing discovery across North America.",
     tags: ["React", "Vite", "Corporate", "Mining"],
     link: "https://ptxmetals.com",
@@ -185,6 +191,7 @@ const work: WorkItem[] = [
   {
     name: "MC Intelligence Platform",
     slug: "mc-intelligence",
+    imageAlt: "Stacked dark glass planes with emerald light tracing their edges",
     tagline: "Enterprise operating platform for Millionaire Commerce. Centralized intelligence, automated operations, AI driven decision support.",
     tags: ["Enterprise", "AI Operations", "Commerce", "Intelligence"],
     link: null,
@@ -198,6 +205,7 @@ const work: WorkItem[] = [
   {
     name: "RZ Cantera Intelligence",
     slug: "rz-cantera",
+    imageAlt: "Aerial night football pitch with emerald tactical lines and markers",
     category: "sports",
     tagline: "AI powered academy operating system for Real Zaragoza — player development intelligence, squad oversight, and a voice driven AI assistant for coaches.",
     tags: ["Football", "Club OS", "Voice AI", "La Liga Academy"],
@@ -212,6 +220,7 @@ const work: WorkItem[] = [
   {
     name: "ScoutBase Africa",
     slug: "scoutbase-africa",
+    imageAlt: "Football player silhouette with emerald computer vision tracking overlay",
     category: "sports",
     tagline: "Football scouting platform with computer vision player analysis — built to surface African talent to clubs worldwide.",
     tags: ["Football", "Computer Vision", "YOLO v11", "Scouting"],
@@ -226,6 +235,7 @@ const work: WorkItem[] = [
   {
     name: "Sportnaa OS",
     slug: "sportnaa",
+    imageAlt: "Dark stadium bowl at night with sweeping emerald light arcs",
     category: "sports",
     tagline: "Sports agency management platform — athletes, contracts, and operations in one bilingual Arabic and English system built for the Gulf market.",
     tags: ["Sports Agency", "Arabic/English", "Gulf", "React"],
@@ -395,6 +405,38 @@ function TaglineReveal() {
   );
 }
 
+// ─── Hero Backdrop (ambient video, reduced-motion safe) ──────────────────────
+
+function HeroBackdrop() {
+  const [motionOK, setMotionOK] = useState(false);
+
+  useEffect(() => {
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setMotionOK(true);
+    }
+  }, []);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+      {motionOK ? (
+        <video
+          className="h-full w-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/images/hero-poster.webp"
+          src="/videos/hero-ambient.mp4"
+        />
+      ) : (
+        <img src="/images/hero-poster.webp" alt="" className="h-full w-full object-cover" />
+      )}
+      <div className="absolute inset-0" style={{ background: 'rgba(0, 0, 0, 0.6)' }} />
+    </div>
+  );
+}
+
 // ─── App ──────────────────────────────────────────────────────────────────────
 
 export default function App() {
@@ -436,6 +478,7 @@ export default function App() {
       <main id="main">
       <section className="relative flex items-center justify-center text-center overflow-hidden"
         style={{ minHeight: '100dvh' }}>
+        <HeroBackdrop />
         <div className="relative mx-auto max-w-content px-6 py-24 space-y-8">
           <Reveal>
             <h1 className="heading-gradient font-display font-bold tracking-tight mx-auto"
@@ -568,7 +611,7 @@ export default function App() {
             {work.filter(w => !w.category).map((w, i) => (
               <Reveal key={w.name} delay={i * 80}>
                 <button
-                  className="w-full h-full text-left block group rounded-2xl p-8 cursor-pointer transition-all duration-700 ease-fluid hover:-translate-y-1 active:scale-[0.99]"
+                  className="w-full h-full text-left block group rounded-2xl overflow-hidden cursor-pointer transition-all duration-700 ease-fluid hover:-translate-y-1 active:scale-[0.99]"
                   style={{ background: '#181818' }}
                   onClick={() => { window.location.hash = w.slug; }}>
                   <WorkCard w={w} />
@@ -599,7 +642,7 @@ export default function App() {
             {work.filter(w => w.category === 'sports').map((w, i) => (
               <Reveal key={w.name} delay={i * 80}>
                 <button
-                  className="w-full h-full text-left block group rounded-2xl p-8 cursor-pointer transition-all duration-700 ease-fluid hover:-translate-y-1 active:scale-[0.99]"
+                  className="w-full h-full text-left block group rounded-2xl overflow-hidden cursor-pointer transition-all duration-700 ease-fluid hover:-translate-y-1 active:scale-[0.99]"
                   style={{ background: '#1F1F1F' }}
                   onClick={() => { window.location.hash = w.slug; }}>
                   <WorkCard w={w} />
@@ -769,19 +812,32 @@ export default function App() {
 function WorkCard({ w }: { w: WorkItem }) {
   return (
     <>
-      <div className="flex items-start justify-between gap-2 mb-3">
-        <h3 className="font-display font-semibold text-white text-xl">{w.name}</h3>
-        <span style={{ color: '#4ADE80' }} className="text-xl flex-shrink-0 transition-transform duration-300 ease-fluid group-hover:translate-x-1">→</span>
+      <div className="overflow-hidden" style={{ aspectRatio: '16 / 9', background: '#131313' }}>
+        <img
+          src={`/images/work/${w.slug}.webp`}
+          alt={w.imageAlt}
+          width={1216}
+          height={684}
+          loading="lazy"
+          decoding="async"
+          className="w-full h-full object-cover transition-transform duration-700 ease-fluid group-hover:scale-[1.04]"
+        />
       </div>
-      <p className="text-ash leading-relaxed mb-6">{w.tagline}</p>
-      <div className="flex flex-wrap gap-2">
-        {w.tags.map(t => (
-          <span key={t}
-            className="text-xs px-2 py-0.5 rounded"
-            style={{ background: '#272727', color: '#9B9B9B' }}>
-            {t}
-          </span>
-        ))}
+      <div className="p-8">
+        <div className="flex items-start justify-between gap-2 mb-3">
+          <h3 className="font-display font-semibold text-white text-xl">{w.name}</h3>
+          <span style={{ color: '#4ADE80' }} className="text-xl flex-shrink-0 transition-transform duration-300 ease-fluid group-hover:translate-x-1">→</span>
+        </div>
+        <p className="text-ash leading-relaxed mb-6">{w.tagline}</p>
+        <div className="flex flex-wrap gap-2">
+          {w.tags.map(t => (
+            <span key={t}
+              className="text-xs px-2 py-0.5 rounded"
+              style={{ background: '#272727', color: '#9B9B9B' }}>
+              {t}
+            </span>
+          ))}
+        </div>
       </div>
     </>
   );
@@ -903,9 +959,20 @@ function CaseStudyPage({ project }: { project: WorkItem }) {
           style={{ fontSize: 'clamp(2rem, 6vw, 4rem)', lineHeight: 1.05, maxWidth: '680px' }}>
           {project.name}
         </h1>
-        <p className="text-ash text-xl leading-relaxed mb-16" style={{ maxWidth: '65ch' }}>
+        <p className="text-ash text-xl leading-relaxed mb-12" style={{ maxWidth: '65ch' }}>
           {project.tagline}
         </p>
+
+        <div className="rounded-2xl overflow-hidden mb-16" style={{ background: '#131313' }}>
+          <img
+            src={`/images/work/${project.slug}.webp`}
+            alt={project.imageAlt}
+            width={1216}
+            height={684}
+            decoding="async"
+            className="w-full h-auto"
+          />
+        </div>
 
         <div className="grid md:grid-cols-2 gap-12 mb-12">
           <div className="space-y-12">
