@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { AgentConsole, Eyebrow, OpsEngine } from './widgets';
 
 // ─── Scroll Reveal Hook ───────────────────────────────────────────────────────
 
@@ -509,6 +510,15 @@ export default function App() {
         </div>
       </section>
 
+      {/* ── OPS ENGINE (interactive proof, straight off the hero) ───────────── */}
+      <section className="py-16" aria-label="Ops engine">
+        <div className="mx-auto max-w-content px-6">
+          <Reveal>
+            <OpsEngine />
+          </Reveal>
+        </div>
+      </section>
+
       {/* ── STATS BAR ───────────────────────────────────────────────────────── */}
       <div style={{ background: '#181818' }}>
         <div className="mx-auto max-w-content px-6">
@@ -526,30 +536,43 @@ export default function App() {
         </div>
       </div>
 
-      {/* ── SERVICES ─────────────────────────────────────────────────────────── */}
+      {/* ── SERVICES (split: offer left, live console right) ─────────────────── */}
       <section id="services" className="py-24">
-        <div className="mx-auto max-w-content px-6 space-y-12">
-          <Reveal>
-            <div>
-              <h2 className="font-display font-bold tracking-tight text-white"
-                style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
-                What we deploy
-              </h2>
-              <p className="text-ash mt-3 text-lg">Systems that run. Not slides.</p>
-            </div>
-          </Reveal>
+        <div className="mx-auto max-w-content px-6">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+            <Reveal>
+              <div>
+                <Eyebrow label="What we deploy" />
+                <h2 className="font-display font-bold tracking-tight text-white"
+                  style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
+                  Systems that run. Not slides.
+                </h2>
+                <p className="text-ash mt-3 text-lg" style={{ maxWidth: '65ch' }}>
+                  Four ways we take operations off your team's plate — pick one on the right
+                  and watch it work.
+                </p>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            {services.map((s, i) => (
-              <Reveal key={s.title} delay={i * 80}>
-                <div className="group h-full rounded-2xl p-8 transition-all duration-700 ease-fluid hover:-translate-y-1"
-                  style={{ background: '#181818' }}>
-                  <s.Icon />
-                  <h3 className="font-display font-semibold text-white text-xl mt-5 mb-3">{s.title}</h3>
-                  <p className="text-ash leading-relaxed">{s.desc}</p>
+                <div className="mt-10">
+                  {services.map((s) => (
+                    <div key={s.title}
+                      className="group flex items-start gap-5 py-6 transition-all duration-300 ease-fluid hover:translate-x-1"
+                      style={{ borderTop: '1px solid #272727' }}>
+                      <div className="flex-shrink-0 mt-1"><s.Icon /></div>
+                      <div>
+                        <h3 className="font-display font-semibold text-white text-lg mb-1.5">{s.title}</h3>
+                        <p className="text-ash leading-relaxed text-sm">{s.desc}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              </Reveal>
-            ))}
+              </div>
+            </Reveal>
+
+            <Reveal delay={120}>
+              <div className="lg:sticky lg:top-28">
+                <AgentConsole />
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -562,6 +585,7 @@ export default function App() {
         <div className="mx-auto max-w-content px-6 space-y-12">
           <Reveal>
             <div>
+              <Eyebrow label="Products" />
               <h2 className="font-display font-bold tracking-tight text-white"
                 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
                 Products we operate
@@ -601,10 +625,13 @@ export default function App() {
       <section id="work" className="py-24">
         <div className="mx-auto max-w-content px-6 space-y-12">
           <Reveal>
-            <h2 className="font-display font-bold tracking-tight text-white"
-              style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
-              Selected work
-            </h2>
+            <div>
+              <Eyebrow label="Client work" />
+              <h2 className="font-display font-bold tracking-tight text-white"
+                style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
+                Selected work
+              </h2>
+            </div>
           </Reveal>
 
           <div className="grid md:grid-cols-2 gap-6">
@@ -627,6 +654,7 @@ export default function App() {
         <div className="mx-auto max-w-content px-6 space-y-12">
           <Reveal>
             <div>
+              <Eyebrow label="Sports" />
               <h2 className="font-display font-bold tracking-tight text-white"
                 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
                 Sports &amp; football intelligence
@@ -688,10 +716,13 @@ export default function App() {
           <div className="grid md:grid-cols-2 gap-16 items-start">
             <Reveal>
               <div className="space-y-6">
-                <h2 className="font-display font-bold tracking-tight text-white"
-                  style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
-                  Who we are
-                </h2>
+                <div>
+                  <Eyebrow label="About" />
+                  <h2 className="font-display font-bold tracking-tight text-white"
+                    style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
+                    Who we are
+                  </h2>
+                </div>
                 <p className="text-ash text-lg leading-relaxed" style={{ maxWidth: '65ch' }}>
                   Sloe Labs is an AI systems consultancy that deploys production ready AI infrastructure
                   for businesses worldwide. We don't sell decks and walk away. We diagnose, put your
@@ -733,10 +764,13 @@ export default function App() {
         <div className="mx-auto max-w-content px-6 text-center">
           <Reveal>
             <div className="space-y-8">
-              <h2 className="font-display font-bold tracking-tight text-white mx-auto"
-                style={{ fontSize: 'clamp(2rem, 6vw, 4rem)', maxWidth: '680px' }}>
-                Ready to transform your operations?
-              </h2>
+              <div>
+                <Eyebrow label="Contact" />
+                <h2 className="font-display font-bold tracking-tight text-white mx-auto"
+                  style={{ fontSize: 'clamp(2rem, 6vw, 4rem)', maxWidth: '680px' }}>
+                  Ready to transform your operations?
+                </h2>
+              </div>
               <p className="text-ash text-lg mx-auto leading-relaxed" style={{ maxWidth: '480px' }}>
                 Tell us what you need. We'll show you exactly what your business is missing — and build it.
               </p>
