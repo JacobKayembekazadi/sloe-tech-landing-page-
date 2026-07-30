@@ -7,30 +7,27 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: "#0B0B0B",
+        ink: "#000000",
+        surface: "#181818",
+        "surface-2": "#1F1F1F",
+        "surface-3": "#272727",
+        "surface-4": "#313131",
         paper: "#F5F1E8",
-        graphite: "#1C1C1C",
-        ash: "#6A6A6A",
-        mist: "#D7D7D7",
+        ash: "#9B9B9B",
         "signal-green": "#4ADE80",
-        "electric-blue": "#00A3FF",
       },
       fontFamily: {
-        display: ["Space Grotesk", "system-ui", "sans-serif"],
-        body: ["Inter", "system-ui", "sans-serif"],
-        code: ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "monospace"],
-      },
-      boxShadow: {
-        card: "0 12px 32px rgba(0,0,0,0.12)",
-      },
-      borderRadius: {
-        xl: "1.25rem",
+        display: ["Manrope", "system-ui", "sans-serif"],
+        body: ["Manrope", "system-ui", "sans-serif"],
+        code: ["ui-monospace", "SFMono-Regular", "monospace"],
       },
       maxWidth: {
         "content": "1200px",
+      },
+      transitionTimingFunction: {
+        fluid: "cubic-bezier(0.32, 0.72, 0, 1)",
       },
     },
   },
   plugins: [],
 }
-
