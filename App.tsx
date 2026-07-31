@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { AgentConsole, Eyebrow, OpsEngine } from './widgets';
+import { AgentConsole, Eyebrow, OpsEngine, SubstrateExplorer } from './widgets';
 
 // ─── Scroll Reveal Hook ───────────────────────────────────────────────────────
 
@@ -253,8 +253,13 @@ const work: WorkItem[] = [
 const products = [
   { name: "Sebenza", badge: "Live", url: "https://app.sebenzas.com", desc: "Business operating system for SMEs — invoicing, HR, payroll, accounting, and client portals across 26 industries." },
   { name: "InOrbit.Pro", badge: "Live", url: "https://www.inorbit.pro", desc: "Referral driven job search platform — candidates broadcast JobCasts, their network taps back, and referrals build reputation." },
-  { name: "SLOE OS Substrate", badge: "Platform", url: null, desc: "The operational core behind every system we ship — 18 production abilities spanning CRM, messaging, documents, payments, files, and workflows." },
   { name: "Sloelaboratory", badge: "Live", url: "https://sloelabs.com", desc: "Design your own business OS with an AI architect — industry playbooks, gap analysis, and a personalized deployment plan." },
+];
+
+const osLayers = [
+  { name: "SLOE OS", indent: 0, meaning: "the operating system", desc: "The whole machine — products, agents, memory, and the learning loop that compounds across engagements." },
+  { name: "Substrate", indent: 1, meaning: "the foundation layer", desc: "One self-describing service for CRM, comms, documents, payments, files, and memory — a new system plugs in instead of rebuilding plumbing." },
+  { name: "Primitives", indent: 2, meaning: "the bricks", desc: "18 live abilities — each a schema plus a handler on a real backend: HubSpot, Stripe, Resend, R2, Qdrant, Inngest." },
 ];
 
 const capabilities = [
@@ -580,44 +585,84 @@ export default function App() {
       {/* ── TAGLINE REVEAL ───────────────────────────────────────────────────── */}
       <TaglineReveal />
 
-      {/* ── PRODUCTS ─────────────────────────────────────────────────────────── */}
+      {/* ── PLATFORM + PRODUCTS (nesting left, substrate explorer right) ─────── */}
       <section id="products" className="py-24" style={{ background: '#181818' }}>
-        <div className="mx-auto max-w-content px-6 space-y-12">
+        <div className="mx-auto max-w-content px-6 space-y-16">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+            <Reveal>
+              <div>
+                <Eyebrow label="Platform" />
+                <h2 className="font-display font-bold tracking-tight text-white"
+                  style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
+                  One operating system underneath
+                </h2>
+                <p className="text-ash mt-3 text-lg" style={{ maxWidth: '65ch' }}>
+                  We don't rebuild plumbing per product. Three layers, one machine:
+                </p>
+
+                <div className="mt-10">
+                  {osLayers.map(layer => (
+                    <div key={layer.name} className="py-5" style={{ borderTop: '1px solid #272727' }}>
+                      <div className="flex items-baseline gap-3 mb-1.5"
+                        style={{ paddingLeft: `${layer.indent * 20}px` }}>
+                        {layer.indent > 0 && (
+                          <span className="font-code text-ash text-sm" aria-hidden="true">└─</span>
+                        )}
+                        <h3 className="font-display font-semibold text-white text-lg">{layer.name}</h3>
+                        <span className="text-xs font-semibold tracking-widest uppercase text-signal-green">
+                          {layer.meaning}
+                        </span>
+                      </div>
+                      <p className="text-ash leading-relaxed text-sm"
+                        style={{ paddingLeft: `${layer.indent * 20}px` }}>
+                        {layer.desc}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal delay={120}>
+              <div className="lg:sticky lg:top-28">
+                <SubstrateExplorer />
+              </div>
+            </Reveal>
+          </div>
+
           <Reveal>
-            <div>
-              <Eyebrow label="Products" />
-              <h2 className="font-display font-bold tracking-tight text-white"
-                style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
-                Products we operate
-              </h2>
-              <p className="text-ash mt-3 text-lg">Not just client work — platforms we build, run, and own.</p>
+            <div className="space-y-8">
+              <div>
+                <h3 className="font-display font-bold tracking-tight text-white text-2xl md:text-3xl">
+                  Products we operate
+                </h3>
+                <p className="text-ash mt-2">Not just client work — platforms we build, run, and own.</p>
+              </div>
+              <div className="grid md:grid-cols-3 gap-6">
+                {products.map(p => (
+                  <div key={p.name}
+                    className="h-full rounded-2xl p-8 flex flex-col transition-all duration-700 ease-fluid hover:-translate-y-1"
+                    style={{ background: '#1F1F1F' }}>
+                    <div className="flex items-center gap-3 mb-3">
+                      <h4 className="font-display font-semibold text-white text-xl">{p.name}</h4>
+                      <span className="text-xs px-2 py-0.5 rounded font-medium"
+                        style={{ background: 'rgba(74,222,128,0.12)', color: '#4ADE80' }}>
+                        {p.badge}
+                      </span>
+                    </div>
+                    <p className="text-ash leading-relaxed flex-1">{p.desc}</p>
+                    {p.url && (
+                      <a href={p.url} target="_blank" rel="noopener noreferrer"
+                        className="mt-6 text-sm font-semibold w-fit transition-all duration-300 ease-fluid hover:opacity-75"
+                        style={{ color: '#4ADE80' }}>
+                        Visit →
+                      </a>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </Reveal>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            {products.map((p, i) => (
-              <Reveal key={p.name} delay={i * 80}>
-                <div className="h-full rounded-2xl p-8 flex flex-col transition-all duration-700 ease-fluid hover:-translate-y-1"
-                  style={{ background: '#1F1F1F' }}>
-                  <div className="flex items-center gap-3 mb-3">
-                    <h3 className="font-display font-semibold text-white text-xl">{p.name}</h3>
-                    <span className="text-xs px-2 py-0.5 rounded font-medium"
-                      style={{ background: 'rgba(74,222,128,0.12)', color: '#4ADE80' }}>
-                      {p.badge}
-                    </span>
-                  </div>
-                  <p className="text-ash leading-relaxed flex-1">{p.desc}</p>
-                  {p.url && (
-                    <a href={p.url} target="_blank" rel="noopener noreferrer"
-                      className="mt-6 text-sm font-semibold w-fit transition-all duration-300 ease-fluid hover:opacity-75"
-                      style={{ color: '#4ADE80' }}>
-                      Visit →
-                    </a>
-                  )}
-                </div>
-              </Reveal>
-            ))}
-          </div>
         </div>
       </section>
 

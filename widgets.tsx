@@ -190,6 +190,85 @@ export function OpsEngine() {
   );
 }
 
+// ─── Substrate Explorer (the foundation layer, browsable) ─────────────────────
+
+const substrateDomains = [
+  { id: 'crm', label: 'CRM', backend: 'HubSpot', abilities: ['contact.create', 'contact.update', 'lead.create', 'lead.update_status'] },
+  { id: 'comms', label: 'Comms', backend: 'Resend + Telegram', abilities: ['message.send', 'message.send_markdown'] },
+  { id: 'docs', label: 'Documents', backend: 'Markdown → PDF', abilities: ['document.generate', 'document.summarize'] },
+  { id: 'money', label: 'Payments', backend: 'Stripe', abilities: ['payment.initiate'] },
+  { id: 'files', label: 'Files', backend: 'Cloudflare R2', abilities: ['file.store'] },
+  { id: 'flow', label: 'Orchestration', backend: 'Inngest + internal', abilities: ['workflow.trigger', 'event.emit', 'plan.create', 'plan.execute', 'plan.verify', 'plan.learn'] },
+  { id: 'memory', label: 'Memory', backend: 'Qdrant, scoped per key', abilities: ['/memory/*'] },
+] as const;
+
+export function SubstrateExplorer() {
+  const [domainId, setDomainId] = useState<string>('crm');
+  const [ability, setAbility] = useState<string>('contact.create');
+
+  const domain = substrateDomains.find(d => d.id === domainId)!;
+
+  const pick = (id: string) => {
+    const d = substrateDomains.find(x => x.id === id)!;
+    setDomainId(id);
+    setAbility(d.abilities[0]);
+  };
+
+  return (
+    <div className="rounded-3xl bg-surface p-6 md:p-8" style={{ border: '1px solid #272727' }}>
+      <div className="flex items-center justify-between gap-3 pb-5" style={{ borderBottom: '1px solid #272727' }}>
+        <div className="flex items-center gap-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-signal-green" />
+          <h3 className="font-display font-semibold text-white text-lg">Substrate explorer</h3>
+        </div>
+        <span className="text-xs px-2 py-0.5 rounded font-medium"
+          style={{ background: 'rgba(74,222,128,0.12)', color: '#4ADE80' }}>
+          18 live abilities
+        </span>
+      </div>
+
+      <div className="flex flex-wrap gap-2 py-5">
+        {substrateDomains.map(d => (
+          <button key={d.id} onClick={() => pick(d.id)}
+            className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 ease-fluid active:scale-[0.98] ${
+              domainId === d.id ? 'bg-signal-green text-ink' : 'bg-ink text-ash hover:text-white'
+            }`}
+            style={domainId === d.id ? undefined : { border: '1px solid #272727' }}>
+            {d.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="rounded-2xl bg-ink p-5" style={{ border: '1px solid #272727' }}>
+        <div className="flex items-center justify-between gap-2 mb-3">
+          <span className="text-xs font-bold uppercase tracking-wider text-ash">{domain.label}</span>
+          <span className="text-xs text-ash">runs on <span className="text-paper font-medium">{domain.backend}</span></span>
+        </div>
+        <div className="flex flex-wrap gap-2 mb-4">
+          {domain.abilities.map(a => (
+            <button key={a} onClick={() => setAbility(a)}
+              className={`font-code text-xs px-2.5 py-1 rounded-lg transition-all duration-300 ease-fluid ${
+                ability === a ? 'text-ink bg-signal-green' : 'text-signal-green bg-surface hover:bg-surface-2'
+              }`}>
+              {a}
+            </button>
+          ))}
+        </div>
+        <pre className="font-code text-xs leading-6 text-ash overflow-x-auto m-0">
+{`POST /abilities/execute
+{ "ability": "${ability}",
+  "input": { … } }`}
+        </pre>
+      </div>
+
+      <p className="text-xs text-ash mt-4 leading-relaxed">
+        Self-describing: <span className="font-code text-paper">GET /.well-known/agent-manifest</span> returns
+        every schema live from the code. Agents call abilities as native MCP tools; services call plain HTTP.
+      </p>
+    </div>
+  );
+}
+
 // ─── Agent Console (interactive proof: watch an agent run a task) ─────────────
 
 const consoleTasks = [
