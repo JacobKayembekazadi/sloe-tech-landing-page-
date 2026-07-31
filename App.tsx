@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { AgentConsole, Eyebrow, OpsEngine, SubstrateExplorer } from './widgets';
+import { WorkVignette } from './vignettes';
 
 // ─── Scroll Reveal Hook ───────────────────────────────────────────────────────
 
@@ -911,16 +912,8 @@ export default function App() {
 function WorkCard({ w }: { w: WorkItem }) {
   return (
     <>
-      <div className="overflow-hidden" style={{ aspectRatio: '16 / 9', background: '#131313' }}>
-        <img
-          src={`/images/work/${w.slug}.webp`}
-          alt={w.imageAlt}
-          width={1216}
-          height={684}
-          loading="lazy"
-          decoding="async"
-          className="w-full h-full object-cover transition-transform duration-700 ease-fluid group-hover:scale-[1.04]"
-        />
+      <div className="overflow-hidden" style={{ aspectRatio: '16 / 9', borderBottom: '1px solid #272727' }}>
+        <WorkVignette slug={w.slug} />
       </div>
       <div className="p-8">
         <div className="flex items-start justify-between gap-2 mb-3">
@@ -994,7 +987,7 @@ function InquiryForm() {
       <input tabIndex={-1} autoComplete="off" value={form.website} onChange={set('website')}
         className="hidden" aria-hidden="true" placeholder="Website" />
       <button type="submit" disabled={status === 'sending'}
-        className="w-full px-3 py-2 rounded-full font-semibold text-base transition-all duration-300 ease-fluid hover:opacity-85 active:scale-[0.98] disabled:opacity-50"
+        className="w-full px-6 py-3 font-medium text-sm uppercase tracking-wide transition-all duration-300 ease-fluid hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
         style={{ background: '#4ADE80', color: '#000000' }}>
         {status === 'sending' ? 'Sending…' : 'Start a project →'}
       </button>
@@ -1064,15 +1057,8 @@ function CaseStudyPage({ project }: { project: WorkItem }) {
           {project.tagline}
         </p>
 
-        <div className="overflow-hidden mb-16" style={{ background: '#131313' }}>
-          <img
-            src={`/images/work/${project.slug}.webp`}
-            alt={project.imageAlt}
-            width={1216}
-            height={684}
-            decoding="async"
-            className="w-full h-auto"
-          />
+        <div className="overflow-hidden mb-16" style={{ aspectRatio: '16 / 9', border: '1px solid #272727' }}>
+          <WorkVignette slug={project.slug} />
         </div>
 
         <div className="grid md:grid-cols-2 gap-12 mb-12">
@@ -1118,7 +1104,7 @@ function CaseStudyPage({ project }: { project: WorkItem }) {
               <div className="flex flex-wrap gap-2">
                 {project.caseStudy.tech.map(t => (
                   <span key={t}
-                    className="text-sm px-3 py-1 rounded-lg font-medium"
+                    className="text-sm font-code px-3 py-1 font-medium"
                     style={{ background: '#181818', color: '#4ADE80' }}>
                     {t}
                   </span>
@@ -1129,7 +1115,7 @@ function CaseStudyPage({ project }: { project: WorkItem }) {
             {project.link && (
               <div className="pt-2">
                 <a href={project.link} target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-3 py-2 rounded-full font-semibold text-base transition-all duration-300 ease-fluid hover:opacity-85 active:scale-[0.98]"
+                  className="btn-offset inline-flex items-center gap-2 px-6 py-3 font-medium text-sm uppercase tracking-wide transition-all duration-300 ease-fluid hover:opacity-90 active:scale-[0.98]"
                   style={{ background: '#4ADE80', color: '#000000' }}>
                   View live →
                 </a>

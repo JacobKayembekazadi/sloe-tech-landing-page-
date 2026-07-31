@@ -86,7 +86,7 @@ export function OpsEngine() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 py-6">
         {/* Controls */}
-        <div className="space-y-5 bg-ink p-5 rounded-2xl" style={{ border: '1px solid #272727' }}>
+        <div className="space-y-5 bg-ink p-5" style={{ border: '1px solid #272727' }}>
           <div>
             <div className="flex justify-between items-center mb-1 text-xs font-semibold">
               <span className="text-ash">People on ops</span>
