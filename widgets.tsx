@@ -4,12 +4,10 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 export function Eyebrow({ label }: { label: string }) {
   return (
-    <div className="inline-flex items-center gap-2 mb-4">
-      <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-surface-3 text-paper tracking-wide">
-        SLOE LABS
-      </span>
-      <span className="text-ash text-xs" aria-hidden="true">•</span>
-      <span className="text-xs font-semibold tracking-widest uppercase text-signal-green">{label}</span>
+    <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-5 bg-ink text-xs font-code uppercase tracking-widest text-ash"
+      style={{ border: '1px solid #272727' }}>
+      <span className="w-1.5 h-1.5 rounded-full bg-signal-green animate-pulse" aria-hidden="true" />
+      {label}
     </div>
   );
 }
@@ -59,7 +57,7 @@ export function OpsEngine() {
   const money = (n: number) => `$${n.toLocaleString('en-US')}`;
 
   return (
-    <div className="rounded-3xl overflow-hidden bg-surface p-6 md:p-10 text-left"
+    <div className="overflow-hidden bg-surface p-6 md:p-10 text-left"
       style={{ border: '1px solid #272727' }}>
       {/* Header + tabs */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6"
@@ -67,17 +65,17 @@ export function OpsEngine() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="w-2.5 h-2.5 rounded-full bg-signal-green animate-pulse" />
-            <span className="text-xs font-bold uppercase tracking-wider text-ash">Sloe ops engine</span>
+            <span className="text-xs font-code font-medium uppercase tracking-widest text-ash">Sloe ops engine</span>
           </div>
-          <h3 className="font-display text-2xl md:text-3xl font-semibold text-white">
+          <h3 className="font-display text-2xl md:text-3xl font-medium text-white">
             See what an agent takes off your plate
           </h3>
         </div>
 
-        <div className="flex flex-wrap gap-1.5 p-1.5 rounded-2xl bg-ink" style={{ border: '1px solid #272727' }}>
+        <div className="flex flex-wrap gap-1.5 p-1.5 bg-ink" style={{ border: '1px solid #272727' }}>
           {engineTabs.map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all duration-300 ease-fluid ${
+              className={`px-3.5 py-1.5 text-xs font-semibold transition-all duration-300 ease-fluid ${
                 tab === t.id ? 'bg-signal-green text-ink' : 'text-ash hover:text-white hover:bg-white/5'
               }`}>
               {t.label}
@@ -129,11 +127,11 @@ export function OpsEngine() {
         <div className="lg:col-span-2 flex flex-col justify-between">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
             <div>
-              <span className="text-xs text-ash uppercase font-bold tracking-wider">Recovered in year one</span>
+              <span className="text-xs text-ash font-code font-medium uppercase tracking-widest">Recovered in year one</span>
               <div className="text-2xl md:text-3xl font-display font-bold text-signal-green flex items-center gap-2"
                 style={{ fontVariantNumeric: 'tabular-nums' }}>
                 +{money(model.saved)}
-                <span className="text-xs font-body font-medium px-2 py-0.5 rounded-full"
+                <span className="text-xs font-body font-medium px-2 py-0.5"
                   style={{ background: 'rgba(74,222,128,0.12)', color: '#4ADE80' }}>
                   {model.hoursBack}h / week back
                 </span>
@@ -151,7 +149,7 @@ export function OpsEngine() {
             </div>
           </div>
 
-          <div className="relative w-full h-[200px] bg-ink rounded-2xl p-2 overflow-hidden"
+          <div className="relative w-full h-[200px] bg-ink p-2 overflow-hidden"
             style={{ border: '1px solid #272727' }}>
             <svg viewBox="0 0 600 220" className="w-full h-full" role="img"
               aria-label="Cumulative cost of manual operations versus with SLOE agents over twelve months">
@@ -215,13 +213,13 @@ export function SubstrateExplorer() {
   };
 
   return (
-    <div className="rounded-3xl bg-surface p-6 md:p-8" style={{ border: '1px solid #272727' }}>
+    <div className="bg-surface p-6 md:p-8" style={{ border: '1px solid #272727' }}>
       <div className="flex items-center justify-between gap-3 pb-5" style={{ borderBottom: '1px solid #272727' }}>
         <div className="flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-signal-green" />
-          <h3 className="font-display font-semibold text-white text-lg">Substrate explorer</h3>
+          <h3 className="font-display font-medium text-white text-lg">Substrate explorer</h3>
         </div>
-        <span className="text-xs px-2 py-0.5 rounded font-medium"
+        <span className="text-xs px-2 py-0.5 font-code uppercase tracking-wider font-medium"
           style={{ background: 'rgba(74,222,128,0.12)', color: '#4ADE80' }}>
           18 live abilities
         </span>
@@ -230,7 +228,7 @@ export function SubstrateExplorer() {
       <div className="flex flex-wrap gap-2 py-5">
         {substrateDomains.map(d => (
           <button key={d.id} onClick={() => pick(d.id)}
-            className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 ease-fluid active:scale-[0.98] ${
+            className={`px-3 py-1.5 text-xs font-semibold transition-all duration-300 ease-fluid active:scale-[0.98] ${
               domainId === d.id ? 'bg-signal-green text-ink' : 'bg-ink text-ash hover:text-white'
             }`}
             style={domainId === d.id ? undefined : { border: '1px solid #272727' }}>
@@ -239,15 +237,15 @@ export function SubstrateExplorer() {
         ))}
       </div>
 
-      <div className="rounded-2xl bg-ink p-5" style={{ border: '1px solid #272727' }}>
+      <div className="bg-ink p-5" style={{ border: '1px solid #272727' }}>
         <div className="flex items-center justify-between gap-2 mb-3">
-          <span className="text-xs font-bold uppercase tracking-wider text-ash">{domain.label}</span>
+          <span className="text-xs font-code font-medium uppercase tracking-widest text-ash">{domain.label}</span>
           <span className="text-xs text-ash">runs on <span className="text-paper font-medium">{domain.backend}</span></span>
         </div>
         <div className="flex flex-wrap gap-2 mb-4">
           {domain.abilities.map(a => (
             <button key={a} onClick={() => setAbility(a)}
-              className={`font-code text-xs px-2.5 py-1 rounded-lg transition-all duration-300 ease-fluid ${
+              className={`font-code text-xs px-2.5 py-1 transition-all duration-300 ease-fluid ${
                 ability === a ? 'text-ink bg-signal-green' : 'text-signal-green bg-surface hover:bg-surface-2'
               }`}>
               {a}
@@ -344,13 +342,13 @@ export function AgentConsole() {
   const running = task !== null && shown < task.lines.length;
 
   return (
-    <div className="rounded-3xl bg-surface p-6 md:p-8" style={{ border: '1px solid #272727' }}>
+    <div className="bg-surface p-6 md:p-8" style={{ border: '1px solid #272727' }}>
       <div className="flex items-center justify-between gap-3 pb-5" style={{ borderBottom: '1px solid #272727' }}>
         <div className="flex items-center gap-2">
           <span className={`w-2.5 h-2.5 rounded-full bg-signal-green ${running ? 'animate-pulse' : ''}`} />
-          <h3 className="font-display font-semibold text-white text-lg">Agent console</h3>
+          <h3 className="font-display font-medium text-white text-lg">Agent console</h3>
         </div>
-        <span className="text-xs px-2 py-0.5 rounded font-medium"
+        <span className="text-xs px-2 py-0.5 font-code uppercase tracking-wider font-medium"
           style={{ background: 'rgba(74,222,128,0.12)', color: '#4ADE80' }}>
           Live in 24h
         </span>
@@ -359,7 +357,7 @@ export function AgentConsole() {
       <div className="flex flex-wrap gap-2 py-5">
         {consoleTasks.map(t => (
           <button key={t.id} onClick={() => setTaskId(t.id)}
-            className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 ease-fluid active:scale-[0.98] ${
+            className={`px-3 py-1.5 text-xs font-semibold transition-all duration-300 ease-fluid active:scale-[0.98] ${
               taskId === t.id ? 'bg-signal-green text-ink' : 'bg-ink text-ash hover:text-white'
             }`}
             style={taskId === t.id ? undefined : { border: '1px solid #272727' }}>
@@ -368,7 +366,7 @@ export function AgentConsole() {
         ))}
       </div>
 
-      <div className="rounded-2xl bg-ink p-5 font-code text-sm leading-7 min-h-[210px]"
+      <div className="bg-ink p-5 font-code text-sm leading-7 min-h-[210px]"
         style={{ border: '1px solid #272727' }} aria-live="polite">
         {!task && (
           <p className="text-ash">▸ Pick a task to watch the agent run it.</p>

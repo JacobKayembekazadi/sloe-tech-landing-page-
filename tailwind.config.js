@@ -17,9 +17,9 @@ export default {
         "signal-green": "#4ADE80",
       },
       fontFamily: {
-        display: ["Manrope", "system-ui", "sans-serif"],
-        body: ["Manrope", "system-ui", "sans-serif"],
-        code: ["ui-monospace", "SFMono-Regular", "monospace"],
+        display: ["Bricolage Grotesque", "system-ui", "sans-serif"],
+        body: ["Archivo", "system-ui", "sans-serif"],
+        code: ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "monospace"],
       },
       maxWidth: {
         "content": "1200px",

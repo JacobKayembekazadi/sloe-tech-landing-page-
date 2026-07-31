@@ -292,25 +292,27 @@ function IslandNav() {
 
   return (
     <>
-      <nav className="fixed top-0 inset-x-0 z-50 flex justify-center pointer-events-none" aria-label="Main">
-        <div className="glass pointer-events-auto mt-6 w-max rounded-full flex items-center gap-1 pl-4 pr-2 py-2">
-          <a href="#" className="font-display font-bold tracking-tight text-white text-base mr-2"
+      <nav className="fixed top-0 inset-x-0 z-50"
+        style={{ borderBottom: '1px solid #272727', background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}
+        aria-label="Main">
+        <div className="mx-auto max-w-content px-6 h-16 flex items-center justify-between">
+          <a href="#" className="flex items-center gap-3 font-display font-medium tracking-tight text-white text-lg uppercase"
             onClick={e => { e.preventDefault(); window.location.hash = ''; window.scrollTo({ top: 0, behavior: 'smooth' }); setOpen(false); }}>
+            <span className="w-6 h-6 bg-signal-green" aria-hidden="true" />
             SLOE LABS
           </a>
 
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-8 text-xs font-code uppercase tracking-widest text-ash">
             {navLinks.map(link => (
               <a key={link} href={`#${link.toLowerCase()}`}
-                className="text-sm text-ash hover:text-white px-3 py-2 rounded-full hover:bg-white/5 transition-all duration-300 ease-fluid">
+                className="hover:text-white transition-colors duration-300">
                 {link}
               </a>
             ))}
           </div>
 
           <a href="#contact"
-            className="hidden md:block ml-1 px-3 py-2 rounded-full text-sm font-semibold transition-all duration-300 ease-fluid hover:opacity-85 active:scale-[0.98]"
-            style={{ background: '#4ADE80', color: '#000000' }}>
+            className="hidden md:block text-xs font-code uppercase tracking-widest px-4 py-2 transition-colors duration-300 bg-paper text-ink hover:bg-signal-green">
             Start a project
           </a>
 
@@ -345,7 +347,7 @@ function IslandNav() {
             </a>
           ))}
           <a href="#contact"
-            className="mt-4 px-3 py-2 rounded-full text-base font-semibold transition-all duration-700 ease-fluid active:scale-[0.98]"
+            className="mt-4 px-6 py-3 text-sm font-code uppercase tracking-widest transition-all duration-700 ease-fluid active:scale-[0.98]"
             style={{
               background: '#4ADE80', color: '#000000',
               transform: open ? 'translateY(0)' : 'translateY(48px)',
@@ -391,7 +393,7 @@ function TaglineReveal() {
   return (
     <section className="py-24" style={{ background: '#000000' }}>
       <div className="mx-auto max-w-content px-6">
-        <div ref={ref} className="word-reveal font-display font-bold tracking-tight text-paper mx-auto text-center"
+        <div ref={ref} className="word-reveal font-display font-medium tracking-tight text-paper mx-auto text-center"
           style={{ fontSize: 'clamp(2.25rem, 5vw, 3.75rem)', lineHeight: 1.15, maxWidth: '680px' }}>
           {lines.map((line, li) => (
             <div key={li}>
@@ -438,7 +440,8 @@ function HeroBackdrop() {
       ) : (
         <img src="/images/hero-poster.webp" alt="" className="h-full w-full object-cover" />
       )}
-      <div className="absolute inset-0" style={{ background: 'rgba(0, 0, 0, 0.6)' }} />
+      <div className="absolute inset-0" style={{ background: 'rgba(0, 0, 0, 0.7)' }} />
+      <div className="absolute inset-0 bg-grid opacity-40" />
     </div>
   );
 }
@@ -482,34 +485,50 @@ export default function App() {
 
       {/* ── HERO ─────────────────────────────────────────────────────────────── */}
       <main id="main">
-      <section className="relative flex items-center justify-center text-center overflow-hidden"
+      <section className="relative flex items-center overflow-hidden"
         style={{ minHeight: '100dvh' }}>
         <HeroBackdrop />
-        <div className="relative mx-auto max-w-content px-6 py-24 space-y-8">
+        <div className="relative mx-auto max-w-content px-6 py-28 w-full space-y-10">
           <Reveal>
-            <h1 className="heading-gradient font-display font-bold tracking-tight mx-auto"
-              style={{ fontSize: 'clamp(2.8rem, 8vw, 5.5rem)', lineHeight: 1.05, maxWidth: '680px' }}>
-              AI systems for the world's most ambitious businesses
-            </h1>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-ink text-xs font-code uppercase tracking-widest text-ash"
+              style={{ border: '1px solid #272727' }}>
+              <span className="w-1.5 h-1.5 rounded-full bg-signal-green animate-pulse" aria-hidden="true" />
+              50+ systems in production — 4 continents
+            </div>
           </Reveal>
 
           <Reveal delay={100}>
-            <p className="text-ash mx-auto text-lg md:text-xl leading-relaxed" style={{ maxWidth: '680px' }}>
-              We build the operating systems behind ambitious businesses.
-              Your first agent live in 24 hours — full platforms in weeks, not quarters.
-            </p>
+            <h1 className="font-display font-medium tracking-tight text-paper"
+              style={{ fontSize: 'clamp(3rem, 9vw, 7.5rem)', lineHeight: 0.92, maxWidth: '18ch' }}>
+              AI systems for the world's most <span className="italic text-ash">ambitious</span> businesses
+            </h1>
           </Reveal>
 
           <Reveal delay={200}>
-            <div className="flex flex-col items-center gap-6 pt-2">
+            <div className="max-w-2xl text-lg md:text-xl font-light leading-relaxed pl-6"
+              style={{ borderLeft: '1px solid #272727' }}>
+              <p className="text-ash">
+                We build the operating systems behind ambitious businesses —
+                in production for Real Zaragoza, Houston Methodist, and SMEs on 4 continents.
+              </p>
+              <p className="mt-4 text-paper">
+                Your first agent live in 24 hours. Full platforms in weeks, not quarters.
+              </p>
+            </div>
+          </Reveal>
+
+          <Reveal delay={300}>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 pt-8 max-w-2xl"
+              style={{ borderTop: '1px solid #272727' }}>
               <a href="#contact"
-                className="px-3 py-2 rounded-full font-semibold text-base transition-all duration-300 ease-fluid hover:opacity-85 active:scale-[0.98]"
+                className="btn-offset px-6 py-3 font-medium text-sm uppercase tracking-wide transition-all duration-300 ease-fluid hover:opacity-90 active:scale-[0.98]"
                 style={{ background: '#4ADE80', color: '#000000' }}>
                 Start a project →
               </a>
-              <p className="text-sm text-ash">
-                In production for Real Zaragoza, Houston Methodist, and SMEs on 4 continents
-              </p>
+              <a href="#work"
+                className="text-sm font-code uppercase tracking-widest text-ash hover:text-white transition-colors duration-300">
+                See the work
+              </a>
             </div>
           </Reveal>
         </div>
@@ -525,16 +544,17 @@ export default function App() {
       </section>
 
       {/* ── STATS BAR ───────────────────────────────────────────────────────── */}
-      <div style={{ background: '#181818' }}>
+      <div style={{ borderTop: '1px solid #272727', borderBottom: '1px solid #272727' }}>
         <div className="mx-auto max-w-content px-6">
           <div className="grid grid-cols-2 md:grid-cols-4">
             {stats.map((s, i) => (
-              <div key={i} className="py-8 px-4 text-center">
-                <div className="font-display font-bold tracking-tight text-3xl md:text-4xl"
+              <div key={i} className={`py-8 px-4 text-center ${i > 0 ? 'md:border-l' : ''}`}
+                style={{ borderColor: '#272727' }}>
+                <div className="font-display font-medium tracking-tight text-3xl md:text-4xl"
                   style={{ color: '#4ADE80', fontVariantNumeric: 'tabular-nums' }}>
                   {s.value}
                 </div>
-                <div className="text-ash text-sm mt-1">{s.label}</div>
+                <div className="text-ash text-xs font-code uppercase tracking-widest mt-2">{s.label}</div>
               </div>
             ))}
           </div>
@@ -548,7 +568,7 @@ export default function App() {
             <Reveal>
               <div>
                 <Eyebrow label="What we deploy" />
-                <h2 className="font-display font-bold tracking-tight text-white"
+                <h2 className="font-display font-medium tracking-tight text-white"
                   style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
                   Systems that run. Not slides.
                 </h2>
@@ -564,7 +584,7 @@ export default function App() {
                       style={{ borderTop: '1px solid #272727' }}>
                       <div className="flex-shrink-0 mt-1"><s.Icon /></div>
                       <div>
-                        <h3 className="font-display font-semibold text-white text-lg mb-1.5">{s.title}</h3>
+                        <h3 className="font-display font-medium text-white text-lg mb-1.5">{s.title}</h3>
                         <p className="text-ash leading-relaxed text-sm">{s.desc}</p>
                       </div>
                     </div>
@@ -592,7 +612,7 @@ export default function App() {
             <Reveal>
               <div>
                 <Eyebrow label="Platform" />
-                <h2 className="font-display font-bold tracking-tight text-white"
+                <h2 className="font-display font-medium tracking-tight text-white"
                   style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
                   One operating system underneath
                 </h2>
@@ -608,7 +628,7 @@ export default function App() {
                         {layer.indent > 0 && (
                           <span className="font-code text-ash text-sm" aria-hidden="true">└─</span>
                         )}
-                        <h3 className="font-display font-semibold text-white text-lg">{layer.name}</h3>
+                        <h3 className="font-display font-medium text-white text-lg">{layer.name}</h3>
                         <span className="text-xs font-semibold tracking-widest uppercase text-signal-green">
                           {layer.meaning}
                         </span>
@@ -633,7 +653,7 @@ export default function App() {
           <Reveal>
             <div className="space-y-8">
               <div>
-                <h3 className="font-display font-bold tracking-tight text-white text-2xl md:text-3xl">
+                <h3 className="font-display font-medium tracking-tight text-white text-2xl md:text-3xl">
                   Products we operate
                 </h3>
                 <p className="text-ash mt-2">Not just client work — platforms we build, run, and own.</p>
@@ -641,11 +661,11 @@ export default function App() {
               <div className="grid md:grid-cols-3 gap-6">
                 {products.map(p => (
                   <div key={p.name}
-                    className="h-full rounded-2xl p-8 flex flex-col transition-all duration-700 ease-fluid hover:-translate-y-1"
+                    className="h-full p-8 flex flex-col transition-all duration-700 ease-fluid hover:-translate-y-1"
                     style={{ background: '#1F1F1F' }}>
                     <div className="flex items-center gap-3 mb-3">
-                      <h4 className="font-display font-semibold text-white text-xl">{p.name}</h4>
-                      <span className="text-xs px-2 py-0.5 rounded font-medium"
+                      <h4 className="font-display font-medium text-white text-xl">{p.name}</h4>
+                      <span className="text-xs px-2 py-0.5 font-code uppercase tracking-wider font-medium"
                         style={{ background: 'rgba(74,222,128,0.12)', color: '#4ADE80' }}>
                         {p.badge}
                       </span>
@@ -672,7 +692,7 @@ export default function App() {
           <Reveal>
             <div>
               <Eyebrow label="Client work" />
-              <h2 className="font-display font-bold tracking-tight text-white"
+              <h2 className="font-display font-medium tracking-tight text-white"
                 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
                 Selected work
               </h2>
@@ -683,7 +703,7 @@ export default function App() {
             {work.filter(w => !w.category).map((w, i) => (
               <Reveal key={w.name} delay={i * 80}>
                 <button
-                  className="w-full h-full text-left block group rounded-2xl overflow-hidden cursor-pointer transition-all duration-700 ease-fluid hover:-translate-y-1 active:scale-[0.99]"
+                  className="w-full h-full text-left block group overflow-hidden cursor-pointer transition-all duration-700 ease-fluid hover:-translate-y-1 active:scale-[0.99]"
                   style={{ background: '#181818' }}
                   onClick={() => { window.location.hash = w.slug; }}>
                   <WorkCard w={w} />
@@ -700,7 +720,7 @@ export default function App() {
           <Reveal>
             <div>
               <Eyebrow label="Sports" />
-              <h2 className="font-display font-bold tracking-tight text-white"
+              <h2 className="font-display font-medium tracking-tight text-white"
                 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
                 Sports &amp; football intelligence
               </h2>
@@ -715,7 +735,7 @@ export default function App() {
             {work.filter(w => w.category === 'sports').map((w, i) => (
               <Reveal key={w.name} delay={i * 80}>
                 <button
-                  className="w-full h-full text-left block group rounded-2xl overflow-hidden cursor-pointer transition-all duration-700 ease-fluid hover:-translate-y-1 active:scale-[0.99]"
+                  className="w-full h-full text-left block group overflow-hidden cursor-pointer transition-all duration-700 ease-fluid hover:-translate-y-1 active:scale-[0.99]"
                   style={{ background: '#1F1F1F' }}
                   onClick={() => { window.location.hash = w.slug; }}>
                   <WorkCard w={w} />
@@ -731,7 +751,7 @@ export default function App() {
         <div className="mx-auto max-w-content px-6 space-y-12">
           <Reveal>
             <div className="text-center mx-auto" style={{ maxWidth: '680px' }}>
-              <h2 className="font-display font-bold tracking-tight text-white"
+              <h2 className="font-display font-medium tracking-tight text-white"
                 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
                 AI capabilities
               </h2>
@@ -745,7 +765,7 @@ export default function App() {
             <div className="flex flex-wrap justify-center gap-4">
               {capabilities.map((cap) => (
                 <div key={cap}
-                  className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ease-fluid"
+                  className="px-4 py-2 text-sm font-code transition-all duration-300 ease-fluid"
                   style={{ background: '#181818', color: '#4ADE80' }}>
                   {cap}
                 </div>
@@ -763,7 +783,7 @@ export default function App() {
               <div className="space-y-6">
                 <div>
                   <Eyebrow label="About" />
-                  <h2 className="font-display font-bold tracking-tight text-white"
+                  <h2 className="font-display font-medium tracking-tight text-white"
                     style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
                     Who we are
                   </h2>
@@ -786,11 +806,11 @@ export default function App() {
                   { name: "Sloe Tech", badge: "Builds", desc: "Open source tools, AI infrastructure, and internal IP." },
                 ].map(entity => (
                   <div key={entity.name}
-                    className="rounded-2xl p-6 transition-all duration-700 ease-fluid"
+                    className="p-6 transition-all duration-700 ease-fluid"
                     style={{ background: '#1F1F1F' }}>
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="font-display font-semibold text-white text-lg">{entity.name}</span>
-                      <span className="text-xs px-2 py-0.5 rounded font-medium"
+                      <span className="font-display font-medium text-white text-lg">{entity.name}</span>
+                      <span className="text-xs px-2 py-0.5 font-code uppercase tracking-wider font-medium"
                         style={{ background: 'rgba(74,222,128,0.12)', color: '#4ADE80' }}>
                         {entity.badge}
                       </span>
@@ -811,7 +831,7 @@ export default function App() {
             <div className="space-y-8">
               <div>
                 <Eyebrow label="Contact" />
-                <h2 className="font-display font-bold tracking-tight text-white mx-auto"
+                <h2 className="font-display font-medium tracking-tight text-white mx-auto"
                   style={{ fontSize: 'clamp(2rem, 6vw, 4rem)', maxWidth: '680px' }}>
                   Ready to transform your operations?
                 </h2>
@@ -839,7 +859,7 @@ export default function App() {
         <div className="mx-auto max-w-content px-6 py-16">
           <div className="grid md:grid-cols-3 gap-12 mb-12">
             <div className="space-y-3">
-              <div className="font-display font-bold tracking-tight text-white text-lg">SLOE LABS</div>
+              <div className="font-display font-medium tracking-tight text-white text-lg">SLOE LABS</div>
               <p className="text-ash text-sm leading-relaxed">
                 AI systems consultancy deploying production ready infrastructure for ambitious businesses.
               </p>
@@ -877,8 +897,8 @@ export default function App() {
           </div>
 
           <div style={{ borderTop: '1px solid #272727' }} className="pt-8 flex flex-col md:flex-row items-center justify-between gap-3">
-            <p className="text-ash text-sm">© 2026 Sloe Labs. Toronto, Canada.</p>
-            <p className="text-ash text-sm">Dubai · Doha · Johannesburg</p>
+            <p className="text-ash text-xs font-code uppercase tracking-widest">© 2026 Sloe Labs · Toronto, Canada</p>
+            <p className="text-ash text-xs font-code uppercase tracking-widest">Dubai · Doha · Johannesburg</p>
           </div>
         </div>
       </footer>
@@ -904,14 +924,14 @@ function WorkCard({ w }: { w: WorkItem }) {
       </div>
       <div className="p-8">
         <div className="flex items-start justify-between gap-2 mb-3">
-          <h3 className="font-display font-semibold text-white text-xl">{w.name}</h3>
+          <h3 className="font-display font-medium text-white text-xl">{w.name}</h3>
           <span style={{ color: '#4ADE80' }} className="text-xl flex-shrink-0 transition-transform duration-300 ease-fluid group-hover:translate-x-1">→</span>
         </div>
         <p className="text-ash leading-relaxed mb-6">{w.tagline}</p>
         <div className="flex flex-wrap gap-2">
           {w.tags.map(t => (
             <span key={t}
-              className="text-xs px-2 py-0.5 rounded"
+              className="text-xs font-code px-2 py-0.5"
               style={{ background: '#272727', color: '#9B9B9B' }}>
               {t}
             </span>
@@ -950,7 +970,7 @@ function InquiryForm() {
 
   if (status === 'ok') {
     return (
-      <div className="rounded-2xl p-8 mx-auto text-center" style={{ background: '#181818', maxWidth: '480px' }}>
+      <div className="p-8 mx-auto text-center" style={{ background: '#181818', maxWidth: '480px' }}>
         <div className="text-2xl mb-2" style={{ color: '#4ADE80' }}>✓</div>
         <p className="text-white font-semibold mb-1">Got it. We'll be in touch within 24 hours.</p>
         <p className="text-ash text-sm">Your inquiry is already in our pipeline.</p>
@@ -963,14 +983,14 @@ function InquiryForm() {
     <form onSubmit={submit} className="mx-auto space-y-3 text-left" style={{ maxWidth: '480px' }} noValidate={false}>
       <div className="grid md:grid-cols-2 gap-3">
         <input required placeholder="Name" value={form.name} onChange={set('name')} autoComplete="name"
-          className="w-full rounded-xl px-3 py-2 text-base outline-none transition-all duration-300 ease-fluid" style={inputStyle} />
+          className="w-full px-3 py-2 text-base outline-none transition-all duration-300 ease-fluid" style={inputStyle} />
         <input required type="email" placeholder="Email" value={form.email} onChange={set('email')} autoComplete="email"
-          className="w-full rounded-xl px-3 py-2 text-base outline-none transition-all duration-300 ease-fluid" style={inputStyle} />
+          className="w-full px-3 py-2 text-base outline-none transition-all duration-300 ease-fluid" style={inputStyle} />
       </div>
       <input placeholder="Company (optional)" value={form.company} onChange={set('company')} autoComplete="organization"
-        className="w-full rounded-xl px-3 py-2 text-base outline-none transition-all duration-300 ease-fluid" style={inputStyle} />
+        className="w-full px-3 py-2 text-base outline-none transition-all duration-300 ease-fluid" style={inputStyle} />
       <textarea required placeholder="What do you need built?" rows={4} value={form.message} onChange={set('message')}
-        className="w-full rounded-xl px-3 py-2 text-base outline-none resize-none transition-all duration-300 ease-fluid" style={inputStyle} />
+        className="w-full px-3 py-2 text-base outline-none resize-none transition-all duration-300 ease-fluid" style={inputStyle} />
       <input tabIndex={-1} autoComplete="off" value={form.website} onChange={set('website')}
         className="hidden" aria-hidden="true" placeholder="Website" />
       <button type="submit" disabled={status === 'sending'}
@@ -1000,15 +1020,17 @@ function CaseStudyPage({ project }: { project: WorkItem }) {
 
   return (
     <div className="min-h-screen font-body grain" style={{ background: '#000000', color: '#F5F1E8' }}>
-      <nav className="fixed top-0 inset-x-0 z-50 flex justify-center pointer-events-none" aria-label="Main">
-        <div className="glass pointer-events-auto mt-6 w-max rounded-full flex items-center gap-4 px-4 py-2">
+      <nav className="fixed top-0 inset-x-0 z-50"
+        style={{ borderBottom: '1px solid #272727', background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}
+        aria-label="Main">
+        <div className="mx-auto max-w-content px-6 h-16 flex items-center justify-between">
           <a href="#"
-            className="font-display font-bold tracking-tight text-white text-base"
+            className="font-display font-medium tracking-tight text-white text-base"
             onClick={e => { e.preventDefault(); window.location.hash = ''; }}>
             SLOE LABS
           </a>
           <a href="#"
-            className="text-sm text-ash hover:text-white transition-colors duration-300"
+            className="text-xs font-code uppercase tracking-widest text-ash hover:text-white transition-colors duration-300"
             onClick={e => { e.preventDefault(); window.location.hash = ''; }}>
             ← Back to home
           </a>
@@ -1027,14 +1049,14 @@ function CaseStudyPage({ project }: { project: WorkItem }) {
         <div className="flex flex-wrap gap-2 mb-8">
           {project.tags.map(t => (
             <span key={t}
-              className="text-xs px-2 py-0.5 rounded"
+              className="text-xs font-code px-2 py-0.5"
               style={{ background: '#272727', color: '#9B9B9B' }}>
               {t}
             </span>
           ))}
         </div>
 
-        <h1 className="heading-gradient font-display font-bold tracking-tight mb-4"
+        <h1 className="font-display font-medium tracking-tight mb-4"
           style={{ fontSize: 'clamp(2rem, 6vw, 4rem)', lineHeight: 1.05, maxWidth: '680px' }}>
           {project.name}
         </h1>
@@ -1042,7 +1064,7 @@ function CaseStudyPage({ project }: { project: WorkItem }) {
           {project.tagline}
         </p>
 
-        <div className="rounded-2xl overflow-hidden mb-16" style={{ background: '#131313' }}>
+        <div className="overflow-hidden mb-16" style={{ background: '#131313' }}>
           <img
             src={`/images/work/${project.slug}.webp`}
             alt={project.imageAlt}
@@ -1145,9 +1167,11 @@ const TERMS = [
 function SimplePage({ title, body }: { title: string; body: string[] }) {
   return (
     <div className="min-h-screen font-body grain" style={{ background: '#000000', color: '#F5F1E8' }}>
-      <nav className="fixed top-0 inset-x-0 z-50 flex justify-center pointer-events-none" aria-label="Main">
-        <div className="glass pointer-events-auto mt-6 w-max rounded-full flex items-center gap-4 px-4 py-2">
-          <a href="#" className="font-display font-bold tracking-tight text-white text-base"
+      <nav className="fixed top-0 inset-x-0 z-50"
+        style={{ borderBottom: '1px solid #272727', background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}
+        aria-label="Main">
+        <div className="mx-auto max-w-content px-6 h-16 flex items-center justify-between">
+          <a href="#" className="font-display font-medium tracking-tight text-white text-base"
             onClick={e => { e.preventDefault(); window.location.hash = ''; }}>
             SLOE LABS
           </a>
@@ -1158,7 +1182,7 @@ function SimplePage({ title, body }: { title: string; body: string[] }) {
         </div>
       </nav>
       <div className="mx-auto max-w-content px-6 pt-32 pb-24">
-        <h1 className="heading-gradient font-display font-bold tracking-tight mb-8"
+        <h1 className="font-display font-medium tracking-tight mb-8"
           style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', maxWidth: '680px' }}>
           {title}
         </h1>

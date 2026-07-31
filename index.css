@@ -86,6 +86,34 @@
   z-index: 60;
 }
 
+/* Hairline grid pattern — the structural backdrop */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(39, 39, 39, 0.6) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(39, 39, 39, 0.6) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Offset-frame primary CTA — square button with a trailing hairline frame */
+.btn-offset {
+  position: relative;
+}
+
+.btn-offset::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid #4ADE80;
+  transform: translate(5px, 5px);
+  transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.btn-offset:hover::after {
+  transform: translate(8px, 8px);
+}
+
 /* Agent console line entrance + cursor blink */
 @keyframes consoleLine {
   from { opacity: 0; transform: translateY(6px); }
