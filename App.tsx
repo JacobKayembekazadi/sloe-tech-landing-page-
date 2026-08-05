@@ -897,7 +897,7 @@ export default function App() {
 
           <div style={{ borderTop: '1px solid #272727' }} className="pt-8 flex flex-col md:flex-row items-center justify-between gap-3">
             <p className="text-ash text-xs font-code uppercase tracking-widest">© 2026 Sloe Labs · Toronto, Canada</p>
-            <p className="text-ash text-xs font-code uppercase tracking-widest">Dubai · Doha · Johannesburg</p>
+            <p className="text-ash text-xs font-code uppercase tracking-widest">Texas, USA · Johannesburg, South Africa · United Kingdom</p>
           </div>
         </div>
       </footer>
