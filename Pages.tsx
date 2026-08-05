@@ -240,7 +240,7 @@ export function AboutPage() {
           <p>Sloe Labs Inc. builds AI operating systems for ambitious businesses — because most "AI for business" is a demo, not a deployment: a deck, a trial link, and an owner left to configure the rest themselves.</p>
           <p>We build the opposite. An operating system that lands on a business's own machine and does real work — triaging inboxes, following up leads, syncing tools — before anyone leaves the room.</p>
           <p>Every build is installed in person by a licensed Sloe operator who knows the business, not a script. That's the whole model: real systems, run by real people, proven live before we call it done.</p>
-          <p className="text-[15px] text-ash/70 pt-2">Founded by Isaac Kayembe.</p>
+          <p className="text-[15px] text-ash/70 pt-2">Founded by Isaac Kayembe & Jacob Kayembe.</p>
         </div>
       </div>
     </PageShell>

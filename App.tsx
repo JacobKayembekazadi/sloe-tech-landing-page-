@@ -275,12 +275,12 @@ const capabilities = [
   "Multi language (EN/FR/PT/AR)",
   "Live business intelligence",
   "Custom API integrations",
-  "First deploy in 24 hours",
+  "First deploy in under 2 minutes",
 ];
 
 const stats = [
   { value: "50+", label: "Systems deployed" },
-  { value: "<24h", label: "First system live" },
+  { value: "<2min", label: "First system live" },
   { value: "6+", label: "Industries served" },
   { value: "4", label: "Continents" },
 ];
@@ -369,7 +369,7 @@ function IslandNav() {
               transitionDelay: `${100 + navLinks.length * 50}ms`,
             }}
             onClick={() => setOpen(false)}>
-            Start a project
+            Book a Build
           </a>
         </div>
       </div>
@@ -399,7 +399,7 @@ function TaglineReveal() {
   }, []);
 
   const lines = [
-    'Your first agent live in 24 hours.',
+    'Your first agent live in under 2 minutes.',
     'Full platforms in weeks, not quarters.',
   ];
   let wordIndex = 0;
@@ -533,7 +533,7 @@ export default function App() {
                 in production for Real Zaragoza, Houston Methodist, and SMEs on 4 continents.
               </p>
               <p className="mt-4 text-paper">
-                Your first agent live in 24 hours. Full platforms in weeks, not quarters.
+                Your first agent live in under 2 minutes. Full platforms in weeks, not quarters.
               </p>
             </div>
           </Reveal>
@@ -541,10 +541,10 @@ export default function App() {
           <Reveal delay={300}>
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 pt-8 max-w-2xl"
               style={{ borderTop: '1px solid #272727' }}>
-              <a href="#contact"
+              <a href="#operators"
                 className="btn-offset px-6 py-3 font-medium text-sm uppercase tracking-wide transition-all duration-300 ease-fluid hover:opacity-90 active:scale-[0.98]"
                 style={{ background: '#4ADE80', color: '#000000' }}>
-                Start a project →
+                Book a Build →
               </a>
               <a href="#work"
                 className="text-sm font-code uppercase tracking-widest text-ash hover:text-white transition-colors duration-300">
@@ -812,7 +812,7 @@ export default function App() {
                 <p className="text-ash text-lg leading-relaxed" style={{ maxWidth: '65ch' }}>
                   Sloe Labs is an AI systems consultancy that deploys production ready AI infrastructure
                   for businesses worldwide. We don't sell decks and walk away. We diagnose, put your
-                  first system live in 24 hours, and compound from there — build, run, improve.
+                  first system live in under 2 minutes, and compound from there — build, run, improve.
                 </p>
                 <p className="text-ash text-base">
                   Operating across North America, Europe, Africa, and the Middle East.
