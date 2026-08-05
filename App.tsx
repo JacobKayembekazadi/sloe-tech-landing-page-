@@ -539,7 +539,7 @@ export default function App() {
           <Reveal delay={300}>
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 pt-8 max-w-2xl"
               style={{ borderTop: '1px solid #272727' }}>
-              <a href="#operators"
+              <a href="#campaigns"
                 className="btn-offset px-6 py-3 font-medium text-sm uppercase tracking-wide transition-all duration-300 ease-fluid hover:opacity-90 active:scale-[0.98]"
                 style={{ background: '#4ADE80', color: '#000000' }}>
                 Book a Free Build →
