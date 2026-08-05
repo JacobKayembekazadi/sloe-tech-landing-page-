@@ -542,7 +542,7 @@ export default function App() {
               <a href="#campaigns"
                 className="btn-offset px-6 py-3 font-medium text-sm uppercase tracking-wide transition-all duration-300 ease-fluid hover:opacity-90 active:scale-[0.98]"
                 style={{ background: '#4ADE80', color: '#000000' }}>
-                Book a Free Build →
+                View Campaign →
               </a>
               <a href="#work"
                 className="text-sm font-code uppercase tracking-widest text-ash hover:text-white transition-colors duration-300">
