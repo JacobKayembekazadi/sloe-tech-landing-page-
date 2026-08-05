@@ -17,7 +17,6 @@ function PageShell({ children }: { children: React.ReactNode }) {
           <div className="hidden md:flex items-center gap-8 text-xs font-code uppercase tracking-widest text-ash">
             <a href="#" className="hover:text-white transition-colors duration-300" onClick={e => { e.preventDefault(); window.location.hash = ''; }}>Home</a>
             <a href="#systems" className="hover:text-white transition-colors duration-300">Systems</a>
-            <a href="#campaigns" className="hover:text-white transition-colors duration-300">Campaigns</a>
             <a href="#how" className="hover:text-white transition-colors duration-300">How It Works</a>
             <a href="#operators" className="hover:text-white transition-colors duration-300">Operators</a>
             <a href="#about" className="hover:text-white transition-colors duration-300">About</a>
@@ -42,16 +41,63 @@ const Eyebrow = ({ children }: { children: React.ReactNode }) => (
   <div className="font-code text-xs uppercase tracking-[0.2em] text-signal-green mb-4">{children}</div>
 );
 
-// ─── Systems ────────────────────────────────────────────────────────────────
+// ─── Systems + Campaigns (merged: grid → click a live system → its campaign) ──
 
 const systems = [
-  { name: 'Agentic OS Platform', tier: 'PRIMARY · LIVE', desc: 'Complete deployment framework for on-device AI operating systems.', tags: ['Inbox triage', 'Lead follow-ups', 'Tool syncing'] },
-  { name: 'Realtor OS', tier: 'LIVE', desc: 'Specialized AI operating system for real estate brokerages and property managers.', tags: ['Lead qualification', 'Tour bookings', 'Tenant intake'] },
-  { name: 'Next Vertical', tier: 'COMING SOON', desc: 'The next licensed system enters build once the current cohort ships.', tags: [] },
-  { name: 'Next Vertical', tier: 'COMING SOON', desc: 'Room reserved for the next operating system as operators go live.', tags: [] },
+  { slug: 'agentic-os-platform', name: 'Agentic OS Platform', tier: 'PRIMARY · LIVE', desc: 'Complete deployment framework for on-device AI operating systems.', tags: ['Inbox triage', 'Lead follow-ups', 'Tool syncing'], hasDetail: true },
+  { slug: 'realtor-os', name: 'Realtor OS', tier: 'LIVE', desc: 'Specialized AI operating system for real estate brokerages and property managers.', tags: ['Lead qualification', 'Tour bookings', 'Tenant intake'], hasDetail: false },
+  { slug: 'next-1', name: 'Next Vertical', tier: 'COMING SOON', desc: 'The next licensed system enters build once the current cohort ships.', tags: [], hasDetail: false },
+  { slug: 'next-2', name: 'Next Vertical', tier: 'COMING SOON', desc: 'Room reserved for the next operating system as operators go live.', tags: [], hasDetail: false },
 ];
 
-export function SystemsPage() {
+const campaignDetails: Record<string, { desc: string; video: string; slides: { src: string; label: string }[] }> = {
+  'agentic-os-platform': {
+    desc: "The complete deployment framework for on-device AI operating systems — inbox triage, lead follow-ups, and tool syncing, running live on a business's own machine within minutes of the build.",
+    video: '/assets/agentic_os_demo.mp4',
+    slides: [
+      { src: '/assets/slide_inbox.png', label: 'Inbox & Email Triage' },
+      { src: '/assets/slide_convo.png', label: 'Conversational Task Handoff' },
+      { src: '/assets/slide_integrations.png', label: 'Integrations Hub' },
+      { src: '/assets/slide_library.png', label: 'Agent Library' },
+    ],
+  },
+};
+
+export function SystemsPage({ initialSelected = null }: { initialSelected?: string | null }) {
+  const [selected, setSelected] = useState<string | null>(initialSelected);
+  const active = selected ? systems.find(s => s.slug === selected) : null;
+  const detail = active ? campaignDetails[active.slug] : null;
+
+  if (active && detail) {
+    return (
+      <PageShell>
+        <div className="mx-auto px-6 pb-24" style={{ maxWidth: '1200px' }}>
+          <button onClick={() => setSelected(null)}
+            className="font-code text-[11.5px] tracking-wide text-ash hover:text-white transition mb-10 inline-block">
+            ← Back to Systems
+          </button>
+          <Eyebrow>Primary Campaign · Live Now</Eyebrow>
+          <h1 className="font-display font-medium tracking-tight mb-5" style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)', maxWidth: '760px' }}>{active.name}</h1>
+          <p className="text-ash text-lg leading-relaxed mb-9" style={{ maxWidth: '680px' }}>{detail.desc}</p>
+          <a href="#operators" className="inline-block font-code font-semibold text-[13px] uppercase tracking-widest px-8 py-4 rounded-full bg-signal-green text-ink hover:brightness-110 transition mb-14">
+            Book Your Free Build and Installation
+          </a>
+          <video src={detail.video} controls playsInline
+            className="w-full rounded mb-14 block"
+            style={{ aspectRatio: '16/9', border: '1px solid #272727', background: '#141414', objectFit: 'cover' }} />
+          <div className="grid md:grid-cols-2 gap-6">
+            {detail.slides.map(s => (
+              <div key={s.src}>
+                <img src={s.src} alt={s.label} className="w-full rounded" style={{ aspectRatio: '16/10', border: '1px solid #272727', objectFit: 'cover' }} />
+                <div className="font-code text-[11px] tracking-wide text-ash mt-2.5">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </PageShell>
+    );
+  }
+
   return (
     <PageShell>
       <div className="mx-auto max-w-content px-6 pb-24">
@@ -60,7 +106,14 @@ export function SystemsPage() {
         <p className="text-ash text-lg mb-14" style={{ maxWidth: '620px' }}>Every system below is deployed and running businesses today — not roadmap.</p>
         <div className="grid md:grid-cols-2 gap-6">
           {systems.map((sys, i) => (
-            <div key={i} className="rounded p-9 flex flex-col gap-4" style={{ border: '1px solid #272727', background: '#141414' }}>
+            <div key={i}
+              onClick={sys.hasDetail ? () => setSelected(sys.slug) : undefined}
+              className="rounded p-9 flex flex-col gap-4 transition"
+              style={{
+                border: '1px solid #272727', background: '#141414',
+                cursor: sys.hasDetail ? 'pointer' : 'default',
+                opacity: sys.tier === 'COMING SOON' ? 0.6 : 1,
+              }}>
               <div className="flex justify-between items-start gap-3">
                 <div className="font-display font-semibold text-2xl">{sys.name}</div>
                 <div className="font-code text-[10.5px] tracking-wide text-signal-green px-2.5 py-1 rounded-full whitespace-nowrap" style={{ border: '1px solid rgba(74,222,128,.4)' }}>{sys.tier}</div>
@@ -71,6 +124,9 @@ export function SystemsPage() {
                   <span key={tag} className="font-code text-[11px] tracking-wide text-ash px-2.5 py-1 rounded" style={{ border: '1px solid rgba(255,255,255,.12)' }}>{tag}</span>
                 ))}
               </div>
+              {sys.hasDetail && (
+                <div className="font-code text-[11px] tracking-wide mt-1" style={{ color: '#4ADE80' }}>View campaign →</div>
+              )}
             </div>
           ))}
         </div>
@@ -79,41 +135,10 @@ export function SystemsPage() {
   );
 }
 
-// ─── Campaigns ──────────────────────────────────────────────────────────────
-
-const slides = [
-  { src: '/assets/slide_inbox.png', label: 'Inbox & Email Triage' },
-  { src: '/assets/slide_convo.png', label: 'Conversational Task Handoff' },
-  { src: '/assets/slide_integrations.png', label: 'Integrations Hub' },
-  { src: '/assets/slide_library.png', label: 'Agent Library' },
-];
-
+// Back-compat: anything still routing to #campaigns lands on the Agentic OS
+// Platform detail directly, since that's the one live campaign.
 export function CampaignsPage() {
-  return (
-    <PageShell>
-      <div className="mx-auto px-6 pb-24" style={{ maxWidth: '1200px' }}>
-        <Eyebrow>Primary Campaign · Live Now</Eyebrow>
-        <h1 className="font-display font-medium tracking-tight mb-5" style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)', maxWidth: '760px' }}>Agentic OS Platform</h1>
-        <p className="text-ash text-lg leading-relaxed mb-9" style={{ maxWidth: '680px' }}>
-          The complete deployment framework for on-device AI operating systems — inbox triage, lead follow-ups, and tool syncing, running live on a business's own machine within minutes of the build.
-        </p>
-        <a href="#operators" className="inline-block font-code font-semibold text-[13px] uppercase tracking-widest px-8 py-4 rounded-full bg-signal-green text-ink hover:brightness-110 transition mb-14">
-          Book Your Free Build and Installation
-        </a>
-        <video src="/assets/agentic_os_demo.mp4" controls playsInline
-          className="w-full rounded mb-14 block"
-          style={{ aspectRatio: '16/9', border: '1px solid #272727', background: '#141414', objectFit: 'cover' }} />
-        <div className="grid md:grid-cols-2 gap-6">
-          {slides.map(s => (
-            <div key={s.src}>
-              <img src={s.src} alt={s.label} className="w-full rounded" style={{ aspectRatio: '16/10', border: '1px solid #272727', objectFit: 'cover' }} />
-              <div className="font-code text-[11px] tracking-wide text-ash mt-2.5">{s.label}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </PageShell>
-  );
+  return <SystemsPage initialSelected="agentic-os-platform" />;
 }
 
 // ─── How It Works ───────────────────────────────────────────────────────────
@@ -228,6 +253,72 @@ export function OperatorsPage() {
   );
 }
 
+// ─── Inquiry Form (moved here from the old Home #contact section) ─────────────
+
+function InquiryForm() {
+  const [status, setStatus] = useState<'idle' | 'sending' | 'ok' | 'error'>('idle');
+  const [form, setForm] = useState({ name: '', email: '', company: '', message: '', website: '' });
+  const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setForm(f => ({ ...f, [k]: e.target.value }));
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (form.website) return; // honeypot
+    setStatus('sending');
+    try {
+      const r = await fetch('/api/inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      if (!r.ok) throw new Error(String(r.status));
+      (window as any).posthog?.capture('inquiry_submitted', { company: form.company || null });
+      setStatus('ok');
+    } catch {
+      setStatus('error');
+    }
+  };
+
+  if (status === 'ok') {
+    return (
+      <div className="p-8 mx-auto text-center" style={{ background: '#141414', maxWidth: '480px' }}>
+        <div className="text-2xl mb-2" style={{ color: '#4ADE80' }}>✓</div>
+        <p className="text-white font-semibold mb-1">Got it. We'll be in touch within 24 hours.</p>
+        <p className="text-ash text-sm">Your inquiry is already in our pipeline.</p>
+      </div>
+    );
+  }
+
+  const inputStyle: React.CSSProperties = { background: '#141414', border: '1px solid #272727', color: '#F5F1E8' };
+  return (
+    <form onSubmit={submit} className="mx-auto space-y-3 text-left" style={{ maxWidth: '480px' }} noValidate={false}>
+      <div className="grid md:grid-cols-2 gap-3">
+        <input required placeholder="Name" value={form.name} onChange={set('name')} autoComplete="name"
+          className="w-full px-3 py-2 text-base outline-none transition-all duration-300 ease-fluid" style={inputStyle} />
+        <input required type="email" placeholder="Email" value={form.email} onChange={set('email')} autoComplete="email"
+          className="w-full px-3 py-2 text-base outline-none transition-all duration-300 ease-fluid" style={inputStyle} />
+      </div>
+      <input placeholder="Company (optional)" value={form.company} onChange={set('company')} autoComplete="organization"
+        className="w-full px-3 py-2 text-base outline-none transition-all duration-300 ease-fluid" style={inputStyle} />
+      <textarea required placeholder="What do you need built?" rows={4} value={form.message} onChange={set('message')}
+        className="w-full px-3 py-2 text-base outline-none resize-none transition-all duration-300 ease-fluid" style={inputStyle} />
+      <input tabIndex={-1} autoComplete="off" value={form.website} onChange={set('website')}
+        className="hidden" aria-hidden="true" placeholder="Website" />
+      <button type="submit" disabled={status === 'sending'}
+        className="w-full px-6 py-3 font-medium text-sm uppercase tracking-wide transition-all duration-300 ease-fluid hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
+        style={{ background: '#4ADE80', color: '#000000' }}>
+        {status === 'sending' ? 'Sending…' : 'Start a project →'}
+      </button>
+      {status === 'error' && (
+        <p className="text-sm text-center" style={{ color: '#f87171' }}>
+          Connection failed. Please try again, or email{' '}
+          <a className="underline" href="mailto:reports@sloelabs.com">reports@sloelabs.com</a>
+        </p>
+      )}
+    </form>
+  );
+}
+
 // ─── About ──────────────────────────────────────────────────────────────────
 
 export function AboutPage() {
@@ -239,9 +330,27 @@ export function AboutPage() {
         <div className="flex flex-col gap-5 text-[17px] leading-relaxed text-ash">
           <p>Sloe Labs Inc. builds AI operating systems for ambitious businesses — because most "AI for business" is a demo, not a deployment: a deck, a trial link, and an owner left to configure the rest themselves.</p>
           <p>We build the opposite. An operating system that lands on a business's own machine and does real work — triaging inboxes, following up leads, syncing tools — before anyone leaves the room.</p>
-          <p>Every build is installed in person by a licensed Sloe operator who knows the business, not a script. That's the whole model: real systems, run by real people, proven live before we call it done.</p>
+          <p>Every build is installed in person by a Licensed SLOE AI Operator who knows the business, not a script. That's the whole model: real systems, run by real people, proven live before we call it done.</p>
           <p className="text-[15px] text-ash/70 pt-2">Founded by Isaac Kayembe & Jacob Kayembe.</p>
         </div>
+      </div>
+
+      <div className="mx-auto px-6 pb-28 text-center" style={{ maxWidth: '620px' }}>
+        <Eyebrow>Contact</Eyebrow>
+        <h2 className="font-display font-medium tracking-tight text-white mx-auto mb-5"
+          style={{ fontSize: 'clamp(1.75rem, 5vw, 2.75rem)' }}>
+          Ready to transform your operations?
+        </h2>
+        <p className="text-ash text-lg mx-auto leading-relaxed mb-9">
+          Tell us what you need. We'll show you exactly what your business is missing — and build it.
+        </p>
+        <InquiryForm />
+        <p className="text-ash text-sm mt-8">
+          Prefer email?{' '}
+          <a href="mailto:reports@sloelabs.com" className="text-paper hover:text-white transition-colors duration-300 underline">
+            reports@sloelabs.com
+          </a>
+        </p>
       </div>
     </PageShell>
   );

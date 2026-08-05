@@ -288,7 +288,6 @@ const stats = [
 const navLinks = [
   { label: 'Home', hash: '' },
   { label: 'Systems', hash: 'systems' },
-  { label: 'Campaigns', hash: 'campaigns' },
   { label: 'How It Works', hash: 'how' },
   { label: 'Operators', hash: 'operators' },
   { label: 'About', hash: 'about' },
@@ -530,7 +529,7 @@ export default function App() {
               style={{ borderLeft: '1px solid #272727' }}>
               <p className="text-ash">
                 We build the operating systems behind ambitious businesses —
-                in production for Real Zaragoza, Houston Methodist, and SMEs on 4 continents.
+                in production for InOrbit, Houston Methodist, and SMEs on 4 continents.
               </p>
               <p className="mt-4 text-paper">
                 Your first agent live in under 2 minutes. Full platforms in weeks, not quarters.
@@ -845,34 +844,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* ── CONTACT ──────────────────────────────────────────────────────────── */}
-      <section id="contact" className="py-24">
-        <div className="mx-auto max-w-content px-6 text-center">
-          <Reveal>
-            <div className="space-y-8">
-              <div>
-                <Eyebrow label="Contact" />
-                <h2 className="font-display font-medium tracking-tight text-white mx-auto"
-                  style={{ fontSize: 'clamp(2rem, 6vw, 4rem)', maxWidth: '680px' }}>
-                  Ready to transform your operations?
-                </h2>
-              </div>
-              <p className="text-ash text-lg mx-auto leading-relaxed" style={{ maxWidth: '480px' }}>
-                Tell us what you need. We'll show you exactly what your business is missing — and build it.
-              </p>
-              <div className="pt-2">
-                <InquiryForm />
-                <p className="text-ash text-sm mt-8">
-                  Prefer email?{' '}
-                  <a href="mailto:reports@sloelabs.com" className="text-paper hover:text-white transition-colors duration-300 underline">
-                    reports@sloelabs.com
-                  </a>
-                </p>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
       </main>
 
       {/* ── FOOTER ───────────────────────────────────────────────────────────── */}
@@ -962,71 +933,7 @@ function WorkCard({ w }: { w: WorkItem }) {
   );
 }
 
-// ─── Inquiry Form ─────────────────────────────────────────────────────────────
 
-function InquiryForm() {
-  const [status, setStatus] = useState<'idle' | 'sending' | 'ok' | 'error'>('idle');
-  const [form, setForm] = useState({ name: '', email: '', company: '', message: '', website: '' });
-  const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-    setForm(f => ({ ...f, [k]: e.target.value }));
-
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (form.website) return; // honeypot
-    setStatus('sending');
-    try {
-      const r = await fetch('/api/inquiry', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
-      if (!r.ok) throw new Error(String(r.status));
-      (window as any).posthog?.capture('inquiry_submitted', { company: form.company || null });
-      setStatus('ok');
-    } catch {
-      setStatus('error');
-    }
-  };
-
-  if (status === 'ok') {
-    return (
-      <div className="p-8 mx-auto text-center" style={{ background: '#181818', maxWidth: '480px' }}>
-        <div className="text-2xl mb-2" style={{ color: '#4ADE80' }}>✓</div>
-        <p className="text-white font-semibold mb-1">Got it. We'll be in touch within 24 hours.</p>
-        <p className="text-ash text-sm">Your inquiry is already in our pipeline.</p>
-      </div>
-    );
-  }
-
-  const inputStyle: React.CSSProperties = { background: '#181818', border: '1px solid #272727', color: '#F5F1E8' };
-  return (
-    <form onSubmit={submit} className="mx-auto space-y-3 text-left" style={{ maxWidth: '480px' }} noValidate={false}>
-      <div className="grid md:grid-cols-2 gap-3">
-        <input required placeholder="Name" value={form.name} onChange={set('name')} autoComplete="name"
-          className="w-full px-3 py-2 text-base outline-none transition-all duration-300 ease-fluid" style={inputStyle} />
-        <input required type="email" placeholder="Email" value={form.email} onChange={set('email')} autoComplete="email"
-          className="w-full px-3 py-2 text-base outline-none transition-all duration-300 ease-fluid" style={inputStyle} />
-      </div>
-      <input placeholder="Company (optional)" value={form.company} onChange={set('company')} autoComplete="organization"
-        className="w-full px-3 py-2 text-base outline-none transition-all duration-300 ease-fluid" style={inputStyle} />
-      <textarea required placeholder="What do you need built?" rows={4} value={form.message} onChange={set('message')}
-        className="w-full px-3 py-2 text-base outline-none resize-none transition-all duration-300 ease-fluid" style={inputStyle} />
-      <input tabIndex={-1} autoComplete="off" value={form.website} onChange={set('website')}
-        className="hidden" aria-hidden="true" placeholder="Website" />
-      <button type="submit" disabled={status === 'sending'}
-        className="w-full px-6 py-3 font-medium text-sm uppercase tracking-wide transition-all duration-300 ease-fluid hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
-        style={{ background: '#4ADE80', color: '#000000' }}>
-        {status === 'sending' ? 'Sending…' : 'Start a project →'}
-      </button>
-      {status === 'error' && (
-        <p className="text-sm text-center" style={{ color: '#f87171' }}>
-          Connection failed. Please try again, or email{' '}
-          <a className="underline" href="mailto:reports@sloelabs.com">reports@sloelabs.com</a>
-        </p>
-      )}
-    </form>
-  );
-}
 
 // ─── Case Study Page ──────────────────────────────────────────────────────────
 
