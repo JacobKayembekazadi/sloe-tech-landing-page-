@@ -287,7 +287,7 @@ const stats = [
 
 const navLinks = [
   { label: 'Home', hash: '' },
-  { label: 'Systems', hash: 'systems' },
+  { label: 'Campaigns', hash: 'systems' },
   { label: 'How It Works', hash: 'how' },
   { label: 'Operators', hash: 'operators' },
   { label: 'About', hash: 'about' },

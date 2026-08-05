@@ -16,7 +16,7 @@ function PageShell({ children }: { children: React.ReactNode }) {
           </a>
           <div className="hidden md:flex items-center gap-8 text-xs font-code uppercase tracking-widest text-ash">
             <a href="#" className="hover:text-white transition-colors duration-300" onClick={e => { e.preventDefault(); window.location.hash = ''; }}>Home</a>
-            <a href="#systems" className="hover:text-white transition-colors duration-300">Systems</a>
+            <a href="#systems" className="hover:text-white transition-colors duration-300">Campaigns</a>
             <a href="#how" className="hover:text-white transition-colors duration-300">How It Works</a>
             <a href="#operators" className="hover:text-white transition-colors duration-300">Operators</a>
             <a href="#about" className="hover:text-white transition-colors duration-300">About</a>
@@ -74,7 +74,7 @@ export function SystemsPage({ initialSelected = null }: { initialSelected?: stri
         <div className="mx-auto px-6 pb-24" style={{ maxWidth: '1200px' }}>
           <button onClick={() => setSelected(null)}
             className="font-code text-[11.5px] tracking-wide text-ash hover:text-white transition mb-10 inline-block">
-            ← Back to Systems
+            ← Back to Campaigns
           </button>
           <Eyebrow>Primary Campaign · Live Now</Eyebrow>
           <h1 className="font-display font-medium tracking-tight mb-5" style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)', maxWidth: '760px' }}>{active.name}</h1>
@@ -102,8 +102,8 @@ export function SystemsPage({ initialSelected = null }: { initialSelected?: stri
     <PageShell>
       <div className="mx-auto max-w-content px-6 pb-24">
         <Eyebrow>What's Live</Eyebrow>
-        <h1 className="font-display font-medium tracking-tight mb-4" style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)' }}>Systems</h1>
-        <p className="text-ash text-lg mb-14" style={{ maxWidth: '620px' }}>Every system below is deployed and running businesses today — not roadmap.</p>
+        <h1 className="font-display font-medium tracking-tight mb-4" style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)' }}>Campaigns</h1>
+        <p className="text-ash text-lg mb-14" style={{ maxWidth: '620px' }}>Every campaign below is deployed and running businesses today — not roadmap.</p>
         <div className="grid md:grid-cols-2 gap-6">
           {systems.map((sys, i) => (
             <div key={i}
