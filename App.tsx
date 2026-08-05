@@ -528,11 +528,10 @@ export default function App() {
             <div className="max-w-2xl text-lg md:text-xl font-light leading-relaxed pl-6"
               style={{ borderLeft: '1px solid #272727' }}>
               <p className="text-ash">
-                We build the operating systems behind ambitious businesses —
-                in production for InOrbit, Houston Methodist, and SMEs on 4 continents.
+                Our first public campaign is live. Build your first Agentic OS with specialized AI Agents — live in under 2 minutes.
               </p>
               <p className="mt-4 text-paper">
-                Your first agent live in under 2 minutes. Full platforms in weeks, not quarters.
+                Already running production for InOrbit, Houston Methodist, and SMEs on 4 continents.
               </p>
             </div>
           </Reveal>
@@ -543,7 +542,7 @@ export default function App() {
               <a href="#operators"
                 className="btn-offset px-6 py-3 font-medium text-sm uppercase tracking-wide transition-all duration-300 ease-fluid hover:opacity-90 active:scale-[0.98]"
                 style={{ background: '#4ADE80', color: '#000000' }}>
-                Book a Build →
+                Book a Free Build →
               </a>
               <a href="#work"
                 className="text-sm font-code uppercase tracking-widest text-ash hover:text-white transition-colors duration-300">
