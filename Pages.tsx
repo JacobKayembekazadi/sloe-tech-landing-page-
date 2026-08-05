@@ -236,16 +236,11 @@ export function AboutPage() {
       <div className="mx-auto px-6 pb-28" style={{ maxWidth: '900px' }}>
         <Eyebrow>About</Eyebrow>
         <h1 className="font-display font-medium tracking-tight mb-11" style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)' }}>Built by operators, for operators.</h1>
-        <div className="flex gap-8 items-start">
-          <div className="w-[140px] h-[140px] flex-none rounded-full flex items-center justify-center font-display font-semibold text-3xl"
-            style={{ background: '#1F1F1F', color: '#4ADE80' }}>
-            IK
-          </div>
-          <div className="flex flex-col gap-5 text-[17px] leading-relaxed text-ash pt-1.5">
-            <p>I'm Isaac. I started Sloe Labs because most "AI for business" is a demo, not a deployment — a deck, a trial link, and a business owner left to configure the rest themselves.</p>
-            <p>We build the opposite: an operating system that lands on your machine and does real work — triaging inboxes, following up leads, syncing your tools — before anyone leaves the room.</p>
-            <p>Every build is installed in person by a licensed Sloe operator who knows your business, not a script. That's the whole model: real systems, run by real people, proven live before we call it done.</p>
-          </div>
+        <div className="flex flex-col gap-5 text-[17px] leading-relaxed text-ash">
+          <p>Sloe Labs Inc. builds AI operating systems for ambitious businesses — because most "AI for business" is a demo, not a deployment: a deck, a trial link, and an owner left to configure the rest themselves.</p>
+          <p>We build the opposite. An operating system that lands on a business's own machine and does real work — triaging inboxes, following up leads, syncing tools — before anyone leaves the room.</p>
+          <p>Every build is installed in person by a licensed Sloe operator who knows the business, not a script. That's the whole model: real systems, run by real people, proven live before we call it done.</p>
+          <p className="text-[15px] text-ash/70 pt-2">Founded by Isaac Kayembe.</p>
         </div>
       </div>
     </PageShell>
