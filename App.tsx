@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { AgentConsole, Eyebrow, OpsEngine, SubstrateExplorer } from './widgets';
 import { WorkVignette } from './vignettes';
 import { openCookieSettings } from './consent';
+import { SystemsPage, CampaignsPage, HowItWorksPage, OperatorsPage, AboutPage } from './Pages';
+
 
 /** Hash slugs that render a standalone legal page rather than scrolling the home page. */
 const LEGAL_SLUGS = ['privacy', 'cookies', 'terms'];
@@ -283,7 +285,14 @@ const stats = [
   { value: "4", label: "Continents" },
 ];
 
-const navLinks = ['Services', 'Products', 'Work', 'Sports', 'About', 'Contact'];
+const navLinks = [
+  { label: 'Home', hash: '' },
+  { label: 'Systems', hash: 'systems' },
+  { label: 'Campaigns', hash: 'campaigns' },
+  { label: 'How It Works', hash: 'how' },
+  { label: 'Operators', hash: 'operators' },
+  { label: 'About', hash: 'about' },
+];
 
 // ─── Island Nav ───────────────────────────────────────────────────────────────
 
@@ -309,16 +318,16 @@ function IslandNav() {
 
           <div className="hidden md:flex items-center gap-8 text-xs font-code uppercase tracking-widest text-ash">
             {navLinks.map(link => (
-              <a key={link} href={`#${link.toLowerCase()}`}
+              <a key={link.hash || 'home'} href={`#${link.hash}`}
                 className="hover:text-white transition-colors duration-300">
-                {link}
+                {link.label}
               </a>
             ))}
           </div>
 
-          <a href="#contact"
-            className="hidden md:block text-xs font-code uppercase tracking-widest px-4 py-2 transition-colors duration-300 bg-paper text-ink hover:bg-signal-green">
-            Start a project
+          <a href="#operators"
+            className="hidden md:block text-xs font-code font-semibold uppercase tracking-widest px-4 py-2.5 rounded-full transition-colors duration-300 bg-signal-green text-ink hover:brightness-110">
+            Book a Build
           </a>
 
           <button
@@ -340,7 +349,7 @@ function IslandNav() {
         style={{ backdropFilter: 'blur(48px)', WebkitBackdropFilter: 'blur(48px)', background: 'rgba(0,0,0,0.8)' }}>
         <div className="flex flex-col items-center justify-center h-full gap-6">
           {navLinks.map((link, i) => (
-            <a key={link} href={`#${link.toLowerCase()}`}
+            <a key={link.hash || 'home'} href={`#${link.hash}`}
               className="font-display text-3xl font-semibold text-paper transition-all duration-700 ease-fluid"
               style={{
                 transform: open ? 'translateY(0)' : 'translateY(48px)',
@@ -348,10 +357,10 @@ function IslandNav() {
                 transitionDelay: `${100 + i * 50}ms`,
               }}
               onClick={() => setOpen(false)}>
-              {link}
+              {link.label}
             </a>
           ))}
-          <a href="#contact"
+          <a href="#operators"
             className="mt-4 px-6 py-3 text-sm font-code uppercase tracking-widest transition-all duration-700 ease-fluid active:scale-[0.98]"
             style={{
               background: '#4ADE80', color: '#000000',
@@ -459,7 +468,8 @@ export default function App() {
   useEffect(() => {
     const handler = () => {
       const slug = window.location.hash.replace('#', '') || 'home';
-      if (work.find(w => w.slug === slug) || LEGAL_SLUGS.includes(slug)) {
+      const topLevelPages = ['privacy', 'cookies', 'terms', 'systems', 'campaigns', 'how', 'operators', 'about'];
+      if (work.find(w => w.slug === slug) || topLevelPages.includes(slug)) {
         setPage(slug);
         window.scrollTo(0, 0);
       } else {
@@ -483,6 +493,11 @@ export default function App() {
   if (page === 'privacy') return <SimplePage title="Privacy policy" body={PRIVACY} />;
   if (page === 'cookies') return <SimplePage title="Cookie policy" body={COOKIES} />;
   if (page === 'terms') return <SimplePage title="Terms of service" body={TERMS} />;
+  if (page === 'systems') return <SystemsPage />;
+  if (page === 'campaigns') return <CampaignsPage />;
+  if (page === 'how') return <HowItWorksPage />;
+  if (page === 'operators') return <OperatorsPage />;
+  if (page === 'about') return <AboutPage />;
 
   return (
     <div className="min-h-screen font-body grain" style={{ background: '#000000', color: '#F5F1E8' }}>
@@ -874,9 +889,9 @@ export default function App() {
               <div className="text-white font-semibold text-sm">Navigation</div>
               <div className="flex flex-col gap-2">
                 {navLinks.map(link => (
-                  <a key={link} href={`#${link.toLowerCase()}`}
+                  <a key={link.hash || 'home'} href={`#${link.hash}`}
                     className="text-ash hover:text-white text-sm transition-colors duration-300">
-                    {link}
+                    {link.label}
                   </a>
                 ))}
               </div>
