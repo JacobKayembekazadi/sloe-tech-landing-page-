@@ -17,7 +17,7 @@ function PageShell({ children }: { children: React.ReactNode }) {
           <div className="hidden md:flex items-center gap-8 text-xs font-code uppercase tracking-widest text-ash">
             <a href="#" className="hover:text-white transition-colors duration-300" onClick={e => { e.preventDefault(); window.location.hash = ''; }}>Home</a>
             <a href="#systems" className="hover:text-white transition-colors duration-300">Campaigns</a>
-            <a href="#how" className="hover:text-white transition-colors duration-300">How It Works</a>
+            <a href="#how" className="hover:text-white transition-colors duration-300">Get Yours</a>
             <a href="#operators" className="hover:text-white transition-colors duration-300">Operators</a>
             <a href="#about" className="hover:text-white transition-colors duration-300">About</a>
           </div>
@@ -179,7 +179,7 @@ export function HowItWorksPage() {
     <PageShell>
       <div className="mx-auto max-w-content px-6 pb-24">
         <Eyebrow>The Process</Eyebrow>
-        <h1 className="font-display font-medium tracking-tight mb-14" style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)' }}>How It Works</h1>
+        <h1 className="font-display font-medium tracking-tight mb-14" style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)' }}>How To Get Yours</h1>
         <div className="grid md:grid-cols-4 border-t" style={{ borderColor: '#272727' }}>
           {steps.map((step, i) => (
             <div key={step.n} className="pt-8 pr-6 border-r" style={{ borderColor: i === steps.length - 1 ? 'transparent' : '#272727' }}>
