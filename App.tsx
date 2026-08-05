@@ -636,7 +636,7 @@ export default function App() {
                   One operating system underneath
                 </h2>
                 <p className="text-ash mt-3 text-lg" style={{ maxWidth: '65ch' }}>
-                  We don't rebuild plumbing per product. Three layers, one machine:
+                  We don't rebuild plumbing per product. Every system, platform, or app we build comes from the same three layers, one machine — which is why it ships fast and doesn't break.
                 </p>
 
                 <div className="mt-10">
