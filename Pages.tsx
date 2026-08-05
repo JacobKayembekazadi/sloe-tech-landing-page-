@@ -50,18 +50,39 @@ const systems = [
   { slug: 'next-2', name: 'Next Vertical', tier: 'COMING SOON', desc: 'Room reserved for the next operating system as operators go live.', tags: [], hasDetail: false },
 ];
 
-const campaignDetails: Record<string, { desc: string; video: string; slides: { src: string; label: string }[] }> = {
+const campaignDetails: Record<string, {
+  desc: string;
+  video: { src: string; stage: string; title: string; body: string };
+  slides: { src: string; stage: string; title: string; body: string }[];
+}> = {
   'agentic-os-platform': {
     desc: "The complete deployment framework for on-device AI operating systems — inbox triage, lead follow-ups, and tool syncing, running live on a business's own machine within minutes of the build.",
-    video: '/assets/agentic_os_demo.mp4',
+    video: {
+      src: '/assets/agentic_os_demo.mp4',
+      stage: '01',
+      title: 'Build It Live',
+      body: 'Answer a few tight questions. The Architect builds your working application in real time — right in front of you.',
+    },
     slides: [
-      { src: '/assets/slide_inbox.png', label: 'Inbox & Email Triage' },
-      { src: '/assets/slide_convo.png', label: 'Conversational Task Handoff' },
-      { src: '/assets/slide_integrations.png', label: 'Integrations Hub' },
-      { src: '/assets/slide_library.png', label: 'Agent Library' },
+      { src: '/assets/slide_integrations.png', stage: '02', title: 'Connect Your Tools', body: 'Link Gmail, LinkedIn, and the tools the business already runs on — approved access, nothing stored.' },
+      { src: '/assets/slide_inbox.png', stage: '03', title: 'Put It To Work', body: 'Your Agent triages the real inbox and flags what actually needs a human.' },
+      { src: '/assets/slide_convo.png', stage: '04', title: 'Hand Off Real Tasks', body: 'Tell your Agent what to do in plain language — it drafts, sends, and reports back.' },
+      { src: '/assets/slide_library.png', stage: '05', title: 'Scale The Team', body: 'Add specialist agents — sales, marketing, finance — as the work grows.' },
     ],
   },
 };
+
+function StageCaption({ stage, title, body }: { stage: string; title: string; body: string }) {
+  return (
+    <div className="mt-3.5">
+      <div className="flex items-baseline gap-2.5 mb-1.5">
+        <span className="font-code text-[11px] tracking-widest" style={{ color: '#4ADE80' }}>STAGE {stage}</span>
+        <span className="font-display font-semibold text-[15px]">{title}</span>
+      </div>
+      <div className="text-ash text-[13.5px] leading-relaxed">{body}</div>
+    </div>
+  );
+}
 
 export function SystemsPage({ initialSelected = null }: { initialSelected?: string | null }) {
   const [selected, setSelected] = useState<string | null>(initialSelected);
@@ -82,14 +103,17 @@ export function SystemsPage({ initialSelected = null }: { initialSelected?: stri
           <a href="#operators" className="inline-block font-code font-semibold text-[13px] uppercase tracking-widest px-8 py-4 rounded-full bg-signal-green text-ink hover:brightness-110 transition mb-14">
             Book Your Free Build and Installation
           </a>
-          <video src={detail.video} controls playsInline
-            className="w-full rounded mb-14 block"
-            style={{ aspectRatio: '16/9', border: '1px solid #272727', background: '#141414', objectFit: 'cover' }} />
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="mb-14">
+            <video src={detail.video.src} controls playsInline
+              className="w-full rounded block"
+              style={{ aspectRatio: '16/9', border: '1px solid #272727', background: '#141414', objectFit: 'cover' }} />
+            <StageCaption stage={detail.video.stage} title={detail.video.title} body={detail.video.body} />
+          </div>
+          <div className="grid md:grid-cols-2 gap-x-6 gap-y-12">
             {detail.slides.map(s => (
               <div key={s.src}>
-                <img src={s.src} alt={s.label} className="w-full rounded" style={{ aspectRatio: '16/10', border: '1px solid #272727', objectFit: 'cover' }} />
-                <div className="font-code text-[11px] tracking-wide text-ash mt-2.5">{s.label}</div>
+                <img src={s.src} alt={s.title} className="w-full rounded" style={{ aspectRatio: '16/10', border: '1px solid #272727', objectFit: 'cover' }} />
+                <StageCaption stage={s.stage} title={s.title} body={s.body} />
               </div>
             ))}
           </div>
