@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { AgentConsole, Eyebrow, OpsEngine, SubstrateExplorer } from './widgets';
 import { WorkVignette } from './vignettes';
+import { openCookieSettings } from './consent';
+
+/** Hash slugs that render a standalone legal page rather than scrolling the home page. */
+const LEGAL_SLUGS = ['privacy', 'cookies', 'terms'];
 
 // ─── Scroll Reveal Hook ───────────────────────────────────────────────────────
 
@@ -455,7 +459,7 @@ export default function App() {
   useEffect(() => {
     const handler = () => {
       const slug = window.location.hash.replace('#', '') || 'home';
-      if (work.find(w => w.slug === slug) || slug === 'privacy' || slug === 'terms') {
+      if (work.find(w => w.slug === slug) || LEGAL_SLUGS.includes(slug)) {
         setPage(slug);
         window.scrollTo(0, 0);
       } else {
@@ -477,6 +481,7 @@ export default function App() {
     return <CaseStudyPage project={caseStudyProject} />;
   }
   if (page === 'privacy') return <SimplePage title="Privacy policy" body={PRIVACY} />;
+  if (page === 'cookies') return <SimplePage title="Cookie policy" body={COOKIES} />;
   if (page === 'terms') return <SimplePage title="Terms of service" body={TERMS} />;
 
   return (
@@ -890,9 +895,16 @@ export default function App() {
                 <a href="#privacy" className="text-ash hover:text-white text-sm transition-colors duration-300">
                   Privacy policy
                 </a>
+                <a href="#cookies" className="text-ash hover:text-white text-sm transition-colors duration-300">
+                  Cookie policy
+                </a>
                 <a href="#terms" className="text-ash hover:text-white text-sm transition-colors duration-300">
                   Terms of service
                 </a>
+                <button type="button" onClick={openCookieSettings}
+                  className="text-ash hover:text-white text-sm transition-colors duration-300 text-left">
+                  Cookie settings
+                </button>
               </div>
             </div>
           </div>
@@ -1138,19 +1150,171 @@ function CaseStudyPage({ project }: { project: WorkItem }) {
 
 // ─── Simple legal pages ───────────────────────────────────────────────────────
 
-const PRIVACY = [
-  "Sloe Labs collects only the information you submit through the contact form on this site: your name, email address, company, and message. We use it solely to respond to your inquiry and manage our engagement pipeline.",
-  "This site uses PostHog analytics to understand aggregate visitor behavior (pages viewed, referral source). We do not sell, rent, or share personal information with third parties.",
-  "Inquiry data is stored in our project tracking system and retained while relevant to an active or potential engagement. To request deletion of your data, email reports@sloelabs.com.",
+type Block =
+  | { h: string }
+  | { p: string }
+  | { list: string[] }
+  | { table: { head: string[]; rows: string[][] } }
+  | { action: string };
+
+const PRIVACY: Block[] = [
+  { p: "This site, work.sloelabs.com, is operated by Sloe Labs Inc. — a Canadian federal corporation (CBCA corporation number 1781545-0) registered in Ontario, Canada. We decide what happens to the personal information described below, which makes us the controller of it. Everything on this page routes to one address: reports@sloelabs.com." },
+
+  { h: "What we collect" },
+  { p: "Two things, and only two. There is no account, no login, and no tracking pixel in the contact form." },
+  { list: [
+    "The contact form — your name, email address, company (optional), and message.",
+    "Analytics, and only if you accept — which pages you view, the link or search that sent you, clicks on page elements, and coarse device and browser details. Your IP address reaches our analytics provider and is used to derive an approximate location.",
+  ] },
+  { p: "If you decline analytics, none of the second category is collected. The script is never loaded at all." },
+
+  { h: "Why, and on what basis" },
+  { list: [
+    "To answer you. Contact-form details are used to reply and to manage the conversation that follows. The lawful basis is the steps taken at your request before entering a contract, plus our legitimate interest in running a sales pipeline.",
+    "To understand what the site is doing. Analytics only. The lawful basis is your consent, which you can withdraw at any moment and as easily as you gave it.",
+  ] },
+
+  { h: "Where it goes" },
+  { p: "We use four service providers. This is the complete list, not a representative sample." },
+  { table: {
+    head: ["Provider", "What it handles", "Where"],
+    rows: [
+      ["Linear", "The contact form files an issue in our project tracker containing your name, email, company and message", "United States"],
+      ["PostHog", "Analytics events — only after you accept", "United States"],
+      ["Cloudflare", "Hosting, CDN, and an aggregate performance measurement that sets no cookie", "Global edge network"],
+      ["Google Fonts", "Serves the site's typefaces; your IP address is disclosed to Google when a page loads", "United States"],
+    ],
+  } },
+  { p: "We do not sell, rent, or trade personal information, we do not share it with anyone outside that list, and we do not use it to train AI models." },
+
+  { h: "Leaving Canada" },
+  { p: "Those providers are in the United States, so anything you send us is processed outside Canada and outside the EEA and the UK. Each of them offers a data processing agreement incorporating the European Commission's Standard Contractual Clauses. If you are contracting with us and need the transfer paperwork for your own compliance file, email reports@sloelabs.com and we will sort it out with you." },
+
+  { h: "How long we keep it" },
+  { p: "Inquiries stay in our issue tracker for as long as they are relevant to a live or potential engagement. We will be straight with you: we do not currently run an automatic deletion schedule for them. If you want your inquiry removed, email reports@sloelabs.com and we will delete it." },
+  { p: "Analytics events are held in our PostHog project. The identifier stored in your browser expires 12 months after your last visit, and declining analytics clears it immediately." },
+
+  { h: "Your rights" },
+  { p: "Wherever you are, you can ask us for a copy of what we hold about you, ask us to correct it, ask us to delete it, object to how we are using it, or withdraw your analytics consent. One email — reports@sloelabs.com — covers all of it, and we will answer within 30 days." },
+  { p: "You can also complain to a regulator: the Office of the Privacy Commissioner of Canada, your national supervisory authority in the EU, the Information Commissioner's Office in the UK, or the Information Regulator in South Africa." },
+
+  { h: "Cookies" },
+  { p: "One analytics identifier, set only if you accept, plus one entry that remembers your answer. The full list with names and lifetimes is on the cookie policy, and you can change your mind there or here." },
+  { action: "Change your cookie choice" },
+
+  { h: "Changes" },
+  { p: "If we change this policy we change the date below. If we materially change how analytics work, we will ask for your consent again rather than assume the old answer still applies." },
 ];
 
-const TERMS = [
-  "This website is provided by Sloe Labs Inc. (Canada) for informational purposes. Content describes our services and past work; it does not constitute a binding offer.",
-  "Case study descriptions reflect real engagements. Client names and details are shared with permission or anonymized. Linked demonstrations may run on representative data.",
-  "Engagements are governed by individually signed agreements, not by this website. For questions, contact reports@sloelabs.com.",
+const COOKIES: Block[] = [
+  { p: "This site uses one non-essential cookie, and it is not set unless you accept it. What follows was checked in a browser against the live site — the names, the lifetimes, and the claim that nothing else sets a cookie are observations, not a template." },
+
+  { h: "If you do nothing" },
+  { p: "No analytics script loads, no analytics cookie is written, and no analytics event is sent anywhere. The banner stays until you answer it. The site behaves identically whichever way you choose — nothing is withheld, degraded, or nagged." },
+
+  { h: "What gets set, and when" },
+  { table: {
+    head: ["Name", "Kind", "Set by", "What it does", "Expires"],
+    rows: [
+      ["sloe_consent_v1", "Local storage", "Sloe Labs", "Remembers whether you accepted or declined, so we stop asking", "When you clear your browser storage"],
+      ["ph_phc_…_posthog", "Cookie and local storage", "PostHog", "Analytics identifier — a random device id, a session id, and the page and referrer you first arrived from", "12 months after your last visit"],
+      ["ph_phc_…_window_id (and two related keys)", "Session storage", "PostHog", "Keeps events attached to the right browser tab", "When you close the tab"],
+    ],
+  } },
+  { p: "Only the first row applies if you decline — it is what records the decline, and it is why the banner does not ask again. The PostHog rows appear only after you accept, and are removed if you later change your mind." },
+
+  { h: "Things that are not cookies" },
+  { list: [
+    "Cloudflare serves this site and takes an aggregate performance measurement. It sets no cookie: on a fresh visit the only cookie present is the PostHog one, and only once accepted.",
+    "The typefaces load from Google Fonts. That sets no cookie either, but it does disclose your IP address to Google, which is why Google is named in the privacy policy.",
+  ] },
+
+  { h: "Changing your mind" },
+  { p: "Decline after accepting and we stop capture, delete the PostHog entries from your browser, and expire the cookie — including any copy an earlier visit left on the parent domain. You can also clear everything yourself in your browser settings; nothing here survives that." },
+  { action: "Change your cookie choice" },
 ];
 
-function SimplePage({ title, body }: { title: string; body: string[] }) {
+const TERMS: Block[] = [
+  { p: "This website is provided by Sloe Labs Inc. (Canada) for informational purposes. Content describes our services and past work; it does not constitute a binding offer." },
+  { p: "Case study descriptions reflect real engagements. Client names and details are shared with permission or anonymized. Linked demonstrations may run on representative data." },
+  { p: "Engagements are governed by individually signed agreements, not by this website. For questions, contact reports@sloelabs.com." },
+];
+
+function LegalBlocks({ body }: { body: Block[] }) {
+  return (
+    <>
+      {body.map((block, i) => {
+        if ('h' in block) {
+          return (
+            <h2 key={i} className="font-display font-medium tracking-tight text-paper pt-6"
+              style={{ fontSize: 'clamp(1.25rem, 3vw, 1.75rem)' }}>
+              {block.h}
+            </h2>
+          );
+        }
+        if ('p' in block) {
+          return (
+            <p key={i} className="text-ash text-base leading-relaxed" style={{ maxWidth: '65ch' }}>
+              {block.p}
+            </p>
+          );
+        }
+        if ('list' in block) {
+          return (
+            <ul key={i} className="space-y-3" style={{ maxWidth: '65ch' }}>
+              {block.list.map((item, j) => (
+                <li key={j} className="flex items-start gap-3 text-ash text-base leading-relaxed">
+                  <span style={{ color: '#4ADE80', flexShrink: 0 }} aria-hidden="true">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          );
+        }
+        if ('table' in block) {
+          return (
+            <div key={i} className="overflow-x-auto" style={{ border: '1px solid #272727' }}>
+              <table className="w-full text-left text-sm" style={{ minWidth: '640px', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr>
+                    {block.table.head.map(h => (
+                      <th key={h} scope="col"
+                        className="px-4 py-3 text-xs font-code uppercase tracking-widest font-medium"
+                        style={{ background: '#181818', color: '#4ADE80', borderBottom: '1px solid #272727' }}>
+                        {h}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {block.table.rows.map((row, r) => (
+                    <tr key={r}>
+                      {row.map((cell, c) => (
+                        <td key={c} className="px-4 py-3 align-top leading-relaxed"
+                          style={{ color: c === 0 ? '#F5F1E8' : '#9B9B9B', borderTop: r === 0 ? 'none' : '1px solid #272727' }}>
+                          {cell}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          );
+        }
+        return (
+          <button key={i} type="button" onClick={openCookieSettings}
+            className="btn-offset inline-flex items-center px-6 py-3 font-medium text-sm uppercase tracking-wide transition-all duration-300 ease-fluid hover:opacity-90 active:scale-[0.98]"
+            style={{ background: '#4ADE80', color: '#000000' }}>
+            {block.action} →
+          </button>
+        );
+      })}
+    </>
+  );
+}
+
+function SimplePage({ title, body }: { title: string; body: Block[] }) {
   return (
     <div className="min-h-screen font-body grain" style={{ background: '#000000', color: '#F5F1E8' }}>
       <nav className="fixed top-0 inset-x-0 z-50"
@@ -1173,11 +1337,14 @@ function SimplePage({ title, body }: { title: string; body: string[] }) {
           {title}
         </h1>
         <div className="space-y-6">
-          {body.map((p, i) => (
-            <p key={i} className="text-ash text-base leading-relaxed" style={{ maxWidth: '65ch' }}>{p}</p>
-          ))}
+          <LegalBlocks body={body} />
         </div>
-        <p className="text-ash text-sm mt-12">Last updated July 2026 · Sloe Labs Inc., Toronto, Canada</p>
+        <p className="text-ash text-sm mt-12" style={{ borderTop: '1px solid #272727', paddingTop: '2rem' }}>
+          Last updated 4 August 2026 · Sloe Labs Inc., Ontario, Canada ·{' '}
+          <a className="underline hover:text-white transition-colors duration-300" href="mailto:reports@sloelabs.com">
+            reports@sloelabs.com
+          </a>
+        </p>
       </div>
     </div>
   );
