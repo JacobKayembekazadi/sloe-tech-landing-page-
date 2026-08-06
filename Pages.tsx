@@ -288,7 +288,7 @@ const operatorSpotlights: Record<string, {
     vertical: 'Sports OS',
     regNumber: '23279',
     proof: ['Real Zaragoza · Spain', 'Parma Calcio · Italy', 'Soccer Club President · Qatar', 'Sports Agencies · EU'],
-    body: "Dieubon doesn't sell a demo — he gets Sloe Labs into rooms we couldn't reach alone. He delivered an AI Operating System into the academy of Real Zaragoza, a professional Spanish football club based in Spain, opened the door to a conversation with Parma Calcio — First Division club based in Italy — and personally introduced us to the president of a Qatar-based football. If you're running a club, agency, or academy, that's exactly what you're booking when you book him: someone who's already proven he can get a system in front of the people who decide — not just build it and hope someone notices.",
+    body: "Dieubon doesn't sell a demo — he gets Sloe Labs into rooms we couldn't reach alone. He delivered an AI Operating System into the academy of Real Zaragoza, a professional Spanish football club based in Spain, opened the door to a conversation with Parma Calcio — First Division club based in Italy — and personally introduced us to the president of a Qatar-based football club. If you're running a club, agency, or academy, that's exactly what you're booking when you book him: someone who's already proven he can get a system in front of the people who decide — not just build it and hope someone notices.",
     ctaLabel: 'Book Time With Dieubon →',
     campaignSlug: 'agentic-os-platform',
     campaignCtaLabel: 'Book With Dieubon →',
