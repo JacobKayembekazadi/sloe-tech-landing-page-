@@ -238,6 +238,25 @@ const operatorPortfolios: Record<string, { name: string; tagline: string; tags: 
   ],
 };
 
+// Operator Spotlight — the credentialed, proof-driven story for an operator's
+// portfolio page. Only populate once the real story is written and confirmed;
+// no spotlight block renders for an operator without one.
+const operatorSpotlights: Record<string, {
+  badge: string;
+  roleLine: string;
+  proof: string[];
+  body: string;
+  ctaLabel: string;
+}> = {
+  'd14-sports': {
+    badge: 'SLOE AI LICENSED OPERATOR · OFFICIAL CREATOR & DISTRIBUTION CREDENTIAL · REG #23279',
+    roleLine: 'The Licensed Operator who turns sports organizations\u2019 AI ambitions into systems that actually run.',
+    proof: ['Real Zaragoza · Spain', 'Parma Calcio · Italy', 'Soccer Club President · Qatar', 'Sports Agencies · EU'],
+    body: "Dieubon doesn't sell a demo — he gets Sloe Labs into rooms we couldn't reach alone. He delivered an AI Operating System into Real Zaragoza's academy in Spain, opened the door to a conversation with Parma Calcio in Italy, and personally introduced us to a soccer club president in Qatar. If you're running a club, agency, or academy, that's exactly what you're booking when you book him: someone who's already proven he can get a system in front of the people who decide — not just build it and hope someone notices.",
+    ctaLabel: 'Book Time With Dieubon →',
+  },
+};
+
 function Chip({ label, active, onClick }: { label: string; active: boolean; onClick: () => void; key?: React.Key }) {
   return (
     <span onClick={onClick} className="cursor-pointer font-code text-[11.5px] tracking-wide px-4 py-2 rounded-full transition"
@@ -254,6 +273,7 @@ function Chip({ label, active, onClick }: { label: string; active: boolean; onCl
 function OperatorPortfolio({ slug, onBack }: { slug: string; onBack: () => void }) {
   const op = operators.find(o => o.slug === slug)!;
   const items = operatorPortfolios[slug] ?? [];
+  const spotlight = operatorSpotlights[slug];
 
   return (
     <div className="mx-auto max-w-content px-6 pb-24">
@@ -264,6 +284,29 @@ function OperatorPortfolio({ slug, onBack }: { slug: string; onBack: () => void 
       <Eyebrow>AI Portfolio</Eyebrow>
       <h1 className="font-display font-medium tracking-tight mb-2" style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)' }}>{op.business}</h1>
       <div className="font-code text-[12.5px] text-ash mb-9">{op.operator} · {op.city} · {op.niche}</div>
+
+      {spotlight && (
+        <div className="rounded p-8 mb-14" style={{ border: '1px solid rgba(74,222,128,.3)', background: '#0F1712' }}>
+          <div className="font-code text-[10.5px] tracking-widest mb-5" style={{ color: '#4ADE80' }}>{spotlight.badge}</div>
+          <div className="font-display font-semibold text-xl mb-6 leading-snug" style={{ maxWidth: '640px' }}>{spotlight.roleLine}</div>
+          <div className="flex flex-wrap items-center gap-2 mb-6">
+            {spotlight.proof.map(item => (
+              <span key={item} className="font-code text-[10.5px] tracking-wide px-3 py-1.5 rounded-full"
+                style={{ border: '1px solid rgba(74,222,128,.35)', color: '#4ADE80' }}>
+                {item.toUpperCase()}
+              </span>
+            ))}
+            <span className="font-code text-[10.5px] tracking-wide text-ash italic">and many more...</span>
+          </div>
+          <p className="text-[15px] leading-relaxed text-ash mb-7" style={{ maxWidth: '680px' }}>{spotlight.body}</p>
+          <button onClick={e => { e.preventDefault(); }}
+            title="Calendly link coming soon"
+            className="font-code text-[12px] font-semibold tracking-widest uppercase px-6 py-3 rounded-full transition opacity-90"
+            style={{ background: '#4ADE80', color: '#000000' }}>
+            {spotlight.ctaLabel}
+          </button>
+        </div>
+      )}
 
       {items.length > 0 ? (
         <div className="grid md:grid-cols-2 gap-6">
