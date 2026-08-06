@@ -1,8 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // ─── Shared shell (matches SimplePage nav pattern already used in App.tsx) ────
 
+const pageShellNavLinks = [
+  { label: 'Home', hash: '' },
+  { label: 'Campaigns', hash: 'systems' },
+  { label: 'Get Yours', hash: 'how' },
+  { label: 'Operators', hash: 'operators' },
+  { label: 'About', hash: 'about' },
+];
+
 function PageShell({ children }: { children: React.ReactNode }) {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [open]);
+
   return (
     <div className="min-h-screen font-body grain" style={{ background: '#000000', color: '#F5F1E8' }}>
       <nav className="fixed top-0 inset-x-0 z-50"
@@ -10,23 +25,66 @@ function PageShell({ children }: { children: React.ReactNode }) {
         aria-label="Main">
         <div className="mx-auto max-w-content px-6 h-16 flex items-center justify-between">
           <a href="#" className="flex items-center gap-3 font-display font-medium tracking-tight text-white text-lg uppercase"
-            onClick={e => { e.preventDefault(); window.location.hash = ''; }}>
+            onClick={e => { e.preventDefault(); window.location.hash = ''; setOpen(false); }}>
             <span className="w-6 h-6 bg-signal-green" aria-hidden="true" />
             SLOE LABS
           </a>
           <div className="hidden md:flex items-center gap-8 text-xs font-code uppercase tracking-widest text-ash">
-            <a href="#" className="hover:text-white transition-colors duration-300" onClick={e => { e.preventDefault(); window.location.hash = ''; }}>Home</a>
-            <a href="#systems" className="hover:text-white transition-colors duration-300">Campaigns</a>
-            <a href="#how" className="hover:text-white transition-colors duration-300">Get Yours</a>
-            <a href="#operators" className="hover:text-white transition-colors duration-300">Operators</a>
-            <a href="#about" className="hover:text-white transition-colors duration-300">About</a>
+            {pageShellNavLinks.map(link => (
+              <a key={link.hash || 'home'} href={`#${link.hash}`}
+                className="hover:text-white transition-colors duration-300">
+                {link.label}
+              </a>
+            ))}
           </div>
           <a href="#operators"
             className="hidden md:block text-xs font-code font-semibold uppercase tracking-widest px-4 py-2.5 rounded-full transition-colors duration-300 bg-signal-green text-ink hover:brightness-110">
             Book a Build
           </a>
+          <button
+            className="md:hidden relative w-9 h-9 flex items-center justify-center"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
+            onClick={() => setOpen(!open)}>
+            <span className="absolute block h-[2px] w-5 bg-paper transition-all duration-700 ease-fluid"
+              style={{ transform: open ? 'rotate(45deg)' : 'translateY(-4px)' }} />
+            <span className="absolute block h-[2px] w-5 bg-paper transition-all duration-700 ease-fluid"
+              style={{ transform: open ? 'rotate(-45deg)' : 'translateY(4px)' }} />
+          </button>
         </div>
       </nav>
+
+      {/* Fullscreen mobile overlay — mirrors IslandNav's pattern in App.tsx */}
+      <div
+        className={`fixed inset-0 z-40 md:hidden transition-all duration-700 ease-fluid ${open ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        style={{ backdropFilter: 'blur(48px)', WebkitBackdropFilter: 'blur(48px)', background: 'rgba(0,0,0,0.8)' }}>
+        <div className="flex flex-col items-center justify-center h-full gap-6">
+          {pageShellNavLinks.map((link, i) => (
+            <a key={link.hash || 'home'} href={`#${link.hash}`}
+              className="font-display text-3xl font-semibold text-paper transition-all duration-700 ease-fluid"
+              style={{
+                transform: open ? 'translateY(0)' : 'translateY(48px)',
+                opacity: open ? 1 : 0,
+                transitionDelay: `${100 + i * 50}ms`,
+              }}
+              onClick={() => setOpen(false)}>
+              {link.label}
+            </a>
+          ))}
+          <a href="#operators"
+            className="mt-4 px-6 py-3 text-sm font-code uppercase tracking-widest transition-all duration-700 ease-fluid active:scale-[0.98]"
+            style={{
+              background: '#4ADE80', color: '#000000',
+              transform: open ? 'translateY(0)' : 'translateY(48px)',
+              opacity: open ? 1 : 0,
+              transitionDelay: `${100 + pageShellNavLinks.length * 50}ms`,
+            }}
+            onClick={() => setOpen(false)}>
+            Book a Build
+          </a>
+        </div>
+      </div>
+
       <main className="pt-32">{children}</main>
       <footer className="border-t mx-auto max-w-content px-6 py-8 flex flex-wrap gap-4 justify-between items-center font-code text-[11.5px] tracking-wide text-ash"
         style={{ borderColor: '#272727' }}>
@@ -331,7 +389,7 @@ function LicenseBadge({ territory, vertical, regNumber }: { territory: string; v
           </div>
           <span className="font-code text-[11px] tracking-wide text-ash px-2.5 py-1 rounded" style={{ border: '1px solid #272727' }}>Reg #{regNumber}</span>
         </div>
-        <div className="grid grid-cols-2 gap-6 pt-4" style={{ borderTop: '1px solid #1C1C1C' }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 pt-4" style={{ borderTop: '1px solid #1C1C1C' }}>
           <div>
             <div className="font-code text-[10px] tracking-widest text-ash mb-1">LICENSED TERRITORY</div>
             <div className="font-display font-semibold text-[15px]">{territory}</div>
