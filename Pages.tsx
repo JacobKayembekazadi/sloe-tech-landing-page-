@@ -315,10 +315,10 @@ function LicenseBadge({ territory, vertical, regNumber }: { territory: string; v
       <div className="p-6">
         <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full flex items-center justify-center flex-none"
-              style={{ background: 'rgba(234,179,8,0.12)', border: '1px solid rgba(234,179,8,0.5)' }}>
-              <span style={{ color: '#EAB308', fontSize: '18px', fontWeight: 'bold' }}>✓</span>
-            </div>
+            <svg width="32" height="32" viewBox="0 0 500 500" fill="none" className="flex-none">
+              <path fill="#CA9A1C" d="M250 76.5c14.6 0 28.5 5.5 39.1 15.4 13.9 12.9 33.3 18.2 52 14.2 14.3-3.1 29.3-.1 41.3 8.3 15.6 10.8 24.8 28.5 24.6 47.5-.2 18.9 8.7 36.8 23.9 48 11.6 8.6 18.5 22.1 19 36.3.6 14.2-5.3 28.1-16.3 37.3-14.3 12-21.8 30.7-19.8 49.6 1.5 14.4-3.5 28.8-13.8 38.6-13.4 12.8-33.1 17.1-51.5 11.2-18.4-5.9-38.3-1.4-52.4 11.8-10.8 10.1-25.3 15.7-40.3 15.7s-29.5-5.6-40.3-15.7c-14.1-13.2-34-17.7-52.4-11.8-18.4 5.9-38.1 1.6-51.5-11.2-10.3-9.8-15.3-24.2-13.8-38.6 2-18.9-5.5-37.6-19.8-49.6-11-9.2-16.9-23.1-16.3-37.3.5-14.2 7.4-27.7 19-36.3 15.2-11.2 24.1-29.1 23.9-48-.2-19 9-36.7 24.6-47.5 12-8.4 27-11.4 41.3-8.3 18.7 4 38.1-1.3 52-14.2 10.6-9.9 24.5-15.4 39.1-15.4z" />
+              <path fill="#FFFFFF" d="M225.8 331.6c-4.8 0-9.6-1.8-13.3-5.4l-66.2-66.2c-7.3-7.3-7.3-19.2 0-26.5 7.3-7.3 19.2-7.3 26.5 0l53 53 113.6-113.6c7.3-7.3 19.2-7.3 26.5 0 7.3 7.3 7.3 19.2 0 26.5L239.1 326.2c-3.7 3.6-8.5 5.4-13.3 5.4z" />
+            </svg>
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="font-display font-bold text-[15px] tracking-wide">SLOE AI LICENSE</span>
