@@ -84,6 +84,53 @@ function StageCaption({ stage, title, body }: { stage: string; title: string; bo
   );
 }
 
+type CampaignDetail = {
+  desc: string;
+  video: { src: string; stage: string; title: string; body: string };
+  slides: { src: string; stage: string; title: string; body: string }[];
+};
+
+function CampaignDetailBody({ name, detail, ctaLabel, ctaHref, ctaInert }: {
+  name: string;
+  detail: CampaignDetail;
+  ctaLabel: string;
+  ctaHref?: string;
+  ctaInert?: boolean;
+}) {
+  return (
+    <>
+      <Eyebrow>Primary Campaign · Live Now</Eyebrow>
+      <h1 className="font-display font-medium tracking-tight mb-5" style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)', maxWidth: '760px' }}>{name}</h1>
+      <p className="text-ash text-lg leading-relaxed mb-9" style={{ maxWidth: '680px' }}>{detail.desc}</p>
+      {ctaInert ? (
+        <button onClick={e => { e.preventDefault(); }}
+          title="Calendly link coming soon"
+          className="inline-block font-code font-semibold text-[13px] uppercase tracking-widest px-8 py-4 rounded-full bg-signal-green text-ink hover:brightness-110 transition mb-14 opacity-90">
+          {ctaLabel}
+        </button>
+      ) : (
+        <a href={ctaHref} className="inline-block font-code font-semibold text-[13px] uppercase tracking-widest px-8 py-4 rounded-full bg-signal-green text-ink hover:brightness-110 transition mb-14">
+          {ctaLabel}
+        </a>
+      )}
+      <div className="mb-14">
+        <video src={detail.video.src} controls playsInline
+          className="w-full rounded block"
+          style={{ aspectRatio: '16/9', border: '1px solid #272727', background: '#141414', objectFit: 'cover' }} />
+        <StageCaption stage={detail.video.stage} title={detail.video.title} body={detail.video.body} />
+      </div>
+      <div className="grid md:grid-cols-2 gap-x-6 gap-y-12">
+        {detail.slides.map(s => (
+          <div key={s.src}>
+            <img src={s.src} alt={s.title} className="w-full rounded" style={{ aspectRatio: '16/10', border: '1px solid #272727', objectFit: 'cover' }} />
+            <StageCaption stage={s.stage} title={s.title} body={s.body} />
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
 export function SystemsPage({ initialSelected = null }: { initialSelected?: string | null }) {
   const [selected, setSelected] = useState<string | null>(initialSelected);
   const active = selected ? systems.find(s => s.slug === selected) : null;
@@ -97,26 +144,7 @@ export function SystemsPage({ initialSelected = null }: { initialSelected?: stri
             className="font-code text-[11.5px] tracking-wide text-ash hover:text-white transition mb-10 inline-block">
             ← Back to Campaigns
           </button>
-          <Eyebrow>Primary Campaign · Live Now</Eyebrow>
-          <h1 className="font-display font-medium tracking-tight mb-5" style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)', maxWidth: '760px' }}>{active.name}</h1>
-          <p className="text-ash text-lg leading-relaxed mb-9" style={{ maxWidth: '680px' }}>{detail.desc}</p>
-          <a href="#operators" className="inline-block font-code font-semibold text-[13px] uppercase tracking-widest px-8 py-4 rounded-full bg-signal-green text-ink hover:brightness-110 transition mb-14">
-            Book Your Free Build and Installation
-          </a>
-          <div className="mb-14">
-            <video src={detail.video.src} controls playsInline
-              className="w-full rounded block"
-              style={{ aspectRatio: '16/9', border: '1px solid #272727', background: '#141414', objectFit: 'cover' }} />
-            <StageCaption stage={detail.video.stage} title={detail.video.title} body={detail.video.body} />
-          </div>
-          <div className="grid md:grid-cols-2 gap-x-6 gap-y-12">
-            {detail.slides.map(s => (
-              <div key={s.src}>
-                <img src={s.src} alt={s.title} className="w-full rounded" style={{ aspectRatio: '16/10', border: '1px solid #272727', objectFit: 'cover' }} />
-                <StageCaption stage={s.stage} title={s.title} body={s.body} />
-              </div>
-            ))}
-          </div>
+          <CampaignDetailBody name={active.name} detail={detail} ctaLabel="Book Your Free Build and Installation" ctaHref="#operators" />
         </div>
       </PageShell>
     );
@@ -244,16 +272,26 @@ const operatorPortfolios: Record<string, { name: string; tagline: string; tags: 
 const operatorSpotlights: Record<string, {
   badge: string;
   roleLine: string;
+  territory: string;
+  vertical: string;
+  regNumber: string;
   proof: string[];
   body: string;
   ctaLabel: string;
+  campaignSlug?: string;
+  campaignCtaLabel?: string;
 }> = {
   'd14-sports': {
-    badge: 'SLOE AI LICENSED OPERATOR · OFFICIAL CREATOR & DISTRIBUTION CREDENTIAL · REG #23279',
+    badge: 'SLOE AI LICENSED OPERATOR · OFFICIAL CREATOR & DISTRIBUTION CREDENTIAL',
     roleLine: 'The Licensed Operator who turns sports organizations\u2019 AI ambitions into systems that actually run.',
+    territory: 'Europe & USA',
+    vertical: 'Sports OS',
+    regNumber: '23279',
     proof: ['Real Zaragoza · Spain', 'Parma Calcio · Italy', 'Soccer Club President · Qatar', 'Sports Agencies · EU'],
     body: "Dieubon doesn't sell a demo — he gets Sloe Labs into rooms we couldn't reach alone. He delivered an AI Operating System into Real Zaragoza's academy in Spain, opened the door to a conversation with Parma Calcio in Italy, and personally introduced us to a soccer club president in Qatar. If you're running a club, agency, or academy, that's exactly what you're booking when you book him: someone who's already proven he can get a system in front of the people who decide — not just build it and hope someone notices.",
     ctaLabel: 'Book Time With Dieubon →',
+    campaignSlug: 'agentic-os-platform',
+    campaignCtaLabel: 'Book With Dieubon →',
   },
 };
 
@@ -270,9 +308,64 @@ function Chip({ label, active, onClick }: { label: string; active: boolean; onCl
   );
 }
 
+function LicenseBadge({ territory, vertical, regNumber }: { territory: string; vertical: string; regNumber: string }) {
+  return (
+    <div className="rounded overflow-hidden mb-7" style={{ border: '1px solid rgba(74,222,128,.35)', background: '#0A0F0C' }}>
+      <div className="h-[3px]" style={{ background: '#4ADE80' }} />
+      <div className="p-6">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full flex items-center justify-center flex-none"
+              style={{ background: 'rgba(74,222,128,.12)', border: '1px solid rgba(74,222,128,.4)' }}>
+              <span style={{ color: '#4ADE80' }}>✓</span>
+            </div>
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="font-display font-bold text-[15px] tracking-wide">SLOE GUILD LICENSE</span>
+                <span className="font-code text-[10px] tracking-wide px-2 py-0.5 rounded-full" style={{ border: '1px solid rgba(74,222,128,.4)', color: '#4ADE80' }}>
+                  ✦ VERIFIED OPERATOR
+                </span>
+              </div>
+              <div className="font-code text-[10.5px] text-ash tracking-wide mt-0.5">OFFICIAL CREATOR &amp; DISTRIBUTION CREDENTIAL</div>
+            </div>
+          </div>
+          <span className="font-code text-[11px] tracking-wide text-ash px-2.5 py-1 rounded" style={{ border: '1px solid #272727' }}>Reg #{regNumber}</span>
+        </div>
+        <div className="grid grid-cols-2 gap-6 pt-4" style={{ borderTop: '1px solid #1C1C1C' }}>
+          <div>
+            <div className="font-code text-[10px] tracking-widest text-ash mb-1">LICENSED TERRITORY</div>
+            <div className="font-display font-semibold text-[15px]">{territory}</div>
+          </div>
+          <div>
+            <div className="font-code text-[10px] tracking-widest text-ash mb-1">PRIMARY VERTICAL</div>
+            <div className="font-display font-semibold text-[15px]" style={{ color: '#4ADE80' }}>{vertical}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function OperatorPortfolio({ slug, onBack }: { slug: string; onBack: () => void }) {
   const op = operators.find(o => o.slug === slug)!;
   const spotlight = operatorSpotlights[slug];
+  const [campaignOpen, setCampaignOpen] = useState(false);
+
+  const campaignSystem = spotlight?.campaignSlug ? systems.find(s => s.slug === spotlight.campaignSlug) : null;
+  const campaignDetail = spotlight?.campaignSlug ? campaignDetails[spotlight.campaignSlug] : null;
+
+  if (campaignOpen && campaignSystem && campaignDetail && spotlight) {
+    return (
+      <div className="mx-auto px-6 pb-24" style={{ maxWidth: '1200px' }}>
+        <button onClick={() => setCampaignOpen(false)}
+          className="font-code text-[11.5px] tracking-wide text-ash hover:text-white transition mb-10 inline-block">
+          ← Back to {op.operator}
+        </button>
+        <CampaignDetailBody name={campaignSystem.name} detail={campaignDetail}
+          ctaLabel={spotlight.campaignCtaLabel ?? 'Book a Build →'} ctaInert />
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-content px-6 pb-24">
@@ -281,13 +374,18 @@ function OperatorPortfolio({ slug, onBack }: { slug: string; onBack: () => void 
         ← Back to Operators
       </button>
       <Eyebrow>AI Portfolio</Eyebrow>
-      <h1 className="font-display font-medium tracking-tight mb-2" style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)' }}>{op.business}</h1>
-      <div className="font-code text-[12.5px] text-ash mb-9">{op.operator} · {op.city} · {op.niche}</div>
+      <h1 className="font-display font-medium tracking-tight mb-2" style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)' }}>{op.operator}</h1>
+      <div className="font-code text-[12.5px] text-ash mb-9">{op.business} · {op.city} · {op.niche}</div>
 
       {spotlight && (
         <div className="rounded p-8 mb-14" style={{ border: '1px solid rgba(74,222,128,.3)', background: '#0F1712' }}>
-          <div className="font-code text-[10.5px] tracking-widest mb-5" style={{ color: '#4ADE80' }}>{spotlight.badge}</div>
+          <div className="font-code text-[10.5px] tracking-widest mb-6" style={{ color: '#4ADE80' }}>{spotlight.badge}</div>
+
+          <LicenseBadge territory={spotlight.territory} vertical={spotlight.vertical} regNumber={spotlight.regNumber} />
+
           <div className="font-display font-semibold text-xl mb-6 leading-snug" style={{ maxWidth: '640px' }}>{spotlight.roleLine}</div>
+
+          <div className="font-code text-[10.5px] tracking-widest text-ash mb-2.5">DISTRIBUTED TO</div>
           <div className="flex flex-wrap items-center gap-2 mb-6">
             {spotlight.proof.map(item => (
               <span key={item} className="font-code text-[10.5px] tracking-wide px-3 py-1.5 rounded-full"
@@ -304,6 +402,27 @@ function OperatorPortfolio({ slug, onBack }: { slug: string; onBack: () => void 
             style={{ background: '#4ADE80', color: '#000000' }}>
             {spotlight.ctaLabel}
           </button>
+        </div>
+      )}
+
+      {campaignSystem && (
+        <div>
+          <div className="font-code text-xs uppercase tracking-[0.2em] text-signal-green mb-4">Live Campaigns</div>
+          <div onClick={() => setCampaignOpen(true)}
+            className="rounded p-9 flex flex-col gap-4 cursor-pointer transition"
+            style={{ border: '1px solid #272727', background: '#141414' }}>
+            <div className="flex justify-between items-start gap-3">
+              <div className="font-display font-semibold text-2xl">{campaignSystem.name}</div>
+              <div className="font-code text-[10.5px] tracking-wide text-signal-green px-2.5 py-1 rounded-full whitespace-nowrap" style={{ border: '1px solid rgba(74,222,128,.4)' }}>{campaignSystem.tier}</div>
+            </div>
+            <div className="text-ash text-[15px] leading-relaxed">{campaignSystem.desc}</div>
+            <div className="flex gap-2 flex-wrap">
+              {campaignSystem.tags.map(tag => (
+                <span key={tag} className="font-code text-[11px] tracking-wide text-ash px-2.5 py-1 rounded" style={{ border: '1px solid rgba(255,255,255,.12)' }}>{tag}</span>
+              ))}
+            </div>
+            <div className="font-code text-[11px] tracking-wide mt-1" style={{ color: '#4ADE80' }}>View campaign →</div>
+          </div>
         </div>
       )}
     </div>
