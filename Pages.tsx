@@ -205,12 +205,38 @@ export function HowItWorksPage() {
 // ─── Operators ──────────────────────────────────────────────────────────────
 
 const operators = [
-  { business: 'D14 Sports', operator: 'Dieubon', city: 'Houston, US', niche: 'Sports', pitch: 'AI systems built for sports businesses and the people running them.', bookingUrl: 'https://d14-sports.sloelabs.com' },
-  { business: 'Harcourts Lifestyle', operator: 'Onye Orakwue', city: 'Johannesburg, SA', niche: 'Real Estate', pitch: 'Backed by real client relationships in real estate — not a cold pitch.', bookingUrl: 'https://harcourts-lifestyle.sloelabs.com' },
-  { business: 'Freeman Construction', operator: 'Thumbiko Chirwa', city: 'Johannesburg, SA', niche: 'Construction', pitch: 'Reaching construction businesses where they already are — built for the trade.', bookingUrl: 'https://freeman-construction.sloelabs.com' },
-  { business: 'KPM Studio', operator: 'Kgobane Phomolo Monama', city: 'Johannesburg, SA', niche: 'Marketing & Media', pitch: 'Proven through the work itself — a portfolio of real media projects backing every pitch.', bookingUrl: 'https://kpm-studio.sloelabs.com' },
-  { business: 'motionmarketing', operator: 'Mando Muimui', city: 'Johannesburg, SA', niche: 'Marketing & Media', pitch: 'Hands-on outreach, direct relationships — built for marketers who close their own deals.', bookingUrl: 'https://motionmarketing.sloelabs.com' },
+  { slug: 'd14-sports', business: 'D14 Sports', operator: 'Dieubon', city: 'Houston, US', niche: 'Sports', pitch: 'AI systems built for sports businesses and the people running them.', bookingUrl: 'https://d14-sports.sloelabs.com' },
+  { slug: 'harcourts-lifestyle', business: 'Harcourts Lifestyle', operator: 'Onye Orakwue', city: 'Johannesburg, SA', niche: 'Real Estate', pitch: 'Backed by real client relationships in real estate — not a cold pitch.', bookingUrl: 'https://harcourts-lifestyle.sloelabs.com' },
+  { slug: 'freeman-construction', business: 'Freeman Construction', operator: 'Thumbiko Chirwa', city: 'Johannesburg, SA', niche: 'Construction', pitch: 'Reaching construction businesses where they already are — built for the trade.', bookingUrl: 'https://freeman-construction.sloelabs.com' },
+  { slug: 'kpm-studio', business: 'KPM Studio', operator: 'Kgobane Phomolo Monama', city: 'Johannesburg, SA', niche: 'Marketing & Media', pitch: 'Proven through the work itself — a portfolio of real media projects backing every pitch.', bookingUrl: 'https://kpm-studio.sloelabs.com' },
+  { slug: 'motionmarketing', business: 'motionmarketing', operator: 'Mando Muimui', city: 'Johannesburg, SA', niche: 'Marketing & Media', pitch: 'Hands-on outreach, direct relationships — built for marketers who close their own deals.', bookingUrl: 'https://motionmarketing.sloelabs.com' },
 ];
+
+// Real, shipped work only — no fabricated case studies against a real
+// operator's name. Populate an operator's array here once their actual
+// project list is confirmed; until then they get the "in progress" state.
+const operatorPortfolios: Record<string, { name: string; tagline: string; tags: string[]; link: string | null }[]> = {
+  'd14-sports': [
+    {
+      name: 'RZ Cantera Intelligence',
+      tagline: 'AI powered academy operating system for Real Zaragoza — player development intelligence, squad oversight, and a voice driven AI assistant for coaches.',
+      tags: ['Football', 'Club OS', 'Voice AI', 'La Liga Academy'],
+      link: 'https://rz-cantera-v2.vercel.app',
+    },
+    {
+      name: 'ScoutBase Africa',
+      tagline: 'Football scouting platform with computer vision player analysis — built to surface African talent to clubs worldwide.',
+      tags: ['Football', 'Computer Vision', 'YOLO v11', 'Scouting'],
+      link: null,
+    },
+    {
+      name: 'Sportnaa OS',
+      tagline: 'Sports agency management platform — athletes, contracts, and operations in one bilingual Arabic and English system built for the Gulf market.',
+      tags: ['Sports Agency', 'Arabic/English', 'Gulf', 'React'],
+      link: null,
+    },
+  ],
+};
 
 function Chip({ label, active, onClick }: { label: string; active: boolean; onClick: () => void; key?: React.Key }) {
   return (
@@ -225,9 +251,62 @@ function Chip({ label, active, onClick }: { label: string; active: boolean; onCl
   );
 }
 
+function OperatorPortfolio({ slug, onBack }: { slug: string; onBack: () => void }) {
+  const op = operators.find(o => o.slug === slug)!;
+  const items = operatorPortfolios[slug] ?? [];
+
+  return (
+    <div className="mx-auto max-w-content px-6 pb-24">
+      <button onClick={onBack}
+        className="font-code text-[11.5px] tracking-wide text-ash hover:text-white transition mb-10 inline-block">
+        ← Back to Operators
+      </button>
+      <Eyebrow>AI Portfolio</Eyebrow>
+      <h1 className="font-display font-medium tracking-tight mb-2" style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)' }}>{op.business}</h1>
+      <div className="font-code text-[12.5px] text-ash mb-9">{op.operator} · {op.city} · {op.niche}</div>
+
+      {items.length > 0 ? (
+        <div className="grid md:grid-cols-2 gap-6">
+          {items.map(item => (
+            <div key={item.name} className="rounded p-7 flex flex-col gap-3.5" style={{ border: '1px solid #272727', background: '#141414' }}>
+              <div className="font-display font-semibold text-xl">{item.name}</div>
+              <div className="text-ash text-[14px] leading-relaxed">{item.tagline}</div>
+              <div className="flex gap-2 flex-wrap">
+                {item.tags.map(tag => (
+                  <span key={tag} className="font-code text-[11px] tracking-wide text-ash px-2.5 py-1 rounded" style={{ border: '1px solid rgba(255,255,255,.12)' }}>{tag}</span>
+                ))}
+              </div>
+              {item.link && (
+                <a href={item.link} target="_blank" rel="noreferrer"
+                  className="font-code text-[11.5px] tracking-wide px-4 py-2 rounded-full w-fit mt-1 hover:bg-white/5 transition"
+                  style={{ border: '1px solid rgba(74,222,128,.4)', color: '#4ADE80' }}>
+                  View Live →
+                </a>
+              )}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="rounded p-9 text-center" style={{ border: '1px dashed #272727' }}>
+          <div className="text-ash text-[15px]">Portfolio in progress — check back soon.</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function OperatorsPage() {
   const [city, setCity] = useState('All');
   const [niche, setNiche] = useState('All');
+  const [portfolioSlug, setPortfolioSlug] = useState<string | null>(null);
+
+  if (portfolioSlug) {
+    return (
+      <PageShell>
+        <OperatorPortfolio slug={portfolioSlug} onBack={() => setPortfolioSlug(null)} />
+      </PageShell>
+    );
+  }
 
   const cities = ['All', ...Array.from(new Set(operators.map(o => o.city)))];
   const niches = ['All', ...Array.from(new Set(operators.map(o => o.niche)))];
@@ -260,11 +339,19 @@ export function OperatorsPage() {
                   <div className="font-code text-[11.5px] text-ash mt-0.5">{op.operator} · {op.city} · {op.niche}</div>
                 </div>
                 <div className="text-[14px] leading-relaxed text-ash">{op.pitch}</div>
-                <a href={op.bookingUrl} target="_blank" rel="noreferrer"
-                  className="font-code text-[11.5px] tracking-wide px-4 py-2 rounded-full w-fit mt-1 hover:bg-white/5 transition"
-                  style={{ border: '1px solid rgba(74,222,128,.4)', color: '#4ADE80' }}>
-                  Book with {op.operator} →
-                </a>
+                <div className="flex gap-2.5 flex-wrap mt-1">
+                  <button onClick={e => { e.preventDefault(); }}
+                    title="Calendly link coming soon"
+                    className="font-code text-[11.5px] tracking-wide px-4 py-2 rounded-full transition opacity-60 cursor-default"
+                    style={{ border: '1px solid rgba(255,255,255,.15)', color: 'rgba(245,241,232,.6)' }}>
+                    Book a Demo →
+                  </button>
+                  <button onClick={() => setPortfolioSlug(op.slug)}
+                    className="font-code text-[11.5px] tracking-wide px-4 py-2 rounded-full hover:bg-white/5 transition"
+                    style={{ border: '1px solid rgba(74,222,128,.4)', color: '#4ADE80' }}>
+                    View AI Portfolio →
+                  </button>
+                </div>
               </div>
             </div>
           ))}
