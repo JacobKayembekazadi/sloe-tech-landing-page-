@@ -288,7 +288,7 @@ const operatorSpotlights: Record<string, {
     vertical: 'Sports OS',
     regNumber: '23279',
     proof: ['Real Zaragoza · Spain', 'Parma Calcio · Italy', 'Soccer Club President · Qatar', 'Sports Agencies · EU'],
-    body: "Dieubon doesn't sell a demo — he gets Sloe Labs into rooms we couldn't reach alone. He delivered an AI Operating System into the academy of Real Zaragoza, a professional Spanish football club based in Zaragoza, Aragon, opened the door to a conversation with Parma Calcio — a Serie A club based in Parma, Emilia-Romagna, competing at the top tier of Italian football — and personally introduced us to the president of a Qatar-based football club in the Qatar Amateur League. If you're running a club, agency, or academy, that's exactly what you're booking when you book him: someone who's already proven he can get a system in front of the people who decide — not just build it and hope someone notices.",
+    body: "Dieubon doesn't sell a demo — he gets Sloe Labs into rooms we couldn't reach alone. He delivered an AI Operating System into the academy of Real Zaragoza, a professional Spanish football club based in Spain, opened the door to a conversation with Parma Calcio — First Division club based in Italy — and personally introduced us to the president of a Qatar-based football. If you're running a club, agency, or academy, that's exactly what you're booking when you book him: someone who's already proven he can get a system in front of the people who decide — not just build it and hope someone notices.",
     ctaLabel: 'Book Time With Dieubon →',
     campaignSlug: 'agentic-os-platform',
     campaignCtaLabel: 'Book With Dieubon →',
@@ -316,12 +316,15 @@ function LicenseBadge({ territory, vertical, regNumber }: { territory: string; v
         <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-full flex items-center justify-center flex-none"
-              style={{ background: 'rgba(74,222,128,.12)', border: '1px solid rgba(74,222,128,.4)' }}>
-              <span style={{ color: '#4ADE80' }}>✓</span>
+              style={{ background: 'rgba(234,179,8,0.12)', border: '1px solid rgba(234,179,8,0.5)' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EAB308" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2L3 7v6c0 5.25 3.75 10.15 9 11.25 5.25-1.1 9-6 9-11.25V7l-9-5z" />
+                <path d="M12 7v5l3 3" />
+              </svg>
             </div>
             <div>
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="font-display font-bold text-[15px] tracking-wide">SLOE GUILD LICENSE</span>
+                <span className="font-display font-bold text-[15px] tracking-wide">SLOE AI LICENSE</span>
                 <span className="font-code text-[10px] tracking-wide px-2 py-0.5 rounded-full" style={{ border: '1px solid rgba(74,222,128,.4)', color: '#4ADE80' }}>
                   ✦ VERIFIED OPERATOR
                 </span>
