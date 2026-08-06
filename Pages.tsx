@@ -205,7 +205,7 @@ export function HowItWorksPage() {
 // ─── Operators ──────────────────────────────────────────────────────────────
 
 const operators = [
-  { slug: 'd14-sports', business: 'D14 Sports', operator: 'Dieubon', city: 'Houston, US', niche: 'Sports', pitch: 'AI systems built for sports businesses and the people running them.', bookingUrl: 'https://d14-sports.sloelabs.com' },
+  { slug: 'd14-sports', business: 'D14', operator: 'Dieubon David', city: 'Houston, US', niche: 'Sports', pitch: 'AI systems built for sports businesses and the people running them.', bookingUrl: 'https://d14-sports.sloelabs.com' },
   { slug: 'harcourts-lifestyle', business: 'Harcourts Lifestyle', operator: 'Onye Orakwue', city: 'Johannesburg, SA', niche: 'Real Estate', pitch: 'Backed by real client relationships in real estate — not a cold pitch.', bookingUrl: 'https://harcourts-lifestyle.sloelabs.com' },
   { slug: 'freeman-construction', business: 'Freeman Construction', operator: 'Thumbiko Chirwa', city: 'Johannesburg, SA', niche: 'Construction', pitch: 'Reaching construction businesses where they already are — built for the trade.', bookingUrl: 'https://freeman-construction.sloelabs.com' },
   { slug: 'kpm-studio', business: 'KPM Studio', operator: 'Kgobane Phomolo Monama', city: 'Johannesburg, SA', niche: 'Marketing & Media', pitch: 'Proven through the work itself — a portfolio of real media projects backing every pitch.', bookingUrl: 'https://kpm-studio.sloelabs.com' },
@@ -272,7 +272,6 @@ function Chip({ label, active, onClick }: { label: string; active: boolean; onCl
 
 function OperatorPortfolio({ slug, onBack }: { slug: string; onBack: () => void }) {
   const op = operators.find(o => o.slug === slug)!;
-  const items = operatorPortfolios[slug] ?? [];
   const spotlight = operatorSpotlights[slug];
 
   return (
@@ -305,33 +304,6 @@ function OperatorPortfolio({ slug, onBack }: { slug: string; onBack: () => void 
             style={{ background: '#4ADE80', color: '#000000' }}>
             {spotlight.ctaLabel}
           </button>
-        </div>
-      )}
-
-      {items.length > 0 ? (
-        <div className="grid md:grid-cols-2 gap-6">
-          {items.map(item => (
-            <div key={item.name} className="rounded p-7 flex flex-col gap-3.5" style={{ border: '1px solid #272727', background: '#141414' }}>
-              <div className="font-display font-semibold text-xl">{item.name}</div>
-              <div className="text-ash text-[14px] leading-relaxed">{item.tagline}</div>
-              <div className="flex gap-2 flex-wrap">
-                {item.tags.map(tag => (
-                  <span key={tag} className="font-code text-[11px] tracking-wide text-ash px-2.5 py-1 rounded" style={{ border: '1px solid rgba(255,255,255,.12)' }}>{tag}</span>
-                ))}
-              </div>
-              {item.link && (
-                <a href={item.link} target="_blank" rel="noreferrer"
-                  className="font-code text-[11.5px] tracking-wide px-4 py-2 rounded-full w-fit mt-1 hover:bg-white/5 transition"
-                  style={{ border: '1px solid rgba(74,222,128,.4)', color: '#4ADE80' }}>
-                  View Live →
-                </a>
-              )}
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="rounded p-9 text-center" style={{ border: '1px dashed #272727' }}>
-          <div className="text-ash text-[15px]">Portfolio in progress — check back soon.</div>
         </div>
       )}
     </div>
