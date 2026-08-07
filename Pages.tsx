@@ -150,6 +150,10 @@ function CampaignDetailBody({ name, detail, ctaLabel, ctaHref, ctaInert }: {
           </div>
         ))}
       </div>
+      <a href="#how"
+        className="inline-block mt-14 font-code font-semibold text-[13px] uppercase tracking-widest px-8 py-4 rounded-full bg-signal-green text-ink hover:brightness-110 transition">
+        Claim Your Free Build →
+      </a>
     </>
   );
 }
@@ -158,6 +162,8 @@ export function SystemsPage({ initialSelected = null }: { initialSelected?: stri
   const [selected, setSelected] = useState<string | null>(initialSelected);
   const active = selected ? systems.find(s => s.slug === selected) : null;
   const detail = active ? campaignDetails[active.slug] : null;
+
+  useEffect(() => { window.scrollTo(0, 0); }, [selected]);
 
   if (active && detail) {
     return (
@@ -225,29 +231,58 @@ const steps = [
   { n: '04', title: "It's Yours", body: 'It lives on your machine, running your business. Free tier included. Upgrade only if you want more.', first: false },
 ];
 
+function LiveBuildTimer() {
+  const TOTAL = 120;
+  const [secondsLeft, setSecondsLeft] = useState(TOTAL);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setSecondsLeft(s => (s <= 0 ? TOTAL : s - 1));
+    }, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const pct = (secondsLeft / TOTAL) * 100;
+  const mm = Math.floor(secondsLeft / 60);
+  const ss = secondsLeft % 60;
+  const label = `${mm}:${ss.toString().padStart(2, '0')}`;
+
+  return (
+    <div className="mb-5">
+      <div className="h-1 rounded overflow-hidden" style={{ background: '#272727' }}>
+        <div className="h-full rounded" style={{ width: `${pct}%`, background: '#4ADE80', transition: 'width 1s linear' }} />
+      </div>
+      <div className="flex items-center gap-1.5 mt-2">
+        <span className="relative flex w-2 h-2">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: '#4ADE80' }} />
+          <span className="relative inline-flex rounded-full w-2 h-2" style={{ background: '#4ADE80' }} />
+        </span>
+        <span className="font-code text-[11px] tracking-wide text-ash">LIVE BUILD · {label}</span>
+      </div>
+    </div>
+  );
+}
+
 export function HowItWorksPage() {
   return (
     <PageShell>
       <div className="mx-auto max-w-content px-6 pb-24">
         <Eyebrow>The Process</Eyebrow>
         <h1 className="font-display font-medium tracking-tight mb-14" style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)' }}>How To Get Yours</h1>
-        <div className="grid md:grid-cols-4 border-t" style={{ borderColor: '#272727' }}>
+        <div className="grid md:grid-cols-4 gap-x-8 gap-y-10 border-t" style={{ borderColor: '#272727' }}>
           {steps.map((step, i) => (
-            <div key={step.n} className="pt-8 pr-6 border-r" style={{ borderColor: i === steps.length - 1 ? 'transparent' : '#272727' }}>
+            <div key={step.n} className="pt-8 pr-4 pb-8 border-r" style={{ borderColor: i === steps.length - 1 ? 'transparent' : '#272727' }}>
               <div className="font-display font-semibold text-4xl mb-4" style={{ color: 'rgba(74,222,128,.9)' }}>{step.n}</div>
-              {step.first && (
-                <div className="mb-5">
-                  <div className="h-1 rounded overflow-hidden" style={{ background: '#272727' }}>
-                    <div className="h-full rounded" style={{ width: '100%', background: '#4ADE80' }} />
-                  </div>
-                  <div className="font-code text-[11px] tracking-wide text-ash mt-2">LIVE BUILD · UNDER 2:00</div>
-                </div>
-              )}
+              {step.first && <LiveBuildTimer />}
               <div className="font-display font-semibold text-lg mb-3 leading-snug">{step.title}</div>
               <div className="text-ash text-[14.5px] leading-relaxed pr-2">{step.body}</div>
             </div>
           ))}
         </div>
+        <a href="#operators"
+          className="inline-block mt-14 font-code font-semibold text-[13px] uppercase tracking-widest px-8 py-4 rounded-full bg-signal-green text-ink hover:brightness-110 transition">
+          Select an Operator →
+        </a>
       </div>
     </PageShell>
   );
@@ -258,7 +293,7 @@ export function HowItWorksPage() {
 const operators = [
   { slug: 'd14-sports', business: 'D14', operator: 'Dieubon David', city: 'Houston, US', niche: 'Sports', pitch: 'AI systems built for sports businesses and the people running them.', bookingUrl: 'https://d14-sports.sloelabs.com' },
   { slug: 'harcourts-lifestyle', business: 'Harcourts Lifestyle', operator: 'Onye Orakwue', city: 'Johannesburg, SA', niche: 'Real Estate', pitch: 'Backed by real client relationships in real estate — not a cold pitch.', bookingUrl: 'https://harcourts-lifestyle.sloelabs.com' },
-  { slug: 'freeman-construction', business: 'Freeman Construction', operator: 'Thumbiko Chirwa', city: 'Johannesburg, SA', niche: 'Construction', pitch: 'Reaching construction businesses where they already are — built for the trade.', bookingUrl: 'https://freeman-construction.sloelabs.com', photo: '/assets/thumbiko.jpg' },
+  { slug: 'freeman-construction', business: 'BIKO Labs', operator: 'Thumbiko Chirwa', city: 'Johannesburg, SA', niche: 'Construction', pitch: 'Reaching construction businesses where they already are — built for the trade.', bookingUrl: 'https://freeman-construction.sloelabs.com', photo: '/assets/thumbiko.jpg' },
   { slug: 'kpm-studio', business: 'KPM Studio', operator: 'Kgobane Phomolo Monama', city: 'Johannesburg, SA', niche: 'Marketing & Media', pitch: 'Proven through the work itself — a portfolio of real media projects backing every pitch.', bookingUrl: 'https://kpm-studio.sloelabs.com', photo: '/assets/kgobane.jpg' },
   { slug: 'motionmarketing', business: 'motionmarketing', operator: 'Mando Muimui', city: 'Johannesburg, SA', niche: 'Legal', pitch: 'Hands-on outreach, direct relationships — built for legal practices that need someone who closes deals himself.', bookingUrl: 'https://motionmarketing.sloelabs.com' },
 ];
@@ -419,6 +454,8 @@ function OperatorPortfolio({ slug, onBack }: { slug: string; onBack: () => void 
   const campaignSystem = spotlight?.campaignSlug ? systems.find(s => s.slug === spotlight.campaignSlug) : null;
   const campaignDetail = spotlight?.campaignSlug ? campaignDetails[spotlight.campaignSlug] : null;
 
+  useEffect(() => { window.scrollTo(0, 0); }, [campaignOpen]);
+
   if (campaignOpen && campaignSystem && campaignDetail && spotlight) {
     return (
       <div className="mx-auto px-6 pb-24" style={{ maxWidth: '1200px' }}>
@@ -509,10 +546,12 @@ export function OperatorsPage() {
   const [niche, setNiche] = useState('All');
   const [portfolioSlug, setPortfolioSlug] = useState<string | null>(null);
 
+  useEffect(() => { window.scrollTo(0, 0); }, [portfolioSlug]);
+
   if (portfolioSlug) {
     return (
       <PageShell>
-        <OperatorPortfolio slug={portfolioSlug} onBack={() => { setPortfolioSlug(null); window.scrollTo(0, 0); }} />
+        <OperatorPortfolio slug={portfolioSlug} onBack={() => setPortfolioSlug(null)} />
       </PageShell>
     );
   }
