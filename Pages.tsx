@@ -358,6 +358,8 @@ const operatorSpotlights: Record<string, {
     vertical: 'Real Estate OS',
     body: "Onye doesn't cold-pitch — he works from relationships already built inside real estate, going straight to clients who already know and trust him rather than starting from a stranger's demo. That's the model behind Harcourts Lifestyle: an operator who gets a system in front of people because they already have a reason to listen. If you're running a brokerage or property management business, that's what you're booking: someone whose first conversation with you starts from trust, not a cold pitch.",
     ctaLabel: 'Book Time With Onye →',
+    campaignSlug: 'agentic-os-platform',
+    campaignCtaLabel: 'Book With Onye →',
   },
   'freeman-construction': {
     badge: 'SLOE AI LICENSED OPERATOR · OFFICIAL CREATOR & DISTRIBUTION CREDENTIAL',
@@ -366,6 +368,8 @@ const operatorSpotlights: Record<string, {
     vertical: 'Construction OS',
     body: "Thumbiko doesn't chase cold leads — he reaches construction businesses through social media, the channel the trade already lives on, rather than a generic sales approach bolted onto an industry that doesn't run that way. That's the model behind Freeman Construction: an operator who speaks the trade's language before he ever brings up software. If you're running a construction business, that's what you're booking: someone who knows how to reach your industry, not just install a system inside it.",
     ctaLabel: 'Book Time With Thumbiko →',
+    campaignSlug: 'agentic-os-platform',
+    campaignCtaLabel: 'Book With Thumbiko →',
   },
   'kpm-studio': {
     badge: 'SLOE AI LICENSED OPERATOR · OFFICIAL CREATOR & DISTRIBUTION CREDENTIAL',
@@ -374,6 +378,8 @@ const operatorSpotlights: Record<string, {
     vertical: 'Marketing & Media OS',
     body: "Kgobane doesn't open with a pitch deck — he opens with a portfolio of real media projects and lets the quality of the work make the case. That's the model behind KPM Studio: proof before promises, every time. If you're in marketing or media and want an operator who shows rather than tells, that's exactly what you're booking.",
     ctaLabel: 'Book Time With Kgobane →',
+    campaignSlug: 'agentic-os-platform',
+    campaignCtaLabel: 'Book With Kgobane →',
   },
   'motionmarketing': {
     badge: 'SLOE AI LICENSED OPERATOR · OFFICIAL CREATOR & DISTRIBUTION CREDENTIAL',
@@ -382,6 +388,8 @@ const operatorSpotlights: Record<string, {
     vertical: 'Marketing & Media OS',
     body: "Mando doesn't wait for leads to come to him — cold calls and direct outreach, closing deals himself rather than relying on inbound. That's the model behind motionmarketing: an operator who hunts for the work the same way he'd expect you to. If you're running a marketing operation and want someone who moves at that pace, that's exactly what you're booking.",
     ctaLabel: 'Book Time With Mando →',
+    campaignSlug: 'agentic-os-platform',
+    campaignCtaLabel: 'Book With Mando →',
   },
 };
 
