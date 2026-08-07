@@ -25,13 +25,13 @@ function PageShell({ children }: { children: React.ReactNode }) {
         style={{ borderBottom: '1px solid #272727', background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}
         aria-label="Main">
         <div className="mx-auto max-w-content px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
-          <a href="#" className="flex items-center gap-2 sm:gap-3 font-display font-medium tracking-tight text-white text-base sm:text-lg uppercase flex-none"
+          <a href="#" className="flex items-center gap-1.5 sm:gap-3 font-display font-medium tracking-tight text-white text-[11px] sm:text-lg uppercase flex-none"
             onClick={e => { e.preventDefault(); window.location.hash = ''; }}>
-            <span className="w-5 h-5 sm:w-6 sm:h-6 bg-signal-green" aria-hidden="true" />
+            <span className="w-3.5 h-3.5 sm:w-6 sm:h-6 bg-signal-green" aria-hidden="true" />
             <span className="hidden sm:inline">SLOE LABS</span>
             <span className="sm:hidden">SLOE</span>
           </a>
-          <div className="flex items-center gap-2.5 sm:gap-8 text-[8px] sm:text-xs font-code uppercase tracking-wide sm:tracking-widest text-ash overflow-x-auto">
+          <div className="flex items-center gap-2 sm:gap-8 text-[10px] sm:text-xs font-code uppercase tracking-wide sm:tracking-widest text-ash overflow-x-auto">
             {pageShellNavLinks.map(link => {
               const active = (link.hash || '') === hash;
               return (
