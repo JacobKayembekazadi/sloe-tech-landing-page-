@@ -439,12 +439,12 @@ function OperatorPortfolio({ slug, onBack }: { slug: string; onBack: () => void 
         ← Back to Operators
       </button>
       <Eyebrow>AI Portfolio</Eyebrow>
-      <div className="flex items-center gap-4 mb-2">
+      <div className="flex items-center gap-3 sm:gap-4 mb-2">
         {(op as { photo?: string }).photo && (
           <img src={(op as { photo?: string }).photo} alt={op.operator}
-            className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover flex-none" />
+            className="w-11 h-11 sm:w-14 sm:h-14 rounded-full object-cover flex-none" />
         )}
-        <h1 className="font-display font-medium tracking-tight" style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)' }}>{op.operator}</h1>
+        <h1 className="font-display font-medium tracking-tight leading-tight" style={{ fontSize: 'clamp(1.25rem, 4vw, 2rem)' }}>{op.operator}</h1>
       </div>
       <div className="font-code text-[12.5px] text-ash mb-9">{op.business} · {op.city} · {op.niche}</div>
 
