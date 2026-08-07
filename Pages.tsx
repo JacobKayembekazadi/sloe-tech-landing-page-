@@ -163,7 +163,7 @@ export function SystemsPage({ initialSelected = null }: { initialSelected?: stri
     return (
       <PageShell>
         <div className="mx-auto px-6 pb-24" style={{ maxWidth: '1200px' }}>
-          <button onClick={() => setSelected(null)}
+          <button onClick={() => { setSelected(null); window.scrollTo(0, 0); }}
             className="font-code text-[11.5px] tracking-wide text-ash hover:text-white transition mb-10 inline-block">
             ← Back to Campaigns
           </button>
@@ -182,7 +182,7 @@ export function SystemsPage({ initialSelected = null }: { initialSelected?: stri
         <div className="grid md:grid-cols-2 gap-6">
           {systems.map((sys, i) => (
             <div key={i}
-              onClick={sys.hasDetail ? () => setSelected(sys.slug) : undefined}
+              onClick={sys.hasDetail ? () => { setSelected(sys.slug); window.scrollTo(0, 0); } : undefined}
               className="rounded p-9 flex flex-col gap-4 transition"
               style={{
                 border: '1px solid #272727', background: '#141414',
@@ -422,7 +422,7 @@ function OperatorPortfolio({ slug, onBack }: { slug: string; onBack: () => void 
   if (campaignOpen && campaignSystem && campaignDetail && spotlight) {
     return (
       <div className="mx-auto px-6 pb-24" style={{ maxWidth: '1200px' }}>
-        <button onClick={() => setCampaignOpen(false)}
+        <button onClick={() => { setCampaignOpen(false); window.scrollTo(0, 0); }}
           className="font-code text-[11.5px] tracking-wide text-ash hover:text-white transition mb-10 inline-block">
           ← Back to {op.operator}
         </button>
@@ -483,7 +483,7 @@ function OperatorPortfolio({ slug, onBack }: { slug: string; onBack: () => void 
       {campaignSystem && (
         <div>
           <div className="font-code text-xs uppercase tracking-[0.2em] text-signal-green mb-4">Live Campaigns</div>
-          <div onClick={() => setCampaignOpen(true)}
+          <div onClick={() => { setCampaignOpen(true); window.scrollTo(0, 0); }}
             className="rounded p-9 flex flex-col gap-4 cursor-pointer transition"
             style={{ border: '1px solid #272727', background: '#141414' }}>
             <div className="flex justify-between items-start gap-3">
@@ -512,7 +512,7 @@ export function OperatorsPage() {
   if (portfolioSlug) {
     return (
       <PageShell>
-        <OperatorPortfolio slug={portfolioSlug} onBack={() => setPortfolioSlug(null)} />
+        <OperatorPortfolio slug={portfolioSlug} onBack={() => { setPortfolioSlug(null); window.scrollTo(0, 0); }} />
       </PageShell>
     );
   }
@@ -560,7 +560,7 @@ export function OperatorsPage() {
                     style={{ border: '1px solid rgba(255,255,255,.15)', color: 'rgba(245,241,232,.6)' }}>
                     Book a Demo →
                   </button>
-                  <button onClick={() => setPortfolioSlug(op.slug)}
+                  <button onClick={() => { setPortfolioSlug(op.slug); window.scrollTo(0, 0); }}
                     className="font-code text-[11.5px] tracking-wide px-4 py-2 rounded-full hover:bg-white/5 transition"
                     style={{ border: '1px solid rgba(74,222,128,.4)', color: '#4ADE80' }}>
                     View AI Portfolio →
