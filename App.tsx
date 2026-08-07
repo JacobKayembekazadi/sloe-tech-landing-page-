@@ -296,83 +296,45 @@ const navLinks = [
 // ─── Island Nav ───────────────────────────────────────────────────────────────
 
 function IslandNav() {
-  const [open, setOpen] = useState(false);
+  const [hash, setHash] = useState(window.location.hash.replace('#', ''));
 
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [open]);
+    const onHashChange = () => setHash(window.location.hash.replace('#', ''));
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
 
   return (
-    <>
-      <nav className="fixed top-0 inset-x-0 z-50"
-        style={{ borderBottom: '1px solid #272727', background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}
-        aria-label="Main">
-        <div className="mx-auto max-w-content px-6 h-16 flex items-center justify-between">
-          <a href="#" className="flex items-center gap-3 font-display font-medium tracking-tight text-white text-lg uppercase"
-            onClick={e => { e.preventDefault(); window.location.hash = ''; window.scrollTo({ top: 0, behavior: 'smooth' }); setOpen(false); }}>
-            <span className="w-6 h-6 bg-signal-green" aria-hidden="true" />
-            SLOE LABS
-          </a>
+    <nav className="fixed top-0 inset-x-0 z-50"
+      style={{ borderBottom: '1px solid #272727', background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}
+      aria-label="Main">
+      <div className="mx-auto max-w-content px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+        <a href="#" className="flex items-center gap-2 sm:gap-3 font-display font-medium tracking-tight text-white text-base sm:text-lg uppercase flex-none"
+          onClick={e => { e.preventDefault(); window.location.hash = ''; window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+          <span className="w-5 h-5 sm:w-6 sm:h-6 bg-signal-green" aria-hidden="true" />
+          <span className="hidden sm:inline">SLOE LABS</span>
+          <span className="sm:hidden">SLOE</span>
+        </a>
 
-          <div className="hidden md:flex items-center gap-8 text-xs font-code uppercase tracking-widest text-ash">
-            {navLinks.map(link => (
+        <div className="flex items-center gap-2.5 sm:gap-8 text-[8px] sm:text-xs font-code uppercase tracking-wide sm:tracking-widest text-ash overflow-x-auto">
+          {navLinks.map(link => {
+            const active = (link.hash || '') === hash;
+            return (
               <a key={link.hash || 'home'} href={`#${link.hash}`}
-                className="hover:text-white transition-colors duration-300">
+                className="transition-colors duration-300 whitespace-nowrap flex-none"
+                style={{ color: active ? '#4ADE80' : undefined }}>
                 {link.label}
               </a>
-            ))}
-          </div>
-
-          <a href="#operators"
-            className="hidden md:block text-xs font-code font-semibold uppercase tracking-widest px-4 py-2.5 rounded-full transition-colors duration-300 bg-signal-green text-ink hover:brightness-110">
-            Book a Build
-          </a>
-
-          <button
-            className="md:hidden relative w-9 h-9 flex items-center justify-center"
-            aria-label={open ? 'Close menu' : 'Open menu'}
-            aria-expanded={open}
-            onClick={() => setOpen(!open)}>
-            <span className="absolute block h-[2px] w-5 bg-paper transition-all duration-700 ease-fluid"
-              style={{ transform: open ? 'rotate(45deg)' : 'translateY(-4px)' }} />
-            <span className="absolute block h-[2px] w-5 bg-paper transition-all duration-700 ease-fluid"
-              style={{ transform: open ? 'rotate(-45deg)' : 'translateY(4px)' }} />
-          </button>
+            );
+          })}
         </div>
-      </nav>
 
-      {/* Fullscreen mobile overlay */}
-      <div
-        className={`fixed inset-0 z-40 md:hidden transition-all duration-700 ease-fluid ${open ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-        style={{ backdropFilter: 'blur(48px)', WebkitBackdropFilter: 'blur(48px)', background: 'rgba(0,0,0,0.8)' }}>
-        <div className="flex flex-col items-center justify-center h-full gap-6">
-          {navLinks.map((link, i) => (
-            <a key={link.hash || 'home'} href={`#${link.hash}`}
-              className="font-display text-3xl font-semibold text-paper transition-all duration-700 ease-fluid"
-              style={{
-                transform: open ? 'translateY(0)' : 'translateY(48px)',
-                opacity: open ? 1 : 0,
-                transitionDelay: `${100 + i * 50}ms`,
-              }}
-              onClick={() => setOpen(false)}>
-              {link.label}
-            </a>
-          ))}
-          <a href="#operators"
-            className="mt-4 px-6 py-3 text-sm font-code uppercase tracking-widest transition-all duration-700 ease-fluid active:scale-[0.98]"
-            style={{
-              background: '#4ADE80', color: '#000000',
-              transform: open ? 'translateY(0)' : 'translateY(48px)',
-              opacity: open ? 1 : 0,
-              transitionDelay: `${100 + navLinks.length * 50}ms`,
-            }}
-            onClick={() => setOpen(false)}>
-            Book a Build
-          </a>
-        </div>
+        <a href="#operators"
+          className="hidden md:block text-xs font-code font-semibold uppercase tracking-widest px-4 py-2.5 rounded-full transition-colors duration-300 bg-signal-green text-ink hover:brightness-110 flex-none">
+          Book a Build
+        </a>
       </div>
-    </>
+    </nav>
   );
 }
 
