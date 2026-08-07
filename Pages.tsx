@@ -259,7 +259,7 @@ const operators = [
   { slug: 'd14-sports', business: 'D14', operator: 'Dieubon David', city: 'Houston, US', niche: 'Sports', pitch: 'AI systems built for sports businesses and the people running them.', bookingUrl: 'https://d14-sports.sloelabs.com' },
   { slug: 'harcourts-lifestyle', business: 'Harcourts Lifestyle', operator: 'Onye Orakwue', city: 'Johannesburg, SA', niche: 'Real Estate', pitch: 'Backed by real client relationships in real estate — not a cold pitch.', bookingUrl: 'https://harcourts-lifestyle.sloelabs.com' },
   { slug: 'freeman-construction', business: 'Freeman Construction', operator: 'Thumbiko Chirwa', city: 'Johannesburg, SA', niche: 'Construction', pitch: 'Reaching construction businesses where they already are — built for the trade.', bookingUrl: 'https://freeman-construction.sloelabs.com' },
-  { slug: 'kpm-studio', business: 'KPM Studio', operator: 'Kgobane Phomolo Monama', city: 'Johannesburg, SA', niche: 'Marketing & Media', pitch: 'Proven through the work itself — a portfolio of real media projects backing every pitch.', bookingUrl: 'https://kpm-studio.sloelabs.com' },
+  { slug: 'kpm-studio', business: 'KPM Studio', operator: 'Kgobane Phomolo Monama', city: 'Johannesburg, SA', niche: 'Marketing & Media', pitch: 'Proven through the work itself — a portfolio of real media projects backing every pitch.', bookingUrl: 'https://kpm-studio.sloelabs.com', photo: '/assets/kgobane.jpg' },
   { slug: 'motionmarketing', business: 'motionmarketing', operator: 'Mando Muimui', city: 'Johannesburg, SA', niche: 'Legal', pitch: 'Hands-on outreach, direct relationships — built for legal practices that need someone who closes deals himself.', bookingUrl: 'https://motionmarketing.sloelabs.com' },
 ];
 
@@ -439,7 +439,13 @@ function OperatorPortfolio({ slug, onBack }: { slug: string; onBack: () => void 
         ← Back to Operators
       </button>
       <Eyebrow>AI Portfolio</Eyebrow>
-      <h1 className="font-display font-medium tracking-tight mb-2" style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)' }}>{op.operator}</h1>
+      <div className="flex items-center gap-4 mb-2">
+        {(op as { photo?: string }).photo && (
+          <img src={(op as { photo?: string }).photo} alt={op.operator}
+            className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover flex-none" />
+        )}
+        <h1 className="font-display font-medium tracking-tight" style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)' }}>{op.operator}</h1>
+      </div>
       <div className="font-code text-[12.5px] text-ash mb-9">{op.business} · {op.city} · {op.niche}</div>
 
       {spotlight && (
@@ -532,10 +538,15 @@ export function OperatorsPage() {
         <div className="grid md:grid-cols-2 gap-6">
           {filtered.map(op => (
             <div key={op.business} className="rounded p-7 flex gap-5" style={{ border: '1px solid #272727', background: '#141414' }}>
-              <div className="w-[72px] h-[72px] flex-none rounded-full flex items-center justify-center font-display font-semibold text-xl"
-                style={{ background: '#1F1F1F', color: '#4ADE80' }}>
-                {op.operator.split(' ').map(n => n[0]).slice(0, 2).join('')}
-              </div>
+              {(op as { photo?: string }).photo ? (
+                <img src={(op as { photo?: string }).photo} alt={op.operator}
+                  className="w-[72px] h-[72px] flex-none rounded-full object-cover" />
+              ) : (
+                <div className="w-[72px] h-[72px] flex-none rounded-full flex items-center justify-center font-display font-semibold text-xl"
+                  style={{ background: '#1F1F1F', color: '#4ADE80' }}>
+                  {op.operator.split(' ').map(n => n[0]).slice(0, 2).join('')}
+                </div>
+              )}
               <div className="flex flex-col gap-2.5 min-w-0">
                 <div>
                   <div className="font-display font-semibold text-lg">{op.business}</div>
