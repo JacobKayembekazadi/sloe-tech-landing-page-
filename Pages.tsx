@@ -295,7 +295,7 @@ const operators = [
   { slug: 'harcourts-lifestyle', business: 'Harcourts Lifestyle', operator: 'Onye Orakwue', city: 'Johannesburg, SA', niche: 'Real Estate', pitch: 'Backed by real client relationships in real estate — not a cold pitch.', bookingUrl: 'https://harcourts-lifestyle.sloelabs.com' },
   { slug: 'freeman-construction', business: 'Freeman Construction', operator: 'Thumbiko Chirwa', city: 'Johannesburg, SA', niche: 'Construction', pitch: 'Reaching construction businesses where they already are — built for the trade.', bookingUrl: 'https://freeman-construction.sloelabs.com' },
   { slug: 'kpm-studio', business: 'KPM Studio', operator: 'Kgobane Phomolo Monama', city: 'Johannesburg, SA', niche: 'Marketing & Media', pitch: 'Proven through the work itself — a portfolio of real media projects backing every pitch.', bookingUrl: 'https://kpm-studio.sloelabs.com' },
-  { slug: 'motionmarketing', business: 'motionmarketing', operator: 'Mando Muimui', city: 'Johannesburg, SA', niche: 'Marketing & Media', pitch: 'Hands-on outreach, direct relationships — built for marketers who close their own deals.', bookingUrl: 'https://motionmarketing.sloelabs.com' },
+  { slug: 'motionmarketing', business: 'motionmarketing', operator: 'Mando Muimui', city: 'Johannesburg, SA', niche: 'Legal', pitch: 'Hands-on outreach, direct relationships — built for legal practices that need someone who closes deals himself.', bookingUrl: 'https://motionmarketing.sloelabs.com' },
 ];
 
 // Real, shipped work only — no fabricated case studies against a real
@@ -354,9 +354,9 @@ const operatorSpotlights: Record<string, {
   'harcourts-lifestyle': {
     badge: 'SLOE AI LICENSED OPERATOR · OFFICIAL CREATOR & DISTRIBUTION CREDENTIAL',
     roleLine: 'The Licensed Operator turning real, existing client relationships into AI-run real estate operations.',
-    territory: 'South Africa',
+    territory: 'South Africa & USA',
     vertical: 'Real Estate OS',
-    body: "Onye doesn't cold-pitch — he works from relationships already built inside real estate, going straight to clients who already know and trust him rather than starting from a stranger's demo. That's the model behind Harcourts Lifestyle: an operator who gets a system in front of people because they already have a reason to listen. If you're running a brokerage or property management business, that's what you're booking: someone whose first conversation with you starts from trust, not a cold pitch.",
+    body: "Onye doesn't cold-pitch — he works from relationships already built inside real estate, going straight to people who already know and trust him rather than starting from a stranger's demo. That's how Sloe Labs is getting into real estate: not through cold outreach, but through an operator people already trust. If you're running a brokerage or property management business, that's what you're booking: someone whose first conversation with you starts from trust, not a cold pitch.",
     ctaLabel: 'Book Time With Onye →',
     campaignSlug: 'agentic-os-platform',
     campaignCtaLabel: 'Book With Onye →',
@@ -364,9 +364,9 @@ const operatorSpotlights: Record<string, {
   'freeman-construction': {
     badge: 'SLOE AI LICENSED OPERATOR · OFFICIAL CREATOR & DISTRIBUTION CREDENTIAL',
     roleLine: 'The Licensed Operator meeting construction businesses where they already are.',
-    territory: 'South Africa',
+    territory: 'South Africa & USA',
     vertical: 'Construction OS',
-    body: "Thumbiko doesn't chase cold leads — he reaches construction businesses through social media, the channel the trade already lives on, rather than a generic sales approach bolted onto an industry that doesn't run that way. That's the model behind Freeman Construction: an operator who speaks the trade's language before he ever brings up software. If you're running a construction business, that's what you're booking: someone who knows how to reach your industry, not just install a system inside it.",
+    body: "Thumbiko doesn't wait for construction businesses to come looking for software — he meets them on their own turf, in the channels the trade already trusts, instead of forcing a generic sales process onto an industry that doesn't work that way. That's how Sloe Labs is getting into construction: through someone who already speaks the trade's language, not a cold sales script. If you're running a construction business, that's what you're booking: someone who knows how to reach your industry, not just install a system inside it.",
     ctaLabel: 'Book Time With Thumbiko →',
     campaignSlug: 'agentic-os-platform',
     campaignCtaLabel: 'Book With Thumbiko →',
@@ -374,9 +374,9 @@ const operatorSpotlights: Record<string, {
   'kpm-studio': {
     badge: 'SLOE AI LICENSED OPERATOR · OFFICIAL CREATOR & DISTRIBUTION CREDENTIAL',
     roleLine: 'The Licensed Operator who lets the work speak first.',
-    territory: 'South Africa',
+    territory: 'South Africa & USA',
     vertical: 'Marketing & Media OS',
-    body: "Kgobane doesn't open with a pitch deck — he opens with a portfolio of real media projects and lets the quality of the work make the case. That's the model behind KPM Studio: proof before promises, every time. If you're in marketing or media and want an operator who shows rather than tells, that's exactly what you're booking.",
+    body: "Kgobane doesn't open with a pitch deck — he opens with the work itself, a portfolio of real media projects that makes the case before he says a word. That's how Sloe Labs is getting into marketing and media: through proof, not promises. If you're in marketing or media and want an operator who shows rather than tells, that's exactly what you're booking.",
     ctaLabel: 'Book Time With Kgobane →',
     campaignSlug: 'agentic-os-platform',
     campaignCtaLabel: 'Book With Kgobane →',
@@ -384,9 +384,9 @@ const operatorSpotlights: Record<string, {
   'motionmarketing': {
     badge: 'SLOE AI LICENSED OPERATOR · OFFICIAL CREATOR & DISTRIBUTION CREDENTIAL',
     roleLine: 'The Licensed Operator who closes his own deals — no middlemen, no waiting on leads.',
-    territory: 'South Africa',
-    vertical: 'Marketing & Media OS',
-    body: "Mando doesn't wait for leads to come to him — cold calls and direct outreach, closing deals himself rather than relying on inbound. That's the model behind motionmarketing: an operator who hunts for the work the same way he'd expect you to. If you're running a marketing operation and want someone who moves at that pace, that's exactly what you're booking.",
+    territory: 'South Africa & USA',
+    vertical: 'Legal OS',
+    body: "Mando doesn't wait for leads to land in his inbox — he goes out and gets the business himself, closing deals directly instead of riding someone else's pipeline. That's how Sloe Labs is getting into legal: through someone who moves at the pace the industry actually moves. If you're running a legal practice and want someone who hunts rather than waits, that's exactly what you're booking.",
     ctaLabel: 'Book Time With Mando →',
     campaignSlug: 'agentic-os-platform',
     campaignCtaLabel: 'Book With Mando →',
