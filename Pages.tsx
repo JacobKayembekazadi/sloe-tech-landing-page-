@@ -332,8 +332,8 @@ const operatorSpotlights: Record<string, {
   roleLine: string;
   territory: string;
   vertical: string;
-  regNumber: string;
-  proof: string[];
+  regNumber?: string;
+  proof?: string[];
   body: string;
   ctaLabel: string;
   campaignSlug?: string;
@@ -346,10 +346,42 @@ const operatorSpotlights: Record<string, {
     vertical: 'Sports OS',
     regNumber: '23279',
     proof: ['Real Zaragoza · Spain', 'Parma Calcio · Italy', 'Soccer Club President · Qatar', 'Sports Agencies · EU'],
-    body: "Dieubon doesn't sell a demo — he gets Sloe Labs into rooms we couldn't reach alone. He delivered an AI Operating System into the academy of Real Zaragoza, a professional Spanish football club based in Spain, opened the door to a conversation with Parma Calcio — First Division club based in Italy — and personally introduced us to the president of a Qatar-based football club. If you're running a club, agency, or academy, that's exactly what you're booking when you book him: someone who's already proven he can get a system in front of the people who decide — not just build it and hope someone notices.",
+    body: "Dieubon doesn't sell a demo — he gets Sloe Labs into rooms we couldn't reach alone. He delivered an AI Operating System into the academy of Real Zaragoza, a professional Spanish football club based in Zaragoza, Aragon, opened the door to a conversation with Parma Calcio — a Serie A club based in Parma, Emilia-Romagna, competing at the top tier of Italian football — and personally introduced us to the president of a Qatar-based football club in the Qatar Amateur League. If you're running a club, agency, or academy, that's exactly what you're booking when you book him: someone who's already proven he can get a system in front of the people who decide — not just build it and hope someone notices.",
     ctaLabel: 'Book Time With Dieubon →',
     campaignSlug: 'agentic-os-platform',
     campaignCtaLabel: 'Book With Dieubon →',
+  },
+  'harcourts-lifestyle': {
+    badge: 'SLOE AI LICENSED OPERATOR · OFFICIAL CREATOR & DISTRIBUTION CREDENTIAL',
+    roleLine: 'The Licensed Operator turning real, existing client relationships into AI-run real estate operations.',
+    territory: 'South Africa',
+    vertical: 'Real Estate OS',
+    body: "Onye doesn't cold-pitch — he works from relationships already built inside real estate, going straight to clients who already know and trust him rather than starting from a stranger's demo. That's the model behind Harcourts Lifestyle: an operator who gets a system in front of people because they already have a reason to listen. If you're running a brokerage or property management business, that's what you're booking: someone whose first conversation with you starts from trust, not a cold pitch.",
+    ctaLabel: 'Book Time With Onye →',
+  },
+  'freeman-construction': {
+    badge: 'SLOE AI LICENSED OPERATOR · OFFICIAL CREATOR & DISTRIBUTION CREDENTIAL',
+    roleLine: 'The Licensed Operator meeting construction businesses where they already are.',
+    territory: 'South Africa',
+    vertical: 'Construction OS',
+    body: "Thumbiko doesn't chase cold leads — he reaches construction businesses through social media, the channel the trade already lives on, rather than a generic sales approach bolted onto an industry that doesn't run that way. That's the model behind Freeman Construction: an operator who speaks the trade's language before he ever brings up software. If you're running a construction business, that's what you're booking: someone who knows how to reach your industry, not just install a system inside it.",
+    ctaLabel: 'Book Time With Thumbiko →',
+  },
+  'kpm-studio': {
+    badge: 'SLOE AI LICENSED OPERATOR · OFFICIAL CREATOR & DISTRIBUTION CREDENTIAL',
+    roleLine: 'The Licensed Operator who lets the work speak first.',
+    territory: 'South Africa',
+    vertical: 'Marketing & Media OS',
+    body: "Kgobane doesn't open with a pitch deck — he opens with a portfolio of real media projects and lets the quality of the work make the case. That's the model behind KPM Studio: proof before promises, every time. If you're in marketing or media and want an operator who shows rather than tells, that's exactly what you're booking.",
+    ctaLabel: 'Book Time With Kgobane →',
+  },
+  'motionmarketing': {
+    badge: 'SLOE AI LICENSED OPERATOR · OFFICIAL CREATOR & DISTRIBUTION CREDENTIAL',
+    roleLine: 'The Licensed Operator who closes his own deals — no middlemen, no waiting on leads.',
+    territory: 'South Africa',
+    vertical: 'Marketing & Media OS',
+    body: "Mando doesn't wait for leads to come to him — cold calls and direct outreach, closing deals himself rather than relying on inbound. That's the model behind motionmarketing: an operator who hunts for the work the same way he'd expect you to. If you're running a marketing operation and want someone who moves at that pace, that's exactly what you're booking.",
+    ctaLabel: 'Book Time With Mando →',
   },
 };
 
@@ -366,7 +398,7 @@ function Chip({ label, active, onClick }: { label: string; active: boolean; onCl
   );
 }
 
-function LicenseBadge({ territory, vertical, regNumber }: { territory: string; vertical: string; regNumber: string }) {
+function LicenseBadge({ territory, vertical, regNumber }: { territory: string; vertical: string; regNumber?: string }) {
   return (
     <div className="rounded overflow-hidden mb-7" style={{ border: '1px solid rgba(74,222,128,.35)', background: '#0A0F0C' }}>
       <div className="h-[3px]" style={{ background: '#4ADE80' }} />
@@ -387,7 +419,9 @@ function LicenseBadge({ territory, vertical, regNumber }: { territory: string; v
               <div className="font-code text-[10.5px] text-ash tracking-wide mt-1">OFFICIAL CREATOR &amp; DISTRIBUTION CREDENTIAL</div>
             </div>
           </div>
-          <span className="font-code text-[11px] tracking-wide text-ash px-2.5 py-1 rounded" style={{ border: '1px solid #272727' }}>Reg #{regNumber}</span>
+          {regNumber && (
+            <span className="font-code text-[11px] tracking-wide text-ash px-2.5 py-1 rounded" style={{ border: '1px solid #272727' }}>Reg #{regNumber}</span>
+          )}
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 pt-4" style={{ borderTop: '1px solid #1C1C1C' }}>
           <div>
@@ -443,16 +477,20 @@ function OperatorPortfolio({ slug, onBack }: { slug: string; onBack: () => void 
 
           <div className="font-display font-semibold text-xl mb-6 leading-snug" style={{ maxWidth: '640px' }}>{spotlight.roleLine}</div>
 
-          <div className="font-code text-[10.5px] tracking-widest text-ash mb-2.5">DISTRIBUTED TO</div>
-          <div className="flex flex-wrap items-center gap-2 mb-6">
-            {spotlight.proof.map(item => (
-              <span key={item} className="font-code text-[10.5px] tracking-wide px-3 py-1.5 rounded-full"
-                style={{ border: '1px solid rgba(74,222,128,.35)', color: '#4ADE80' }}>
-                {item.toUpperCase()}
-              </span>
-            ))}
-            <span className="font-code text-[10.5px] tracking-wide text-ash italic">and many more...</span>
-          </div>
+          {spotlight.proof && spotlight.proof.length > 0 && (
+            <>
+              <div className="font-code text-[10.5px] tracking-widest text-ash mb-2.5">DISTRIBUTED TO</div>
+              <div className="flex flex-wrap items-center gap-2 mb-6">
+                {spotlight.proof.map(item => (
+                  <span key={item} className="font-code text-[10.5px] tracking-wide px-3 py-1.5 rounded-full"
+                    style={{ border: '1px solid rgba(74,222,128,.35)', color: '#4ADE80' }}>
+                    {item.toUpperCase()}
+                  </span>
+                ))}
+                <span className="font-code text-[10.5px] tracking-wide text-ash italic">and many more...</span>
+              </div>
+            </>
+          )}
           <p className="text-[15px] leading-relaxed text-ash mb-7" style={{ maxWidth: '680px' }}>{spotlight.body}</p>
           <button onClick={e => { e.preventDefault(); }}
             title="Calendly link coming soon"
