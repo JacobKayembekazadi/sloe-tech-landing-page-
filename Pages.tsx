@@ -295,7 +295,7 @@ const operators = [
   { slug: 'harcourts-lifestyle', business: 'Harcourts Lifestyle', operator: 'Onye Orakwue', city: 'Johannesburg, SA', niche: 'Real Estate', pitch: 'Backed by real client relationships in real estate — not a cold pitch.', bookingUrl: 'https://harcourts-lifestyle.sloelabs.com' },
   { slug: 'freeman-construction', business: 'BIKO Labs', operator: 'Thumbiko Chirwa', city: 'Johannesburg, SA', niche: 'Construction', pitch: 'Reaching construction businesses where they already are — built for the trade.', bookingUrl: 'https://freeman-construction.sloelabs.com', photo: '/assets/thumbiko.jpg' },
   { slug: 'kpm-studio', business: 'KPM Studio', operator: 'Kgobane Phomolo Monama', city: 'Johannesburg, SA', niche: 'Marketing & Media', pitch: 'Proven through the work itself — a portfolio of real media projects backing every pitch.', bookingUrl: 'https://kpm-studio.sloelabs.com', photo: '/assets/kgobane.jpg' },
-  { slug: 'motionmarketing', business: 'motionmarketing', operator: 'Mando Muimui', city: 'Johannesburg, SA', niche: 'Legal', pitch: 'Hands-on outreach, direct relationships — built for legal practices that need someone who closes deals himself.', bookingUrl: 'https://motionmarketing.sloelabs.com' },
+  { slug: 'motionmarketing', business: 'motionmarketing', operator: 'Mando Muimui', city: 'Johannesburg, SA', niche: 'Legal', pitch: 'Hands-on outreach, direct relationships — built for legal practices that need someone who closes deals himself.', bookingUrl: 'https://motionmarketing.sloelabs.com', photo: '/assets/mando.jpg' },
 ];
 
 // Real, shipped work only — no fabricated case studies against a real
